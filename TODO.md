@@ -1,9 +1,9 @@
 # TODOS
 
-## DONE
+These are our plan.
 
-[x] - Nothing...
+## DONE
+- [X] Nothing...
 
 ## UNDONE
-
-[ ] - Test
+- [ ] Everything...
