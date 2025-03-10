@@ -1,4 +1,4 @@
-// #pragma once
+#pragma once
 #ifndef NODE_HPP
 #define NODE_HPP
 
@@ -14,11 +14,7 @@ class Node {
             Constructor:
             Initialize the data and key of the node
         */
-        Node(T d, int k) {
-            this->_data = new T(d);
-            this->_key = k;
-            this->_next = NULL;
-        }
+        Node(T d, int k): _data(new T(d)), _key(k), _next(nullptr) {}
 
         /*
             Destructor:
@@ -31,14 +27,14 @@ class Node {
         /*
             Return the data of the node
         */
-        T* data() {
+        T* data() const {
             return _data;
         }
 
         /*
             Return the next node
         */
-        Node* next() {
+        Node* next() const {
             return _next;
         }
 
@@ -53,7 +49,7 @@ class Node {
         /*
             Return the key of the node
         */
-        int key() {
+        int key() const {
             return _key;
         }
 };
