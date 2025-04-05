@@ -2,10 +2,12 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
+#include "Define.h"
+
 template<typename T>
 class Node {
     private:
-        int _key;
+        u_int32 _key;
         T* _data;
         Node* _next;
 
@@ -14,28 +16,20 @@ class Node {
             Constructor:
             Initialize the data and key of the node
         */
-        Node(T d, int k): _data(new T(d)), _key(k), _next(nullptr) {}
-
-        /*
-            Destructor:
-            Delete the data of the node
-        */
-        ~Node() {
-            delete _data;
-        }
+        Node(T d, u_int32 k): _key(k),  _data(new T(d)), _next(nullptr) {}
 
         /*
             Return the data of the node
         */
         T* data() const {
-            return _data;
+            return this->_data;
         }
 
         /*
             Return the next node
         */
         Node* next() const {
-            return _next;
+            return this->_next;
         }
 
         /*
@@ -43,14 +37,14 @@ class Node {
             Set the next node
         */
         void setNext(Node* node) {
-            _next = node;
+            this->_next = node;
         }
 
         /*
             Return the key of the node
         */
-        int key() const {
-            return _key;
+        u_int32 key() const {
+            return this->_key;
         }
 };
 

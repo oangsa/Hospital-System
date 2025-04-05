@@ -5,37 +5,15 @@
 #include <iostream>
 #include <ctime>
 #include <vector>
+#include "../Libs/Define.h"
+#include "../Libs/Tree.h"
 
 using namespace std;
-
-typedef enum {
-    MALE,
-    FEMALE
-} Gender;
-
-typedef enum {
-    ADMIN,
-    PATIENT,
-    DOCTOR,
-    NURSE
-} UserType;
-
-typedef struct _PatientHistory {
-    time_t _timestamp;
-    string _diagnosis;
-    string _treatment;
-    string _prescription;
-} PatientHistory;
-
-typedef struct _BirthDate {
-    int _day;
-    int _month;
-    int _year;
-} BirthDate;
 
 class User {
     private:
         // User information
+        u_int64 _id;
         string _name;
         BirthDate _birthdate;
         Gender _gender;
@@ -46,25 +24,26 @@ class User {
         string _password;
 
         // User history
-        vector<PatientHistory> _history;
+        Tree<PatientHistory> _history;
 
     public:
-        User(string name, BirthDate birthdate, Gender gender, UserType type, string username, string password);
-        ~User();
+        User(user_t user);
         void displayInfo();
         void displayHistory();
 
         // Getter
         string getName();
-        int getAge();
+        u_int16 getAge();
         Gender getGender();
         UserType getType();
         PatientHistory getHistory(time_t timestamp);
         string getGenderString();
-
-        int getHashNumber();
+        u_int64 getID();
+        string getUsername();
+        string getPassword();
 
         void addHistory(string& diagnosis, string& treatment, string& prescription);
+        void setID(u_int64 id);
 };
 
 #endif

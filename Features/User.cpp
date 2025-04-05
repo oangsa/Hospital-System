@@ -1,7 +1,7 @@
 #include "user.h"
+#include "../Libs/Tree.h"
 #include <iostream>
 #include <string>
-#include <vector>
 #include <ctime>
 
 using namespace std;
@@ -10,23 +10,19 @@ using namespace std;
     Constructor
     Params: name, birthdate, gender, type, username, password
 */
-User::User(string name, BirthDate birthdate, Gender gender, UserType type, string username, string password): _name(name), _birthdate(birthdate), _gender(gender), _type(type), _username(username), _password(password) {
-    this->_history = vector<PatientHistory>();
+User::User(user_t user): _name(user.name), _birthdate(user.birthDate), _gender(user.gender), _type(user.userType), _username(user.username), _password(user.password), _history(nullptr, 0) {
+    this->_id = user.id;
 }
-
-/*
-    Destructor
-*/
-User::~User() {}
 
 /*
     Display user information
 */
 void User::displayInfo() {
+    cout << "ID: " << this->_id << "\n";
     cout << "Name: " << this->_name << "\n";
     cout << "Birthdate: " << this->_birthdate._year << "-" << this->_birthdate._month << "-" << this->_birthdate._day << "\n";
     cout << "Gender: " << (this->_gender == Gender::MALE ? "Male" : "Female") << "\n";
-    cout << "Type: " << (this->_type == UserType::ADMIN ? "Admin" : "User") << "\n";
+    cout << "Type: " << (UserType::ADMIN == this->_type ? "Admin" : UserType::DOCTOR == this->_type ? "Doctor" : UserType::NURSE == this->_type ? "Nurse" : "Patient") << "\n";
     cout << "Username: " << this->_username << "\n";
 }
 
@@ -35,16 +31,17 @@ void User::displayInfo() {
 */
 void User::displayHistory() {
     cout << "History:\n";
-    for (const auto& history : this->_history) {
-        cout << history._timestamp << "\n";
-        cout << history._diagnosis << "\n";
-        cout << history._treatment << "\n";
-        cout << history._prescription << "\n";
-    }
+    this->_history.inOrder([](PatientHistory& history) {
+        cout << "Timestamp: " << history._timestamp << "\n";
+        cout << "Diagnosis: " << history._diagnosis << "\n";
+        cout << "Treatment: " << history._treatment << "\n";
+        cout << "Prescription: " << history._prescription << "\n";
+    });
 }
 
 /*
     Add user history
+    Params: diagnosis, treatment, prescription
 */
 void User::addHistory(string& diagnosis, string& treatment, string& prescription) {
     PatientHistory history;
@@ -53,12 +50,13 @@ void User::addHistory(string& diagnosis, string& treatment, string& prescription
     history._treatment = treatment;
     history._prescription = prescription;
 
-    this->_history.push_back(history);
+    this->_history.insert(history._timestamp, &history);
 }
 
 // Getter
 /*
     Get user gender
+    return gender as Gender
 */
 Gender User::getGender() {
     return this->_gender;
@@ -66,6 +64,7 @@ Gender User::getGender() {
 
 /*
     Get user gender as a string
+    return string gender
 */
 string User::getGenderString() {
     return this->_gender == Gender::MALE ? "Male" : "Female";
@@ -73,8 +72,9 @@ string User::getGenderString() {
 
 /*
     Get user age as an integer
+    return int age
 */
-int User::getAge() {
+u_int16 User::getAge() {
     time_t now = time(nullptr);
     tm* localTime = localtime(&now);
     int currentYear = localTime->tm_year + 1900;
@@ -99,35 +99,56 @@ UserType User::getType() {
 /*
     Get user history
     Params: timestamp
+    return: PatientHistory
 */
 PatientHistory User::getHistory(time_t timestamp) {
-    for (const auto& history : this->_history) {
-        if (history._timestamp == timestamp) {
-            return history;
-        }
-    }
-    throw runtime_error("History not found");
-}
+    PatientHistory* history = this->_history.find(timestamp);
 
-/*
-    Get user hash number by iterating over the name string
-    Params: none
-*/
-int User::getHashNumber() {
-    int num = 0;
-    int len = this->_name.length();
+    if (!history) throw "History not found";
 
-    for (int i = 0; i < len; i++) {
-        num += this->_name[i];
-    }
-
-    return num;
+    return *history;
 }
 
 /*
     Get user name
     Params: none
+    return: string name
 */
 string User::getName() {
     return this->_name;
+}
+
+/*
+    Get user ID
+    Params: string id
+*/
+void User::setID(u_int64 id) {
+    this->_id = id;
+}
+
+/*
+    Get user ID
+    Params: none
+    return: u_int64 id
+*/
+u_int64 User::getID() {
+    return this->_id;
+}
+
+/*
+    Get username
+    Params: none
+    return: string username
+*/
+string User::getUsername() {
+    return this->_username;
+}
+
+/*
+    Get password
+    Params: none
+    return: string password
+*/
+string User::getPassword() {
+    return this->_password;
 }

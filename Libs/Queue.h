@@ -3,6 +3,7 @@
 #define QUEUE_HPP
 
 #include "Node.h"
+#include "Define.h"
 #include <iostream>
 
 using namespace std;
@@ -10,9 +11,9 @@ using namespace std;
 template<typename T>
 class Queue {
     private:
-        Node<T> *head;
-        Node<T> *tail;
-        int _size;
+        Node<T>* head;
+        Node<T>* tail;
+        u_int32 _size;
 
     public:
         /*
@@ -20,18 +21,6 @@ class Queue {
             Initialize the head, tail, and size of the queue
         */
         Queue(): head(NULL), tail(NULL), _size(0) {}
-
-        /*
-            Destructor:
-            Delete all the nodes in the queue
-        */
-        ~Queue() {
-            while (head != NULL) {
-                Node<T> *temp = head;
-                head = head->next();
-                delete temp;
-            }
-        }
 
         /*
             Param: T data
@@ -89,14 +78,14 @@ class Queue {
         /*
             Return the size of the queue
         */
-        int size() {
+        u_int32 size() {
             return _size;
         }
 
         /*
             Return true if the queue is empty
         */
-        bool isEmpty() {
+        u_int16 isEmpty() {
             return _size == 0;
         }
 };
