@@ -4,17 +4,18 @@
 
 #include <vector>
 #include <iostream>
-#include "Node.h"
 #include <string>
+#include "Node.h"
+#include "Define.h"
 
 using namespace std;
 
 template <typename T>
 class PriorityQueue {
     private:
-        Node<T> *head;
-        Node<T> *tail;
-        int _size;
+        Node<T>* head;
+        Node<T>* tail;
+        u_int32 _size;
 
     public:
         /*
@@ -38,7 +39,7 @@ class PriorityQueue {
             Param: T data, int priority
             Enqueue the data to the queue
         */
-        void enqueue(T data, int priority) {
+        void enqueue(T data, u_int32 priority) {
             Node<T> *newNode = new Node<T>(data, priority);
 
             // Note: The priority is in ascending order
@@ -49,8 +50,8 @@ class PriorityQueue {
                 tail = newNode;
             }
             else {
-                Node<T> *current = head;
-                Node<T> *prev = nullptr;
+                Node<T>* current = head;
+                Node<T>* prev = nullptr;
 
                 while (current != nullptr && current->key() <= priority) {
                     prev = current;
@@ -107,14 +108,14 @@ class PriorityQueue {
         /*
             Return the size of the queue
         */
-        int size() {
+        u_int32 size() {
             return _size;
         }
 
         /*
             Return true if the queue is empty
         */
-        bool empty() {
+        u_int16 empty() {
             return _size == 0;
         }
 };
