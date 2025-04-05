@@ -59,7 +59,6 @@ class Map {
             Node<T>* current = dataMap[hash];
 
             while (current != nullptr) {
-                cout << current->key() << " " << key << "\n";
                 if (current->key() == key) {
                     return current->data();
                 }
@@ -111,16 +110,6 @@ class Map {
         */
         u_int32 size() {
             return _size;
-        }
-
-        /*
-            Param: string& fileName
-            Write the map to a file
-            AKA: Save the map to a file
-        */
-        void writeToFile(string& fileName) {
-            // Implement file writing logic here
-            cout << "This method is not implemented yet." << "\n";
         }
 };
 

@@ -71,6 +71,14 @@ string User::getGenderString() {
 }
 
 /*
+    Get user type as a string
+    return string userType
+*/
+string User::getTypeString() {
+    return this->_type == UserType::ADMIN ? "ADMIN" : this->_type == UserType::DOCTOR ? "DOCTOR" : this->_type == UserType::IPD ? "IPD" : this->_type == UserType::NURSE ? "NURSE" : "OPD";
+}
+
+/*
     Get user age as an integer
     return int age
 */
@@ -151,4 +159,34 @@ string User::getUsername() {
 */
 string User::getPassword() {
     return this->_password;
+}
+
+/*
+    Get data in this form
+    // id,name,day,month,year,gender,userType,username,password
+    return string
+*/
+string User::getWriteFileData() {
+    string data;
+    
+    // Hard code god
+    data.append(to_string(this->_id));
+    data.append(",");
+    data.append(this->_name);
+    data.append(",");
+    data.append(to_string(this->_birthdate._day));
+    data.append(",");
+    data.append(to_string(this->_birthdate._month));
+    data.append(",");
+    data.append(to_string(this->_birthdate._year));
+    data.append(",");
+    data.append(this->getGenderString());
+    data.append(",");
+    data.append(this->getTypeString());
+    data.append(",");
+    data.append(this->_username);
+    data.append(",");
+    data.append(this->_password);
+
+    return data;
 }

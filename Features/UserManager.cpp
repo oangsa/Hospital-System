@@ -89,7 +89,6 @@ void UserManager::loadUsersFromFile(const string &filename) {
                     break;
             }
 
-            // cout << word << "\n";
             line = line.substr(pos + 1);
 
             if (line.find(",") == string::npos) {
@@ -248,7 +247,6 @@ u_int64 UserManager::getHashNumber(User &user) {
     return: 1 if success, 0 if failed
 */
 u_int64 UserManager::login(string &username, string &password) {
-    cout << "Expected Username: " << username << "\n" << "Expected Password: " << password << "\n";
 
     for (u_int32 i = 0; i < this->userMap.size(); i++) {
         Node<User> *userList = this->userMap.getList(i);
@@ -321,4 +319,35 @@ u_int8 UserManager::registerUser(User &user) {
 */
 User* UserManager::find(u_int64 id) {
     return this->userMap.get(id);
+}
+
+/*
+    Save users data to file
+    **This Function is not yet finished**
+    Params: const string& filename
+*/
+void UserManager::saveToFile(const string& filename) {
+    ofstream file;
+    string header = "id,name,day,month,year,gender,userType,username,password";
+    string cFilename = "Database/Users/_users.csv";
+
+    file.open(cFilename);
+
+    file << header << "\n";
+
+    for(u_int32 i = 0; i < this->userMap.size(); i++) {
+        Node<User>* current = this->userMap.getList(i);
+
+        if (!current) continue;
+
+        while (current != NULL) {
+            string userData = current->data()->getWriteFileData();
+
+            file << userData << "\n";
+
+            current = current->next();
+        }
+    }
+
+    file.close();
 }

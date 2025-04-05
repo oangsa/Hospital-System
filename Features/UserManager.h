@@ -32,6 +32,7 @@ class UserManager {
 
         // Loader
         void loadUsersFromFile(const string& filename);
+        void saveToFile(const string& filename);
         void loadHistoryFromFile();
 
         u_int64 generateID(UserType type);

@@ -36,11 +36,13 @@ class User {
         u_int16 getAge();
         Gender getGender();
         UserType getType();
+        string getTypeString();
         PatientHistory getHistory(time_t timestamp);
         string getGenderString();
         u_int64 getID();
         string getUsername();
         string getPassword();
+        string getWriteFileData();
 
         void addHistory(string& diagnosis, string& treatment, string& prescription);
         void setID(u_int64 id);
