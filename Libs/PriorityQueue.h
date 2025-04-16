@@ -44,6 +44,7 @@ class PriorityQueue {
 
             // Note: The priority is in ascending order
             // Note: Use key() to get the priority of the node
+            // Note: For patient we use ESI level as the priority
 
             if (head == nullptr) {
                 head = newNode;

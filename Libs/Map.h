@@ -30,6 +30,8 @@ class Map {
             Put the value to the map with the key
         */
         void put(u_int64 key, T value) {
+            T* check = this->get(key);
+            if (check != NULL) return;
             u_int32 hash = key % _size;
 
             Node<T>* newNode = new Node<T>(value, key);
