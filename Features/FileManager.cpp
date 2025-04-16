@@ -24,6 +24,7 @@ u_int8 FileManager::checkAllFilesAndCreate() {
     vector<string> dirnames = {
         "Database",
         "Database/Users",
+        "Database/History"
     };
 
     vector<string> filenames = {
