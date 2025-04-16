@@ -25,5 +25,9 @@ int main() {
 
     userManager.find(userId)->displayInfo();
 
+    userManager.removeUser(userId);
+    
+    userManager.saveToFile("");
+
     return 0;
 }
