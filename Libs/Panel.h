@@ -14,12 +14,17 @@ class Panel {
     public:
         Panel(UserManager& userManager, Map<User>& userMap);
         void clearScreen();
+        void showUserInfo();
         void delay(u_int8 secs);
-        void loginPanel(u_int8 attempt);
+        void loginPanel(u_int8 attempt, u_int8 isFileExist);
         void adminMenu();
         void patientMenu();
         void doctorMenu();
         void nurseMenu();
+
+        // Admin Section
+        void addUserPanel();
+        void removeUserPanel();
 };
 
 #endif

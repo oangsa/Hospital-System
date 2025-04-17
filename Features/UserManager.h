@@ -33,6 +33,7 @@ public:
     void loadUsersFromFile(const string &filename);
     void saveToFile(const string &filename);
     void loadHistoryFromFile();
+    User* loadLoggedUser();
 
     u_int64 generateID(UserType type);
     u_int32 getCounter(UserType type);
@@ -40,7 +41,7 @@ public:
     u_int64 getHashNumber(User &user);
 
     u_int64 login(string &username, string &password);
-    u_int8 logout(User &user);
+    void logout();
     u_int8 registerUser(User &user);
 };
 

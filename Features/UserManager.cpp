@@ -102,6 +102,27 @@ void UserManager::loadUsersFromFile(const string &filename) {
             i++;
         }
 
+        u_int32 ctr = user.id % 1000;
+        
+        // Set counter
+        switch (user.userType) {
+            case UserType::OPD:
+                this->_counter.opd = ((ctr+1) >= this->_counter.opd) ? (++ctr) : this->_counter.opd;
+                break;
+            case UserType::IPD:
+                this->_counter.ipd = ((ctr+1) >= this->_counter.ipd) ? ++ctr : this->_counter.ipd;
+                break;
+            case UserType::DOCTOR:
+                this->_counter.doctor = ((ctr+1) >= this->_counter.doctor) ? ++ctr : this->_counter.doctor;
+                break;
+            case UserType::NURSE:
+                this->_counter.nurse = ((ctr+1) >= this->_counter.nurse) ? ++ctr : this->_counter.nurse;
+                break;
+            case UserType::ADMIN:
+                this->_counter.admin = ((ctr+1) >= this->_counter.admin) ? ++ctr : this->_counter.admin;
+                break;
+        }
+
         User newUser(user);
         this->addUser(newUser);
     }
@@ -174,21 +195,21 @@ u_int64 UserManager::generateID(UserType type) {
     int id = 0;
 
     switch (type) {
-    case UserType::OPD:
-        id = 10;
-        break;
-    case UserType::IPD:
-        id = 20;
-        break;
-    case UserType::DOCTOR:
-        id = 30;
-        break;
-    case UserType::NURSE:
-        id = 40;
-        break;
-    case UserType::ADMIN:
-        id = 99;
-        break;
+        case UserType::OPD:
+            id = 10;
+            break;
+        case UserType::IPD:
+            id = 20;
+            break;
+        case UserType::DOCTOR:
+            id = 30;
+            break;
+        case UserType::NURSE:
+            id = 40;
+            break;
+        case UserType::ADMIN:
+            id = 99;
+            break;
     }
 
     time_t now = time(0);
@@ -353,5 +374,37 @@ void UserManager::saveToFile(const string &filename) {
         }
     }
 
+    file.close();
+
+    // Rename the file
+    remove(filename.c_str());
+    rename(cFilename.c_str(), filename.c_str());
+}
+
+
+/*
+    Load logged user from file
+
+    NOTE: Use this function if and only if cache file is exists and there is a user id in it
+
+    Params: None
+    return: User& user
+*/
+User* UserManager::loadLoggedUser() {
+    fstream file;
+    string line;
+
+    //Inside the file will have only one line contain the user id
+    file.open("Database/Cache/user.csv", ios::in);
+    file >> line;
+
+    User* user = this->find(stoull(line));
+
+    return user;
+}
+
+void UserManager::logout() {
+    fstream file;
+    file.open("Database/Cache/user.csv", ios::out | ios::trunc);
     file.close();
 }

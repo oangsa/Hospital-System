@@ -15,6 +15,9 @@ class FileManager {
         bool isDirExists(string& dirname);
 
         u_int8 checkAllFilesAndCreate();
+
+        void writeUserCache(u_int64 id);
+        u_int8 isEmpty(string& filename);
 };
 
 #endif

@@ -15,6 +15,7 @@ class Program {
         Program(u_int32 size);
 
         u_int8 Init();
+        void Test();
 };
 
 #endif
