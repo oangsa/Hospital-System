@@ -48,30 +48,3 @@ u_int8 FileManager::checkAllFilesAndCreate() {
 
     return 1;
 }
-
-u_int8 FileManager::checkAllFilesAndCreate() {
-    vector<string> dirnames = {
-        "Database",
-        "Database/Users",
-        "Database/History"
-    };
-
-    vector<string> filenames = {
-        "Database/Users/users.csv",
-    };
-
-    for (string dirname : dirnames) {
-        if (!this->isDirExists(dirname)) {
-            mkdir(dirname.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-        }
-    }
-
-    for (string filename : filenames) {
-        if (!this->isFileExists(filename)) {
-            FILE* file = fopen(filename.c_str(), "w+");
-            fclose(file);
-        }
-    }
-
-    return 1;
-}
