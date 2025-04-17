@@ -44,7 +44,7 @@ class User {
         string getPassword();
         string getWriteFileData();
 
-        void addHistory(string& diagnosis, string& treatment, string& prescription);
+        void addHistory(PatientHistory history);
         void setID(u_int64 id);
 
         ESI_LEVEL diagESI(NurseDiagnosis& diagnosis);

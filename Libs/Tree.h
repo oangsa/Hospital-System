@@ -96,7 +96,9 @@ class Tree {
                 _left->inOrder(callback);
             }
 
-            callback(*_data);
+            if (_data) {
+                callback(*_data);
+            }
 
             if (_right) {
                 _right->inOrder(callback);

@@ -321,8 +321,8 @@ u_int8 UserManager::registerUser(User &user) {
     Params: u_int64 id
     return nullptr if user is not found, else User*
 */
-User *UserManager::find(u_int64 id) { 
-    return this->userMap.get(id); 
+User *UserManager::find(u_int64 id) {
+    return this->userMap.get(id);
 }
 
 /*
