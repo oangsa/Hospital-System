@@ -10,18 +10,16 @@ class Panel {
         User* LoggedUser = NULL;
         UserManager& userManager;
         Map<User>& userMap;
-    
+
     public:
         Panel(UserManager& userManager, Map<User>& userMap);
         void clearScreen();
         void delay(u_int8 secs);
-        void loginPanel();
-        // void showLogin();
-        // void showMainMenu();
-        // void showUserMenu();
-        // void showDoctorMenu();
-        // void showNurseMenu();
-        // void showAdminMenu();
+        void loginPanel(u_int8 attempt);
+        void adminMenu();
+        void patientMenu();
+        void doctorMenu();
+        void nurseMenu();
 };
 
 #endif

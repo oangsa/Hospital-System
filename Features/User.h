@@ -46,6 +46,8 @@ class User {
 
         void addHistory(string& diagnosis, string& treatment, string& prescription);
         void setID(u_int64 id);
+
+        ESI_LEVEL diagESI(NurseDiagnosis& diagnosis);
 };
 
 #endif
