@@ -5,7 +5,14 @@
 #include <sys/stat.h>
 #include "FileManager.h"
 #include <vector>
-#include <vector>
+#include <sys/types.h>
+
+#ifdef _WIN32
+    #include <direct.h>
+    #define mkdir(path, mode) _mkdir(path)  // Windows doesn't use mode
+#else
+    #include <unistd.h>
+#endif
 
 typedef struct stat stat_t;
 
@@ -47,7 +54,11 @@ u_int8 FileManager::checkAllFilesAndCreate() {
 
     for (string dirname : dirnames) {
         if (!this->isDirExists(dirname)) {
-            mkdir(dirname.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+            #ifdef _WIN32
+                _mkdir(dirname.c_str());
+            #else
+                mkdir(dirname.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+            #endif
         }
     }
 
