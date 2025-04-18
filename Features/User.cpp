@@ -43,14 +43,9 @@ void User::displayHistory() {
     Add user history
     Params: diagnosis, treatment, prescription
 */
-void User::addHistory(string& diagnosis, string& treatment, string& prescription) {
-    PatientHistory history;
-    history._timestamp = time(nullptr);
-    history._diagnosis = diagnosis;
-    history._treatment = treatment;
-    history._prescription = prescription;
-
-    this->_history.insert(history._timestamp, &history);
+void User::addHistory(PatientHistory history) {
+    PatientHistory* newHistory = new PatientHistory(history);
+    this->_history.insert(newHistory->_timestamp, newHistory);
 }
 
 // Getter
@@ -168,7 +163,7 @@ string User::getPassword() {
 */
 string User::getWriteFileData() {
     string data;
-    
+
     // Hard code god
     data.append(to_string(this->_id));
     data.append(",");

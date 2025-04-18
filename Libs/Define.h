@@ -56,9 +56,12 @@ typedef enum {
     ESI_5, // DONT NEED RESOURCES
 } ESI_LEVEL;
 
+
+// 1713158400,Hypertension,Lifestyle modification,Lisinopril 10mg daily
+
 typedef struct _PatientHistory {
-    time_t _timestamp;
-    string _diagnosis;
+    time_t _timestamp; // 1713158400
+    string _diagnosis; // Hypertension
     string _treatment;
     string _prescription;
 } PatientHistory;
