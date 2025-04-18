@@ -1,5 +1,6 @@
 #include "Panel.h"
 #include "Define.h"
+#include "../Features/FileManager.h"
 #include <string>
 #include <iostream>
 #include <thread>
@@ -32,6 +33,18 @@ void Panel::delay(u_int8 secs) {
     }
 }
 
+
+void Panel::showUserInfo() {
+    for (u_int32 i = 0; i < this->userMap.size(); i++) {
+        Node<User> *current = this->userMap.getList(i);
+        if (!current) continue;
+        while (current != NULL) {
+            cout << current->data()->getID() << "\t" << current->data()->getUsername() << "\t" << current->data()->getTypeString() << "\n";
+            current = current->next();
+        }
+    }
+}
+
 /*
     Login panel function propts the user for username and password
     if username and password are valid, it shows welcome message
@@ -39,10 +52,22 @@ void Panel::delay(u_int8 secs) {
     parameters:
         u_int8 attempt: Number of attempts for login
 */
-void Panel::loginPanel(u_int8 attempt) {
+void Panel::loginPanel(u_int8 attempt, u_int8 isFileExist) {
     string username;
     string password;
     u_int64 userId;
+    FileManager fileManager;
+
+    if (isFileExist) {
+        this->LoggedUser = this->userManager.loadLoggedUser();
+        if (this->LoggedUser != NULL) {
+            this->clearScreen();
+            cout << "Welcome back, " << this->LoggedUser->getUsername() << "\n";
+            this->delay(2);
+            this->clearScreen();
+            goto SwitchPanel;
+        }
+    }
 
     for (u_int8 i = 0; i < attempt; i++) {
         this->clearScreen();
@@ -61,6 +86,7 @@ void Panel::loginPanel(u_int8 attempt) {
         this->delay(2);
         this->clearScreen();
     }
+    
     cout << "Login success, user id: " << userId << "\n";
 
     this->LoggedUser = this->userManager.find(userId);
@@ -71,29 +97,116 @@ void Panel::loginPanel(u_int8 attempt) {
 
     this->delay(2);
     this->clearScreen();
+    fileManager.writeUserCache(userId);
 
-    switch(this->LoggedUser->getType()) {
-        case UserType::OPD:
-        case UserType::IPD:
-            this->patientMenu();
-            break;
+    SwitchPanel:
+        switch(this->LoggedUser->getType()) {
+            case UserType::OPD:
+            case UserType::IPD:
+                this->patientMenu();
+                break;
 
-        case UserType::DOCTOR:
-            cout << "Welcome to the Doctor panel" << "\n";
-            break;
+            case UserType::DOCTOR:
+                cout << "Welcome to the Doctor panel" << "\n";
+                break;
 
-        case UserType::NURSE:
-            cout << "Welcome to the Nurse panel" << "\n";
-            break;
+            case UserType::NURSE:
+                cout << "Welcome to the Nurse panel" << "\n";
+                break;
 
-        case UserType::ADMIN:
-            cout << "Welcome to the Admin panel" << "\n";
-            break;
-    }
+            case UserType::ADMIN:
+                this->delay(1);
+                this->clearScreen();
+                this->adminMenu();
+                break;
+        }
 }
 
 void Panel::patientMenu() {
     u_int8 choice;
     cout << "========< Patient Panel >========" << "\n";
     cout << "   1. " << "\n";
+}
+
+void Panel::doctorMenu() {
+    cout << "========< Doctor Panel >========" << "\n";
+}
+
+void Panel::nurseMenu() {
+    cout << "========< Nurse Panel >========" << "\n";
+}
+
+void Panel::adminMenu() {
+    u_int16 choice;
+
+    while (1) {
+        cout << "========< Admin Panel >========" << "\n\n";
+        cout << "   1. Add user" << "\n";
+        cout << "   2. Remove user" << "\n";
+        cout << "   3. Exit (without Logout)" << "\n";
+        cout << "   0. Logout" << "\n\n";
+        cout << "================================" << "\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 3:
+                this->clearScreen();
+                cout << "Exiting..." << "\n";
+                this->userManager.saveToFile("Database/Users/users.csv");
+                this->delay(2);
+                this->clearScreen();
+                return;
+            case 0:
+                this->clearScreen();
+                cout << "Logging out..." << "\n";
+                this->userManager.saveToFile("Database/Users/users.csv");
+                this->userManager.logout();
+                this->delay(2);
+                this->clearScreen();
+                return;
+            case 1:
+                this->clearScreen();
+                this->addUserPanel();
+                break;
+            case 2:
+                this->clearScreen();
+                this->removeUserPanel();
+                break;
+            default:
+                this->clearScreen();
+                cout << "Invalid choice" << "\n";
+                this->delay(1);
+                this->clearScreen();
+                break;
+        }
+    }
+}
+
+void Panel::addUserPanel() {
+    cout << "========< Add User >========" << "\n";
+    return;
+}
+
+void Panel::removeUserPanel() {
+    string id;
+    this->showUserInfo();
+    cout << "========< Remove User >========" << "\n";
+    cout << "Enter the user ID (press e to exit): ";
+    cin >> id;
+    if (id == "e") {
+        this->clearScreen();
+        return;
+    }
+    User* user = this->userManager.find(stoull(id));
+    if (user == NULL) {
+        cout << "User not found" << "\n";
+        this->delay(2);
+        this->clearScreen();
+        return;
+    }
+    this->userManager.removeUser(user->getID());
+    cout << "User removed successfully" << "\n";
+    this->delay(2);
+    this->clearScreen();
 }

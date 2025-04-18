@@ -1,9 +1,15 @@
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 #include <string>
 #include <sys/stat.h>
 #include "FileManager.h"
 #include <vector>
+#include <vector>
 
 typedef struct stat stat_t;
+
+using namespace std;
 
 FileManager::FileManager(){}
 FileManager::~FileManager(){}
@@ -20,17 +26,25 @@ bool FileManager::isDirExists(string& dirname) {
     return stat(dirname.c_str(), &st) == 0 && S_ISDIR(st.st_mode);
 }
 
+/*
+    Check all files and create them if they don't exist
+    Params: None
+    return: 1 if user cache file exists, 0 if not
+ */
 u_int8 FileManager::checkAllFilesAndCreate() {
     vector<string> dirnames = {
         "Database",
         "Database/Users",
-        "Database/History"
+        "Database/History",
+        "Database/Cache"
     };
 
     vector<string> filenames = {
         "Database/Users/users.csv",
     };
-    
+
+    string cacheFile = "Database/Cache/user.csv";
+
     for (string dirname : dirnames) {
         if (!this->isDirExists(dirname)) {
             mkdir(dirname.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -44,5 +58,29 @@ u_int8 FileManager::checkAllFilesAndCreate() {
         }
     }
 
+    if (!this->isFileExists(cacheFile)) {
+        return 0;
+    }
+
+    if (this->isEmpty(cacheFile)) {
+        return 0;
+    }
+
     return 1;
+}
+
+/*
+    Check if the file is empty
+    Params: string& filename
+    return: 1 if file is empty, 0 if not
+*/
+u_int8 FileManager::isEmpty(string& filename) {
+    return std::filesystem::is_empty(filename);
+}
+
+void FileManager::writeUserCache(u_int64 id) {
+    fstream file;
+    file.open("Database/Cache/user.csv", ios::out | ios::trunc);
+    file << id;
+    file.close();
 }
