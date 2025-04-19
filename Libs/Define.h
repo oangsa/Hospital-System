@@ -56,6 +56,15 @@ typedef enum {
     ESI_5, // DONT NEED RESOURCES
 } ESI_LEVEL;
 
+typedef enum {
+    USER_DELETE,
+    USER_UPDATE, // MIGHT BE IMPLEMENTED LATER
+    USER_ADD,
+    
+    // MIGHT BE IMPLEMENTED LATER
+    HISTORY_DELETE,
+} ACTION_TYPE;
+
 
 // 1713158400,Hypertension,Lifestyle modification,Lisinopril 10mg daily
 
@@ -91,5 +100,10 @@ typedef struct _User {
     string username;
     string password;
 } user_t;
+
+typedef struct _UndoStruct {
+    ACTION_TYPE actionType;
+    user_t user;
+} undo_t;
 
 #endif
