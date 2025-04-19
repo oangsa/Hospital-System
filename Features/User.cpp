@@ -156,6 +156,20 @@ string User::getPassword() {
     return this->_password;
 }
 
+user_t User::getUser_t() {
+    user_t user = {
+        .id = this->_id,
+        .name = this->_name,
+        .birthDate = this->_birthdate,
+        .gender = this->_gender,
+        .userType = this->_type,
+        .username = this->_username,
+        .password = this->_password,
+    };
+
+    return user;
+};
+
 /*
     Get data in this form
     // id,name,day,month,year,gender,userType,username,password

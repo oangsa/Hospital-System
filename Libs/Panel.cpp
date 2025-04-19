@@ -13,7 +13,7 @@ using namespace std;
         UserManager& userManager: Reference to the UserManager object
         Map<User>& userMap: Reference to the Map object containing User objects
 */
-Panel::Panel(UserManager& userManager, Map<User>& userMap) : userManager(userManager), userMap(userMap) {};
+Panel::Panel(UserManager& userManager, Map<User>& userMap) : userManager(userManager), userMap(userMap), undoManager(userManager) {};
 
 /*
     Handler function for clearing the screen
@@ -86,7 +86,7 @@ void Panel::loginPanel(u_int8 attempt, u_int8 isFileExist) {
         this->delay(2);
         this->clearScreen();
     }
-    
+
     cout << "Login success, user id: " << userId << "\n";
 
     this->LoggedUser = this->userManager.find(userId);
@@ -144,12 +144,20 @@ void Panel::adminMenu() {
         cout << "   1. Add user" << "\n";
         cout << "   2. Remove user" << "\n";
         cout << "   3. Exit (without Logout)" << "\n";
+        if (this->undoManager.peekAction().actionType != ACTION_TYPE::EMPTY_ACTION) cout << "   4. Revert Last Change \n";
         cout << "   0. Logout" << "\n\n";
         cout << "================================" << "\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice) {
+            case 4:
+                this->clearScreen();
+                cout << "Reverting last change..." << "\n";
+                this->undoManager.undoAction();
+                this->delay(2);
+                this->clearScreen();
+                break;
             case 3:
                 this->clearScreen();
                 cout << "Exiting..." << "\n";
@@ -190,21 +198,32 @@ void Panel::addUserPanel() {
 
 void Panel::removeUserPanel() {
     string id;
+    undo_t change;
     this->showUserInfo();
     cout << "========< Remove User >========" << "\n";
     cout << "Enter the user ID (press e to exit): ";
     cin >> id;
+
     if (id == "e") {
         this->clearScreen();
         return;
     }
+
     User* user = this->userManager.find(stoull(id));
+
     if (user == NULL) {
         cout << "User not found" << "\n";
         this->delay(2);
         this->clearScreen();
         return;
+
     }
+
+    change.actionType = ACTION_TYPE::USER_DELETE;
+    change.user = user->getUser_t();
+
+    this->undoManager.pushAction(&change);
+
     this->userManager.removeUser(user->getID());
     cout << "User removed successfully" << "\n";
     this->delay(2);

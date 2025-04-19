@@ -2,6 +2,7 @@
 #define PANEL_H
 
 #include "../Features/UserManager.h"
+#include "../Features/UndoManager.h"
 #include "../Libs/Map.h"
 #include "Define.h"
 
@@ -9,6 +10,7 @@ class Panel {
     private:
         User* LoggedUser = NULL;
         UserManager& userManager;
+        UndoManager undoManager;
         Map<User>& userMap;
 
     public:

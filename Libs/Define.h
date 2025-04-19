@@ -57,6 +57,7 @@ typedef enum {
 } ESI_LEVEL;
 
 typedef enum {
+    EMPTY_ACTION,
     USER_DELETE,
     USER_UPDATE, // MIGHT BE IMPLEMENTED LATER
     USER_ADD,

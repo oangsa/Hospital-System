@@ -16,20 +16,20 @@ class Stack {
             Initialize the stack with top as NULL and size as 0
         */
         Stack<T>(): _top(NULL), _size(0) {}
-        
+
         /*
             Pop the top element from the stack
             Return the data of the top element
         */
-        T pop() {
+        T* pop() {
             if (!this->_top) return NULL;
 
             Node<T>* temp = this->_top;
-            T data = temp->data();
-            
+            T* data = temp->data();
+
             this->_top = this->_top->next();
             this->_size--;
-            
+
             delete temp;
 
             return data;
@@ -41,10 +41,10 @@ class Stack {
                 T data: The data to be pushed
         */
         void push(T data) {
-            Node<T>* newNode = new Node<T>(data);
+            Node<T>* newNode = new Node<T>(data, 0);
             if (!this->_top) {
                 this->_top = newNode;
-            } 
+            }
             else {
                 newNode->setNext(this->_top);
                 this->_top = newNode;
@@ -55,11 +55,11 @@ class Stack {
             Peek the top element of the stack
             Return the data of the top element
         */
-        T peek() {
+        T* peek() {
             if (this->_top) return this->_top->data();
             return NULL;
         }
-        
+
         /*
             return the size of the stack
         */

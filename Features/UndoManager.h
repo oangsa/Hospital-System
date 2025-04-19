@@ -12,11 +12,9 @@ class UndoManager {
 
     public:
         UndoManager(UserManager &userManager);
-        ~UndoManager();
-        void pushAction(undo_t action);
+        void pushAction(undo_t* action);
         undo_t popAction();
         undo_t peekAction();
-        void clearStack();
         void undoAction();
 };
 
