@@ -124,8 +124,22 @@ void Panel::loginPanel(u_int8 attempt, u_int8 isFileExist) {
 
 void Panel::patientMenu() {
     u_int8 choice;
-    cout << "========< Patient Panel >========" << "\n";
-    cout << "   1. " << "\n";
+
+    while (1)
+    {
+        cout << "========< Patient Panel >========" << "\n";
+        cout << "   1. ADD QUE" << "\n";
+        cout << "   2. SHOW HISTROY"<< "\n";
+        cout << "   3. Exit (without Logout)" << "\n";
+        cout << "   0. Logout" << "\n\n";
+        cout << "================================" << "\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+        }
+    }
 }
 
 void Panel::doctorMenu() {
