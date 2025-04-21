@@ -123,7 +123,7 @@ void Panel::loginPanel(u_int8 attempt, u_int8 isFileExist) {
 }
 
 void Panel::patientMenu() {
-    u_int8 choice;
+    u_int16 choice;
 
     while (1)
     {
