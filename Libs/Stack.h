@@ -15,7 +15,7 @@ class Stack {
             Constructor
             Initialize the stack with top as NULL and size as 0
         */
-        Stack<T>(): _top(NULL), _size(0) {}
+        Stack(): _top(NULL), _size(0) {}
 
         /*
             Pop the top element from the stack

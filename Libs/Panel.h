@@ -8,10 +8,10 @@
 
 class Panel {
     private:
-        User* LoggedUser = NULL;
         UserManager& userManager;
-        UndoManager undoManager;
         Map<User>& userMap;
+        UndoManager undoManager;
+        User* LoggedUser = NULL;
 
     public:
         Panel(UserManager& userManager, Map<User>& userMap);

@@ -2,6 +2,7 @@
 #include "../Libs/Define.h"
 #include "../Libs/Map.h"
 #include "User.h"
+#include <cctype>
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
@@ -132,6 +133,7 @@ void UserManager::loadUsersFromFile(const string &filename) {
 
 /*
     Add user to the user map
+    NOTE: DON'T USE IN THE CASE OF ADDING NEW USER, UNLESS IT FROM THE FILE
     Params: User& user
 */
 void UserManager::addUser(User &user) {

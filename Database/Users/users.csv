@@ -3,8 +3,10 @@ id,name,day,month,year,gender,userType,username,password
 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+250400004,Suthang,5,8,2005,Male,NURSE,Test,test
 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
 250200009,Morgan Miller,19,12,1992,Male,IPD,morganmiller9,pass4774

@@ -23,7 +23,7 @@ OBJS := $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 
 # Default rule
-all: $(EXE)
+all: $(EXE) @$(MAKE) clean
 
 # Link all object files into the final executable
 $(EXE): $(OBJS)

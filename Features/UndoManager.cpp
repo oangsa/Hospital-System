@@ -9,8 +9,10 @@ void UndoManager::pushAction(undo_t* action) {
 }
 
 undo_t UndoManager::popAction() {
+    user_t user;
     undo_t u = {
-        .actionType = ACTION_TYPE::EMPTY_ACTION
+        .actionType = ACTION_TYPE::EMPTY_ACTION,
+        .user = user
     };
 
     if (this->actionStack.isEmpty()) {
@@ -21,8 +23,10 @@ undo_t UndoManager::popAction() {
 }
 
 undo_t UndoManager::peekAction() {
+    user_t user;
     undo_t u = {
         .actionType = ACTION_TYPE::EMPTY_ACTION,
+        .user = user
     };
 
     if (this->actionStack.isEmpty()) {
@@ -44,12 +48,12 @@ void UndoManager::undoAction() {
     switch (action.actionType) {
         case ACTION_TYPE::USER_DELETE:
             this->userManager.addUser(user);
-            this->userManager.saveToFile("Database/Users/user.csv");
+            this->userManager.saveToFile("Database/Users/users.csv");
             break;
 
         case ACTION_TYPE::USER_ADD:
             this->userManager.removeUser(user.getID());
-            this->userManager.saveToFile("Database/Users/user.csv");
+            this->userManager.saveToFile("Database/Users/users.csv");
             break;
 
         case ACTION_TYPE::USER_UPDATE:
