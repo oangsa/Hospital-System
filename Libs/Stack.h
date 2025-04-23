@@ -71,8 +71,19 @@ class Stack {
             Check if the stack is empty
             Return 1 if empty, 0 if not
         */
-        u_int8 isEmpty() {
+        u_int16 isEmpty() {
             return this->_top == NULL;
+        }
+
+        void clearStack() {
+            while(this->_top) {
+                Node<T>* t = this->_top;
+                this->_top = this->_top->next();
+                // If this thing broke, just switch del t to free(t)
+                del t;
+            }
+
+            this->_top = NULL;
         }
 
 };
