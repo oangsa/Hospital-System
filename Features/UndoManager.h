@@ -16,6 +16,7 @@ public:
   undo_t popAction();
   undo_t peekAction();
   void undoAction();
+  void clear();
 };
 
 #endif

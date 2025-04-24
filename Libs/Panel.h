@@ -18,7 +18,7 @@ class Panel {
         void clearScreen();
         void showUserInfo();
         void delay(u_int8 secs);
-        void loginPanel(u_int8 attempt, u_int8 isFileExist);
+        void loginPanel(u_int16 attempt, u_int8 isFileExist);
         void adminMenu();
         void patientMenu();
         void doctorMenu();
@@ -27,6 +27,7 @@ class Panel {
         // Admin Section
         void addUserPanel();
         void removeUserPanel();
+        void updateUserPanel();
 };
 
 #endif

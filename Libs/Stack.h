@@ -80,7 +80,7 @@ class Stack {
                 Node<T>* t = this->_top;
                 this->_top = this->_top->next();
                 // If this thing broke, just switch del t to free(t)
-                del t;
+                delete t;
             }
 
             this->_top = NULL;

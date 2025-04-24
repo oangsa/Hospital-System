@@ -25,7 +25,7 @@ public:
 
     void addUser(User &user);
     void removeUser(u_int64 id);
-    void updateUser(User &user);
+    u_int16 updateUser(user_t user);
     vector<User> getAllUsers();
     User* find(u_int64 id);
 

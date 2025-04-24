@@ -2,12 +2,25 @@
 #include "UserManager.h"
 #include <iostream>
 
+/*
+    Constructor
+    Params: UserManager& userManager
+*/
 UndoManager::UndoManager(UserManager& userManager): userManager(userManager) {};
 
+/*
+    Push the action to the stack
+    Params: undo_t* action
+*/
 void UndoManager::pushAction(undo_t* action) {
     this->actionStack.push(*action);
 }
 
+/*
+    Pop the action from the stack
+    Return: if the stack is empty, return an empty action,
+    else return the action
+*/
 undo_t UndoManager::popAction() {
     user_t user;
     undo_t u = {
@@ -22,6 +35,11 @@ undo_t UndoManager::popAction() {
     return *this->actionStack.pop();
 }
 
+/*
+    Peek the action from the stack
+    Return: if the stack is empty, return an empty action,
+    else return the action
+*/
 undo_t UndoManager::peekAction() {
     user_t user;
     undo_t u = {
@@ -36,6 +54,10 @@ undo_t UndoManager::peekAction() {
     return *this->actionStack.peek();
 }
 
+/*
+    Undo the last action
+    This function will revert the last action in the stack
+*/
 void UndoManager::undoAction() {
     undo_t action = this->popAction();
 
@@ -62,4 +84,11 @@ void UndoManager::undoAction() {
             std::cout << "This cannot revert.\n";
             break;
     }
+}
+
+/*
+    Clear the stack
+*/
+void UndoManager::clear() {
+    this->actionStack.clearStack();
 }

@@ -199,3 +199,10 @@ string User::getWriteFileData() {
 
     return data;
 }
+/*
+    Get user birthdate
+    return: BirthDate
+*/
+BirthDate User::getBirthDate() {
+    return this->_birthdate;
+}

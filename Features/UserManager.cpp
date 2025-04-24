@@ -146,6 +146,23 @@ void UserManager::addUser(User &user) {
 }
 
 /*
+    Update user in the user map 
+    Params: User& user
+    return 1 if success, 0 if failed
+*/
+u_int16 UserManager::updateUser(user_t user) {
+    if (userMap.get(user.id) == NULL) {
+        return 0;
+    }
+
+    // Remove old user data and add the new one with the new data but has the same id
+    userMap.remove(user.id);
+    userMap.put(user.id, user);
+
+    return 1; 
+}
+
+/*
     Remove user in the user map
     Params: User& user
 */
