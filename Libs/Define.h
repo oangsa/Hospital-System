@@ -59,12 +59,21 @@ typedef enum {
 typedef enum {
     EMPTY_ACTION,
     USER_DELETE,
-    USER_UPDATE, // MIGHT BE IMPLEMENTED LATER
+    USER_UPDATE,
     USER_ADD,
     
     // MIGHT BE IMPLEMENTED LATER
     HISTORY_DELETE,
 } ACTION_TYPE;
+
+typedef enum {
+    DAY_ERROR,
+    MONTH_ERROR,
+    YEAR_ERROR,
+    NEGATIVE_NUMBER_ERROR,
+
+    NO_ERROR,
+} VALIDATOR_ERROR_TYPE;
 
 
 // 1713158400,Hypertension,Lifestyle modification,Lisinopril 10mg daily
