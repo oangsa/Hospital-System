@@ -25,7 +25,7 @@ class Tree {
             this->_left = nullptr;
             this->_right = nullptr;
         }
-        
+
         /*
             Alternate Constructor of the class
             Params: T* data, u_int64 key, Tree<T*>* left, Tree<T*>* right
@@ -36,7 +36,7 @@ class Tree {
             this->_left = left;
             this->_right = right;
         }
-        
+
         /*
             Find data in the BST by given key
             Params: u_int64 key
@@ -56,7 +56,7 @@ class Tree {
 
             return current->_data;
         }
-        
+
         /*
             Insert the node in BST
             Params: u_int64 key, T* data
@@ -96,7 +96,9 @@ class Tree {
                 _left->inOrder(callback);
             }
 
-            callback(*_data);
+            if (_data) {
+                callback(*_data);
+            }
 
             if (_right) {
                 _right->inOrder(callback);

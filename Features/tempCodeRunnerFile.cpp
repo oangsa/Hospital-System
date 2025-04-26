@@ -1,0 +1,1 @@
+ void editRecord(int id)
