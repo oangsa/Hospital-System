@@ -176,8 +176,6 @@ u_int16 UserManager::updateUser(user_t user) {
 */
 void UserManager::removeUser(u_int64 id) {
     userMap.remove(id);
-void UserManager::removeUser(u_int64 id) {
-    userMap.remove(id);
 }
 
 /*
@@ -393,8 +391,6 @@ void UserManager::saveToFile(const string &filename) {
 
     for (u_int32 i = 0; i < this->userMap.size() - 1; i++) {
         Node<User> *current = this->userMap.getList(i);
-    for (u_int32 i = 0; i < this->userMap.size() - 1; i++) {
-        Node<User> *current = this->userMap.getList(i);
 
         if (!current) continue;
 
@@ -413,7 +409,6 @@ void UserManager::saveToFile(const string &filename) {
     remove(filename.c_str());
     rename(cFilename.c_str(), filename.c_str());
 }
-
 
 /*
     Load logged user from file

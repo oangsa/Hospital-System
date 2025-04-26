@@ -44,12 +44,6 @@ public:
     void loadPatientQueue(const string &filename);
     User* loadLoggedUser();
 
-    void addUser(User &user);
-    void removeUser(u_int64 id);
-    void updateUser(User &user);
-    vector<User> getAllUsers();
-    User* find(u_int64 id);
-
     u_int64 generateID(UserType type);
     u_int32 getCounter(UserType type);
 
@@ -60,20 +54,7 @@ public:
     u_int8 registerUser(User &user);
 
     u_int16 userEnqueue(user_t user);
-    // Loader
-    void loadUsersFromFile(const string &filename);
-    void saveToFile(const string &filename);
-    void loadHistoryFromFile();
-    User* loadLoggedUser();
 
-    u_int64 generateID(UserType type);
-    u_int32 getCounter(UserType type);
-
-    u_int64 getHashNumber(User &user);
-
-    u_int64 login(string &username, string &password);
-    void logout();
-    u_int8 registerUser(User &user);
     void editRecord(int id, const string &field, const string &value);
     void displayUserInfo(u_int64 id);
     void addRecord(int id);

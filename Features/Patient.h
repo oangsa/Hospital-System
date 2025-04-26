@@ -7,11 +7,14 @@
 class Patient: public User {
     private:
         NurseDiagnosis diagnosis;
+        PatientHistory history;
 
     public:
         Patient(user_t user);
         void setDiagnosis(NurseDiagnosis diagnosis);
+        void setHistory(PatientHistory history);
         void displayInfo();
+        void showHistory();
 
 };
 

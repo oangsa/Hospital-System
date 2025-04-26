@@ -1,13 +1,10 @@
 #include "Panel.h"
 #include "../Features/FileManager.h"
 #include "Define.h"
+#include "../Features/Patient.h"
 #include <cstdlib>
 #include <iostream>
 #include <string>
-#include "Define.h"
-#include "../Features/FileManager.h"
-#include <string>
-#include <iostream>
 #include <thread>
 
 using namespace std;
@@ -253,7 +250,86 @@ void Panel::showRemaining() {
     }
 }
 
-void Panel::doctorMenu() { cout << "========< Doctor Panel >========" << "\n"; }
+void Panel::doctorMenu() {
+    char choice;
+    cout << "========< Doctor Panel >========" << "\n\n";
+    if (!this->userManager.UserIdPQ.empty()) cout << "  1. Process Next Patient in queue " << "(" << this->userManager.UserIdPQ.size() << " Remaining)\n";
+    cout << " E. Exit\n\n";
+    cout << "================================" << "\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 'e':
+        case 'E':
+            this->clearScreen();
+            this->delay(1);
+            return;
+
+        case '1':
+            if (this->userManager.UserIdPQ.empty()) {
+                this->clearScreen();
+                this->doctorMenu();
+                break;
+            }
+
+
+    }
+}
+
+void Panel::doctorProcessPatientPanel() {
+    char choice;
+    User* user = this->userManager.find(*(this->userManager.UserIdPQ.peek()));
+    Patient p(user->getUser_t());
+    PatientHistory history;
+    time_t t = time(NULL);
+    history._timestamp = t;
+
+    process:
+    p.displayInfo();
+    if (!history._diagnosis.empty()) p.showHistory();
+    cout << "\n";
+    cout << "=============================\n\n";
+    if (history._diagnosis.empty()) cout << "   1. Add Record\n";
+    cout << "   2. Finish And Save\n\n";
+    cout << "=============================\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice) {
+        case '1':
+            if (!history._diagnosis.empty()) {
+                this->clearScreen();
+                goto process;
+                break;
+            }
+
+            this->clearScreen();
+            this->delay(1);
+            this->addRecordPanel(&p, &history);
+            break;
+
+        case '2':
+
+
+        default:
+            this->clearScreen();
+            this->delay(1);
+            goto process;
+            break;
+    }
+}
+
+void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
+    cout << " Enter diagnosis: ";
+    getline(cin, history->_diagnosis);
+    cout << " Enter treatment: ";
+    getline(cin, history->_treatment);
+    cout << " Enter prescription: ";
+    getline(cin, history->_prescription);
+
+    user->setHistory(*history);
+}
 
 void Panel::nurseMenu() { cout << "========< Nurse Panel >========" << "\n"; }
 

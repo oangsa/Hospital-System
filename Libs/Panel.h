@@ -42,9 +42,9 @@ class Panel {
         // Nurse Section
         u_int16 determine();
 
-        // Admin Section
-        void addUserPanel();
-        void removeUserPanel();
+        // Doctor Section
+        void doctorProcessPatientPanel();
+        void addRecordPanel(Patient* user, PatientHistory* history);
 };
 
 #endif
