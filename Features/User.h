@@ -7,6 +7,7 @@
 #include <vector>
 #include "../Libs/Define.h"
 #include "../Libs/Tree.h"
+#include "../Libs/Set.h"
 
 using namespace std;
 
@@ -48,6 +49,7 @@ class User {
 
         void addHistory(PatientHistory history);
         void setID(u_int64 id);
+        void loadHistory();
 
         ESI_LEVEL diagESI(NurseDiagnosis& diagnosis);
 };

@@ -1,4 +1,5 @@
 #include "UserManager.h"
+#include "FileManager.h"
 #include "../Libs/Define.h"
 #include "../Libs/Map.h"
 #include "User.h"
@@ -125,6 +126,8 @@ void UserManager::loadUsersFromFile(const string &filename) {
         }
 
         User newUser(user);
+        // Load their history before add them
+        newUser.loadHistory();
         this->addUser(newUser);
     }
 
@@ -426,4 +429,44 @@ void UserManager::logout() {
     fstream file;
     file.open("Database/Cache/user.csv", ios::out | ios::trunc);
     file.close();
+}
+
+void UserManager::loadPatientQueue(const string &filename) {
+    FileManager fileManager;
+    string fName = filename;
+
+    if (!fileManager.isFileExists(fName)) {
+        return;
+    }
+
+    ifstream infile(fName);
+    string line;
+
+    getline(infile, line);
+        while (getline(infile, line)) {
+        u_int64 userId = stoull(line);
+
+        if (!this->uniqueIds.contains(userId, UserType::OPD)) {
+            this->uniqueIds.add(userId, UserType::OPD);
+            this->userIdQueue.enqueue(userId);
+        }
+    }
+    infile.close();
+}
+
+u_int16 UserManager::userEnqueue(user_t user) {
+    if (this->uniqueIds.contains(user.id, user.userType)) return 0;
+
+    ofstream outFile("Database/Temp/_PaQ.csv", std::ios::app);
+
+    if (!outFile.is_open()) {
+        return -1;
+    }
+
+    outFile << user.id << "\n";
+    outFile.close();
+    this->userIdQueue.enqueue(user.id);
+    this->uniqueIds.add(user.id, user.userType);
+
+    return 1;
 }

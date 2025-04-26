@@ -34,6 +34,10 @@ class Panel {
         void addUserPanel();
         void removeUserPanel();
         void updateUserPanel();
+
+        // Patient Section
+        void showHistories();
+        void showRemaining();
 };
 
 #endif

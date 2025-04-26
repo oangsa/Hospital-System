@@ -10,6 +10,7 @@ id,name,day,month,year,gender,userType,username,password
 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
 250200009,Morgan Miller,19,12,1992,Male,IPD,morganmiller9,pass4774

@@ -88,6 +88,24 @@ class Queue {
         u_int16 isEmpty() {
             return _size == 0;
         }
+
+        /*
+            get index of the provided data
+            params: T data
+            return its index if data exist, else -1
+        */
+        int16 getIndexOf(T data) {
+            int16 index = 0;
+            Node<T>* cur = this->head;
+
+            while (cur) {
+                if (*(cur->data()) == data) return index;
+                cur = cur->next();
+                index++;
+            }
+
+            return -1;
+        }
 };
 
 #endif

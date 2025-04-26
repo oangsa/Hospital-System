@@ -138,7 +138,115 @@ void Panel::loginPanel(u_int16 attempt, u_int8 isFileExist) {
 }
 
 void Panel::patientMenu() {
-  cout << "========< Patient Panel >========" << "\n";
+    char choice;
+    while (1)
+    {
+        cout << "========< Patient Panel >========" << "\n\n";
+        if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   1. Enqueue" << "\n";
+        if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   2. Check Remaining"<< "\n";
+        cout << "   3. View History" << "\n";
+        cout << "   E. Exit (without Logout)" << "\n";
+        cout << "   L. Logout" << "\n\n";
+        cout << "================================" << "\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 'E':
+            case 'e':
+                this->clearScreen();
+                this->delay(1);
+                this->clearScreen();
+                return;
+
+            case 'L':
+            case 'l':
+                this->clearScreen();
+                this->delay(1);
+                this->clearScreen();
+                this->loginPanel(3, 0);
+
+            case '1':
+                if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) {
+                    this->clearScreen();
+                    break;
+                }
+
+                this->clearScreen();
+                cout << "Adding...\n";
+                this->userManager.userEnqueue(this->LoggedUser->getUser_t());
+                this->delay(1);
+                this->clearScreen();
+                break;
+
+            case '2':
+                if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) {
+                    this->clearScreen();
+                    break;
+                }
+
+                this->clearScreen();
+                this->showRemaining();
+                this->delay(1);
+                this->clearScreen();
+                break;
+
+            case '3':
+                this->clearScreen();
+                this->showHistories();
+                break;
+
+            default:
+                cout << "Invalid choice: \n";
+                this->delay(1);
+                this->clearScreen();
+                break;
+        }
+    }
+}
+
+void Panel::showHistories() {
+    char options;
+    this->LoggedUser->displayHistory();
+    cout << "Press e or E to exit: ";
+    cin >> options;
+
+    switch (options) {
+        case 'e':
+        case 'E':
+            this->clearScreen();
+            this->delay(1);
+            return;
+
+        default:
+            this->clearScreen();
+            this->showHistories();
+            break;
+
+    }
+
+}
+
+void Panel::showRemaining() {
+    char options;
+    int16 idx = this->userManager.userIdQueue.getIndexOf(this->LoggedUser->getID());
+    cout << "There (are/is) " << idx << " queue(s) ahead you.\n";
+    cout << "Press e or E to exit: ";
+    cin >> options;
+
+    switch (options) {
+        case 'e':
+        case 'E':
+            this->clearScreen();
+            this->delay(1);
+            return;
+
+        default:
+            this->clearScreen();
+            this->showRemaining();
+            break;
+
+    }
 }
 
 void Panel::doctorMenu() { cout << "========< Doctor Panel >========" << "\n"; }

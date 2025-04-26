@@ -2,6 +2,9 @@
 #define USER_MANAGER_H
 
 #include "../Libs/Map.h"
+#include "../Libs/Set.h"
+#include "../Libs/PriorityQueue.h"
+#include "../Libs/Queue.h"
 #include "User.h"
 #include <vector>
 
@@ -20,8 +23,12 @@ private:
     Map<User> &userMap;
     Counter _counter;
 
-
 public:
+    // Variables
+    Set uniqueIds;
+    Queue<u_int64> userIdQueue;
+    PriorityQueue<u_int64> UserIdPQ;
+
     UserManager(Map<User> &userMap);
 
     void addUser(User &user);
@@ -34,7 +41,9 @@ public:
     void loadUsersFromFile(const string &filename);
     void saveToFile(const string &filename);
     void loadHistoryFromFile();
+    void loadPatientQueue(const string &filename);
     User* loadLoggedUser();
+
 
     u_int64 generateID(UserType type);
     u_int32 getCounter(UserType type);
@@ -44,6 +53,8 @@ public:
     u_int64 login(string &username, string &password);
     void logout();
     u_int8 registerUser(User &user);
+
+    u_int16 userEnqueue(user_t user);
 };
 
 #endif

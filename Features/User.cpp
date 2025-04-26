@@ -1,7 +1,10 @@
 #include "User.h"
 #include "../Libs/Tree.h"
+#include "FileManager.h"
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <sstream>
 #include <ctime>
 
 using namespace std;
@@ -30,12 +33,15 @@ void User::displayInfo() {
     Display user history
 */
 void User::displayHistory() {
-    cout << "History:\n";
     this->_history.inOrder([](PatientHistory& history) {
-        cout << "Timestamp: " << history._timestamp << "\n";
+        time_t time = history._timestamp;
+        struct tm* t = localtime(&time);
+        cout << "========================================\n\n";
+        cout << "Time: " << (t->tm_year + 1900) << "-" << t->tm_mon << "-" << t->tm_mday << " " << t->tm_hour << ":" << t->tm_min << "\n";
         cout << "Diagnosis: " << history._diagnosis << "\n";
         cout << "Treatment: " << history._treatment << "\n";
         cout << "Prescription: " << history._prescription << "\n";
+        cout << "\n========================================\n";
     });
 }
 
@@ -205,4 +211,42 @@ string User::getWriteFileData() {
 */
 BirthDate User::getBirthDate() {
     return this->_birthdate;
+}
+
+void User::loadHistory() {
+    FileManager fileManager;
+    string base = "Database/History/";
+    base += to_string(this->_id) + ".csv";
+
+    if (!fileManager.isFileExists(base)) {
+        return;
+    }
+
+    ifstream infile(base);
+    string line;
+
+    getline(infile, line);
+
+    while (getline(infile, line)) {
+        stringstream ss(line);
+        string token;
+        PatientHistory record;
+
+        getline(ss, token, ',');
+        record._timestamp = static_cast<time_t>(stoll(token));
+
+        getline(ss, token, ',');
+        record._diagnosis = token;
+
+        getline(ss, token, ',');
+        record._treatment = token;
+
+        getline(ss, token, ',');
+        record._prescription = token;
+
+        this->addHistory(record);
+
+    }
+
+    infile.close();
 }
