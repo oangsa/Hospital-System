@@ -9,3 +9,4 @@ These are our plan.
 
 ### UNDONE
 - [ ] Add Validator for every user input included birth day, number, ....
+- [ ] Add Colour to the output as a feedback

@@ -20,6 +20,7 @@ private:
     Map<User> &userMap;
     Counter _counter;
 
+
 public:
     UserManager(Map<User> &userMap);
 

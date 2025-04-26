@@ -97,7 +97,7 @@ void Panel::loginPanel(u_int16 attempt, u_int8 isFileExist) {
         this->clearScreen();
         cout << "Too many attempts." << "\n";
         cout << "Exiting..." << "\n";
-        this->delay(2);
+        this->delay(1);
         this->clearScreen();
         return;
     }
@@ -396,6 +396,7 @@ void Panel::addUserPanel() {
     string word = "";
     vector<string> vs;
     undo_t undo;
+    VALIDATOR_ERROR_TYPE error = VALIDATOR_ERROR_TYPE::NO_ERROR;
     cout << "========< Add User >========" << "\n";
 
     cin.ignore();
@@ -404,29 +405,71 @@ void Panel::addUserPanel() {
     getline(cin, data);
 
     newUser.name = data;
-
+    
+    getBirthDate:
+    if (error != VALIDATOR_ERROR_TYPE::NO_ERROR) cout << "Latest: " << newUser.birthDate._day << " " << newUser.birthDate._month << " " << newUser.birthDate._year << "\n";
     cout << "Birthdate (dd mm yyy) ex: 05 07 2015: ";
     getline(cin, data);
+    logger.log("%s", data.c_str());
 
     // NOTE: SPLIT USER INPUT BY 'SPACE';
 
     for (char charc : data) {
         if (charc == ' ') {
-            vs.push_back(word);
-            word.clear();
-            word = "";
+            if (!word.empty()) {
+                vs.push_back(word);
+                logger.log("%s", word.c_str());
+                word.clear();
+            }
         }
-        word += charc;
+        else {
+            word += charc;
+        }
     }
-
-    vs.push_back(word);
-
+    
+    if (!word.empty()) vs.push_back(word);
 
     newUser.birthDate._day = atoi(vs[0].c_str());
     newUser.birthDate._month = atoi(vs[1].c_str());
     newUser.birthDate._year = atoi(vs[2].c_str());
 
+    vs.clear();
+    word.clear();
+    word = "";
+
+    error = validator.isBirthDateValid(newUser.birthDate);
     this->clearScreen();
+
+    switch (error) {
+        case VALIDATOR_ERROR_TYPE::DAY_ERROR:
+            cout << "Invalid day.\n";
+            this->delay(1);
+            this->clearScreen();
+            goto getBirthDate;
+
+        case VALIDATOR_ERROR_TYPE::MONTH_ERROR:
+            cout << "Invalid month.\n";
+            this->delay(1);
+            this->clearScreen();
+            goto getBirthDate;
+
+        case VALIDATOR_ERROR_TYPE::YEAR_ERROR:
+            cout << "Invalid year.\n";
+            this->delay(1);
+            this->clearScreen();
+            goto getBirthDate;
+
+        // PREVENT WARNING
+        case VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_ERROR:
+        case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_LOWER_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_NUMBER_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_UPPER_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_SPECIAL_ERROR:
+            break;
+    
+    }
 
     while (1) {
         cout << "Gender: \n";
@@ -458,10 +501,54 @@ void Panel::addUserPanel() {
     cout << "Username: ";
     cin >> newUser.username;
 
+    if (validator.isPasswordValid(newUser.password) == VALIDATOR_ERROR_TYPE::NO_ERROR) goto regis;
+    
+    GetPassword:
+    this->clearScreen();
+    cout << "Username: " << newUser.username << "\n";
     cout << "Password: ";
     cin >> newUser.password;
-    cin.ignore();
 
+    error = validator.isPasswordValid(newUser.password);
+    this->clearScreen();
+
+    switch (error) {
+        case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
+            cout << "Password must be at least 8 characters long.\n";
+            this->delay(1);
+            goto GetPassword;
+
+        case VALIDATOR_ERROR_TYPE::NO_LOWER_ERROR:
+            cout << "Password must have at least 1 lower character.\n";
+            this->delay(1);
+            goto GetPassword;
+
+        case VALIDATOR_ERROR_TYPE::NO_UPPER_ERROR:
+            cout << "Password must have at least 1 upper character.\n";
+            this->delay(1);
+            goto GetPassword;
+
+        case VALIDATOR_ERROR_TYPE::NO_SPECIAL_ERROR:
+            cout << "Password must have at least 1 special character.\n";
+            this->delay(1);
+            goto GetPassword;
+        
+        case VALIDATOR_ERROR_TYPE::NO_NUMBER_ERROR:
+            cout << "Password must have at least 1 number.\n";
+            this->delay(1);
+            goto GetPassword;
+        
+        // TO PREVENT WARNING
+        case VALIDATOR_ERROR_TYPE::NO_ERROR:
+        case VALIDATOR_ERROR_TYPE::DAY_ERROR:
+        case VALIDATOR_ERROR_TYPE::MONTH_ERROR:
+        case VALIDATOR_ERROR_TYPE::YEAR_ERROR:
+        case VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR:
+            break;
+
+    }
+ 
+    regis:
     User n(newUser);
 
     n.setID(this->userManager.generateID(newUser.userType));
@@ -479,6 +566,7 @@ void Panel::addUserPanel() {
 
 
     cout << "Success!\n";
+    this->delay(1);
 
     undo.actionType = ACTION_TYPE::USER_ADD;
     undo.user = newUser;

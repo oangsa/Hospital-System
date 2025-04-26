@@ -1,9 +1,11 @@
 #include "Validator.h"
 #include "Define.h"
 #include <ctime>
+#include <regex>
 
 Validator::Validator() {};
 
+// Private
 u_int16 Validator::getDayInMonth(u_int16 month) {
     switch (month) {
         case 1:
@@ -29,16 +31,71 @@ u_int16 Validator::getDayInMonth(u_int16 month) {
     }
 }
 
+u_int16 Validator::isUpper(const string& str) {
+    return std::regex_search(str, std::regex("[A-Z]"));
+}
+
+u_int16 Validator::isLower(const string& str) {
+    return std::regex_search(str, std::regex("[a-z]"));
+}
+
+u_int16 Validator::isNumber(const string& str) {
+    return std::regex_search(str, std::regex("[0-9]"));
+}
+
+u_int16 Validator::isSpecial(const string& str) {
+    return std::regex_search(str, std::regex("[!.@$%,&]"));
+}
+
+// Public
+/*
+    This function use to validate birth day
+    Params: BirthDate b
+    return VALIDATOR_ERROR_TYPE
+*/
 VALIDATOR_ERROR_TYPE Validator::isBirthDateValid(BirthDate b) {
     time_t curTime = time(NULL);
     struct tm* now = localtime(&curTime);
     u_int16 curYear = now->tm_year + 1900;
     u_int16 day = this->getDayInMonth(b._month);
-    
-    if (b._year > curYear) return VALIDATOR_ERROR_TYPE::YEAR_ERROR;
+
+    // No way there's people born before 1900 and still alive.
+    if (b._year > curYear || b._year < 1900) return VALIDATOR_ERROR_TYPE::YEAR_ERROR;
     if (b._month > 12 || b._month < 1) return VALIDATOR_ERROR_TYPE::MONTH_ERROR;
     if (b._day < 1 || b._day > day) return VALIDATOR_ERROR_TYPE::DAY_ERROR;
 
     return VALIDATOR_ERROR_TYPE::NO_ERROR;
 
+}
+
+/*
+    check if number is negative
+    Params: T number
+    return: VALIDATOR_ERROR_TYPE::NO_ERROR if number is not negative, else VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR
+*/
+template<typename T>
+VALIDATOR_ERROR_TYPE Validator::isNegative(T number) {
+    return (number > 0) ? VALIDATOR_ERROR_TYPE::NO_ERROR : VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR;
+}
+
+/*
+    Check if password is valid
+    Params: string password
+    return:
+        if password has not enough length, return NOT_ENOUGH_LEN_ERROR
+        if password does not have lowercase char, return NO_LOWER_ERROR
+        if password does not have uppercase char, return NO_UPPER_ERROR
+        if password does not have number, return NO_NUMBER_ERROR
+        if password does not have special character included "!.@$%,&", return NO_SPECIAL_ERROR
+        otherwise, return NO_ERROR
+*/
+VALIDATOR_ERROR_TYPE Validator::isPasswordValid(string password) {
+    if (password.empty() || password.size() < 8) return VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR;
+
+    if (!isLower(password)) return VALIDATOR_ERROR_TYPE::NO_LOWER_ERROR;
+    if (!isUpper(password)) return VALIDATOR_ERROR_TYPE::NO_UPPER_ERROR;
+    if (!isNumber(password)) return VALIDATOR_ERROR_TYPE::NO_NUMBER_ERROR;
+    if (!isSpecial(password)) return VALIDATOR_ERROR_TYPE::NO_SPECIAL_ERROR;
+
+    return VALIDATOR_ERROR_TYPE::NO_ERROR;
 }

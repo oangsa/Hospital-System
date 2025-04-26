@@ -4,7 +4,11 @@
 #include "../Features/UserManager.h"
 #include "../Features/UndoManager.h"
 #include "../Libs/Map.h"
+#include "../Libs/PriorityQueue.h"
+#include "../Libs/Queue.h"
+#include "../Libs/Logger.h"
 #include "Define.h"
+#include "Validator.h"
 
 class Panel {
     private:
@@ -12,6 +16,8 @@ class Panel {
         Map<User>& userMap;
         UndoManager undoManager;
         User* LoggedUser = NULL;
+        Validator validator;
+        Logger logger;
 
     public:
         Panel(UserManager& userManager, Map<User>& userMap);

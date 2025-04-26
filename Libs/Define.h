@@ -49,11 +49,11 @@ typedef enum {
     ESI_5 = Don't need resources
 */
 typedef enum {
-    ESI_1, // DYING
-    ESI_2, // SHOULD'NT WAIT
-    ESI_3, // NEED MULTIPLE RESOURCES
-    ESI_4, // NEED SINGLE RESOURCE
-    ESI_5, // DONT NEED RESOURCES
+    ESI_1, // DYING 0
+    ESI_2, // SHOULD'NT WAIT 1
+    ESI_3, // NEED MULTIPLE RESOURCES 2
+    ESI_4, // NEED SINGLE RESOURCE 3
+    ESI_5, // DONT NEED RESOURCES 4
 } ESI_LEVEL;
 
 typedef enum {
@@ -67,10 +67,18 @@ typedef enum {
 } ACTION_TYPE;
 
 typedef enum {
+    // Birthday
     DAY_ERROR,
     MONTH_ERROR,
     YEAR_ERROR,
     NEGATIVE_NUMBER_ERROR,
+    
+    // Pasword
+    NO_SPECIAL_ERROR,
+    NOT_ENOUGH_LEN_ERROR,
+    NO_UPPER_ERROR,
+    NO_LOWER_ERROR,
+    NO_NUMBER_ERROR,
 
     NO_ERROR,
 } VALIDATOR_ERROR_TYPE;
