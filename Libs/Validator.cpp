@@ -1,7 +1,8 @@
 #include "Validator.h"
 #include "Define.h"
+#include <ctime>
 
-// Validator::Validator() {};
+Validator::Validator() {};
 
 u_int16 Validator::getDayInMonth(u_int16 month) {
     switch (month) {
@@ -26,4 +27,18 @@ u_int16 Validator::getDayInMonth(u_int16 month) {
         default:
             return 99;
     }
+}
+
+VALIDATOR_ERROR_TYPE Validator::isBirthDateValid(BirthDate b) {
+    time_t curTime = time(NULL);
+    struct tm* now = localtime(&curTime);
+    u_int16 curYear = now->tm_year + 1900;
+    u_int16 day = this->getDayInMonth(b._month);
+    
+    if (b._year > curYear) return VALIDATOR_ERROR_TYPE::YEAR_ERROR;
+    if (b._month > 12 || b._month < 1) return VALIDATOR_ERROR_TYPE::MONTH_ERROR;
+    if (b._day < 1 || b._day > day) return VALIDATOR_ERROR_TYPE::DAY_ERROR;
+
+    return VALIDATOR_ERROR_TYPE::NO_ERROR;
+
 }
