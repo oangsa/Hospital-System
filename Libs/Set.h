@@ -26,7 +26,6 @@ class Set {
         Set(): _size(MAX_SIZE_OF_SET * 2) {
             this->_data.resize(_size, 0);
         }
-
         /*
             Destructor
             Clear the data of the set
@@ -66,7 +65,6 @@ class Set {
             if (type == UserType::IPD) {
                 index += MAX_SIZE_OF_SET;
             }
-
             if (this->_data[index] == 0) return 0;
             return 1;
         }

@@ -4,6 +4,10 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include "Define.h"
+#include "../Features/FileManager.h"
+#include <string>
+#include <iostream>
 #include <thread>
 
 using namespace std;

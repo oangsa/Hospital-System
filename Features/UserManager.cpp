@@ -56,6 +56,7 @@ void UserManager::loadUsersFromFile(const string &filename) {
         // id,name,day,month,year,gender,userType,username,password
         getline(file, line);
 
+
         i = 0;
 
         while (!line.empty()) {
@@ -144,6 +145,10 @@ void UserManager::addUser(User &user) {
     if (user.getID() == 0) {
         user.setID(UserManager::generateID(user.getType()));
     }
+    // Generate ID if the user doesn't have one
+    if (user.getID() == 0) {
+        user.setID(UserManager::generateID(user.getType()));
+    }
 
     userMap.put(user.getID(), user);
 }
@@ -171,6 +176,8 @@ u_int16 UserManager::updateUser(user_t user) {
 */
 void UserManager::removeUser(u_int64 id) {
     userMap.remove(id);
+void UserManager::removeUser(u_int64 id) {
+    userMap.remove(id);
 }
 
 /*
@@ -179,6 +186,8 @@ void UserManager::removeUser(u_int64 id) {
 void UserManager::loadHistoryFromFile() {
     // Load history from file
 
+    // Person who have to do anything with this function please implement this
+    // function (I think It's Wit's responsibility.)
     // Person who have to do anything with this function please implement this
     // function (I think It's Wit's responsibility.)
 
@@ -323,40 +332,40 @@ u_int8 UserManager::registerUser(User &user) {
             Node<User> *userList = this->userMap.getList(i);
 
             while (userList != NULL) {
-            if (userList->data()->getUsername() == user.getUsername()) {
-                // Decrease the counter of the user type
-                switch (user.getType()) {
-                    case UserType::OPD:
-                        if (user.getID()) this->_counter.opd--;
-                        this->userMap.remove(user.getID());
-                        break;
-                    case UserType::IPD:
-                        if (user.getID()) this->_counter.ipd--;
-                        this->userMap.remove(user.getID());
-                        break;
-                    case UserType::DOCTOR:
-                        if (user.getID()) this->_counter.doctor--;
-                        this->userMap.remove(user.getID());
-                        break;
-                    case UserType::NURSE:
-                        if (user.getID()) this->_counter.nurse--;
-                        this->userMap.remove(user.getID());
-                        break;
-                    case UserType::ADMIN:
-                        if (user.getID()) this->_counter.admin--;
-                        this->userMap.remove(user.getID());
-                        break;
+                if (userList->data()->getUsername() == user.getUsername()) {
+                    // Decrease the counter of the user type
+                    switch (user.getType()) {
+                        case UserType::OPD:
+                            if (user.getID()) this->_counter.opd--;
+                            this->userMap.remove(user.getID());
+                            break;
+                        case UserType::IPD:
+                            if (user.getID()) this->_counter.ipd--;
+                            this->userMap.remove(user.getID());
+                            break;
+                        case UserType::DOCTOR:
+                            if (user.getID()) this->_counter.doctor--;
+                            this->userMap.remove(user.getID());
+                            break;
+                        case UserType::NURSE:
+                            if (user.getID()) this->_counter.nurse--;
+                            this->userMap.remove(user.getID());
+                            break;
+                        case UserType::ADMIN:
+                            if (user.getID()) this->_counter.admin--;
+                            this->userMap.remove(user.getID());
+                            break;
+                    }
+                    return 0;
                 }
-                return 0;
-            }
             userList = userList->next();
         }
-  }
 
     // Username is unique, so we can register the user
     this->addUser(user);
 
     return 1;
+    }
 }
 
 /*
@@ -382,6 +391,8 @@ void UserManager::saveToFile(const string &filename) {
 
     file << header << "\n";
 
+    for (u_int32 i = 0; i < this->userMap.size() - 1; i++) {
+        Node<User> *current = this->userMap.getList(i);
     for (u_int32 i = 0; i < this->userMap.size() - 1; i++) {
         Node<User> *current = this->userMap.getList(i);
 

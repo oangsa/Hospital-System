@@ -38,6 +38,13 @@ class Panel {
         // Patient Section
         void showHistories();
         void showRemaining();
+
+        // Nurse Section
+        u_int16 determine();
+
+        // Admin Section
+        void addUserPanel();
+        void removeUserPanel();
 };
 
 #endif

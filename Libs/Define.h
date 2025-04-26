@@ -61,7 +61,7 @@ typedef enum {
     USER_DELETE,
     USER_UPDATE,
     USER_ADD,
-    
+
     // MIGHT BE IMPLEMENTED LATER
     HISTORY_DELETE,
 } ACTION_TYPE;
@@ -72,7 +72,7 @@ typedef enum {
     MONTH_ERROR,
     YEAR_ERROR,
     NEGATIVE_NUMBER_ERROR,
-    
+
     // Pasword
     NO_SPECIAL_ERROR,
     NOT_ENOUGH_LEN_ERROR,
