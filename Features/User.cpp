@@ -1,4 +1,4 @@
-#include "user.h"
+#include "User.h"
 #include "../Libs/Tree.h"
 #include <iostream>
 #include <string>
@@ -156,6 +156,20 @@ string User::getPassword() {
     return this->_password;
 }
 
+user_t User::getUser_t() {
+    user_t user = {
+        .id = this->_id,
+        .name = this->_name,
+        .birthDate = this->_birthdate,
+        .gender = this->_gender,
+        .userType = this->_type,
+        .username = this->_username,
+        .password = this->_password,
+    };
+
+    return user;
+};
+
 /*
     Get data in this form
     // id,name,day,month,year,gender,userType,username,password
@@ -184,4 +198,11 @@ string User::getWriteFileData() {
     data.append(this->_password);
 
     return data;
+}
+/*
+    Get user birthdate
+    return: BirthDate
+*/
+BirthDate User::getBirthDate() {
+    return this->_birthdate;
 }

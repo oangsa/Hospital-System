@@ -1,4 +1,3 @@
-
 #ifndef SET_H
 #define SET_H
 
@@ -27,7 +26,7 @@ class Set {
         Set(): _size(MAX_SIZE_OF_SET * 2) {
             this->_data.resize(_size, 0);
         }
-        
+
         /*
             Destructor
             Clear the data of the set
@@ -45,14 +44,14 @@ class Set {
         void add(u_int64 id, UserType type) {
             if (this->contains(id, type)) return;
             u_int32 index = id % 1000;
-            
+
             if (type == UserType::IPD) {
                 index += MAX_SIZE_OF_SET;
             }
-            
+
             this->_data[index] = 1;
         }
-        
+
         /*
             Check if a given value is in the set
             Parameters:
@@ -67,7 +66,7 @@ class Set {
             if (type == UserType::IPD) {
                 index += MAX_SIZE_OF_SET;
             }
-        
+
             if (this->_data[index] == 0) return 0;
             return 1;
         }

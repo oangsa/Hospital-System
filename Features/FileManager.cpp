@@ -77,6 +77,14 @@ u_int8 FileManager::checkAllFilesAndCreate() {
         return 0;
     }
 
+    if (!this->isFileExists(cacheFile)) {
+        return 0;
+    }
+
+    if (this->isEmpty(cacheFile)) {
+        return 0;
+    }
+
     return 1;
 }
 

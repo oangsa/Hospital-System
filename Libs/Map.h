@@ -22,7 +22,7 @@ class Map {
             Initialize the size of the map and create a vector of Node pointers
         */
         Map(u_int32 size): _size(size) {
-            dataMap = vector<Node<T>*>(size, nullptr);
+            dataMap.resize(size, nullptr);
         }
 
         /*

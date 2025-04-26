@@ -10,7 +10,10 @@ u_int8 Program::Init() {
     FileManager fileManager;
     u_int8 isFileExist = fileManager.checkAllFilesAndCreate();
     this->userManager.loadUsersFromFile("Database/Users/users.csv");
-    
+    // PriorityQueue<u_int64> pq = this->userManager.loadPQ("Database/Temp/PaPQ.csv");
+
+    // this.panel.setPQ(pq);
+
     this->panel.loginPanel(3, isFileExist);
 
     return 1;
@@ -20,7 +23,7 @@ void Program::Test() {
     FileManager fileManager;
     fileManager.checkAllFilesAndCreate();
     this->userManager.loadUsersFromFile("Database/Users/users.csv");
-    
+
     user_t newUser = {
         .id = 250400007,
         .name = "Test User",

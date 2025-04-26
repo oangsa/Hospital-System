@@ -2,6 +2,7 @@
 #include "../Libs/Define.h"
 #include "../Libs/Map.h"
 #include "User.h"
+#include <cctype>
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
@@ -103,7 +104,7 @@ void UserManager::loadUsersFromFile(const string &filename) {
         }
 
         u_int32 ctr = user.id % 1000;
-        
+
         // Set counter
         switch (user.userType) {
             case UserType::OPD:
@@ -132,6 +133,7 @@ void UserManager::loadUsersFromFile(const string &filename) {
 
 /*
     Add user to the user map
+    NOTE: DON'T USE IN THE CASE OF ADDING NEW USER, UNLESS IT FROM THE FILE
     Params: User& user
 */
 void UserManager::addUser(User &user) {
@@ -141,6 +143,23 @@ void UserManager::addUser(User &user) {
     }
 
     userMap.put(user.getID(), user);
+}
+
+/*
+    Update user in the user map
+    Params: User& user
+    return 1 if success, 0 if failed
+*/
+u_int16 UserManager::updateUser(user_t user) {
+    if (userMap.get(user.id) == NULL) {
+        return 0;
+    }
+
+    // Remove old user data and add the new one with the new data but has the same id
+    userMap.remove(user.id);
+    userMap.put(user.id, user);
+
+    return 1;
 }
 
 /*

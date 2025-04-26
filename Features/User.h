@@ -43,6 +43,8 @@ class User {
         string getUsername();
         string getPassword();
         string getWriteFileData();
+        user_t getUser_t();
+        BirthDate getBirthDate();
 
         void addHistory(PatientHistory history);
         void setID(u_int64 id);

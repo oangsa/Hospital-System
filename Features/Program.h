@@ -7,9 +7,9 @@
 
 class Program {
     private:
-        Panel panel;
-        UserManager userManager;
         Map<User> userMap;
+        UserManager userManager;
+        Panel panel;
 
     public:
         Program(u_int32 size);
