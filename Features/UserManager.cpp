@@ -325,7 +325,6 @@ u_int64 UserManager::login(string &username, string &password) {
     return: 1 if success, 0 if failed
 */
 u_int8 UserManager::registerUser(User &user) {
-  // Prevent duplicate username
   for (u_int32 i = 0; i < this->userMap.size(); i++) {
             Node<User> *userList = this->userMap.getList(i);
 
@@ -359,11 +358,13 @@ u_int8 UserManager::registerUser(User &user) {
             userList = userList->next();
         }
 
-    // Username is unique, so we can register the user
-    this->addUser(user);
+        // Username is unique, so we can register the user
+        this->addUser(user);
 
-    return 1;
+        return 1;
     }
+
+    return 0;
 }
 
 /*

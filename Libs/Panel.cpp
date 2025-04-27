@@ -142,8 +142,7 @@ void Panel::loginPanel(u_int16 attempt, u_int8 isFileExist) {
 
 void Panel::patientMenu() {
     char choice;
-    while (1)
-    {
+    while (1) {
         cout << "========< Patient Panel >========" << "\n\n";
         if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   1. Enqueue" << "\n";
         if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   2. Check Remaining"<< "\n";
@@ -167,7 +166,7 @@ void Panel::patientMenu() {
                 this->clearScreen();
                 this->delay(1);
                 this->clearScreen();
-                this->loginPanel(3, 0);
+                return this->loginPanel(3, 0);
 
             case '1':
                 if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) {
@@ -560,7 +559,6 @@ void Panel::adminMenu() {
 
                 case 's':
                 case 'S':
-                    save:
                     this->clearScreen();
                     cout << "Saved" << "\n";
                     this->userManager.saveToFile("Database/Users/users.csv");
