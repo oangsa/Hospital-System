@@ -1,42 +1,50 @@
-# CPE112 - Data Structures
+# Hospital Management System
 
-## Hospital System
+A comprehensive hospital management system implemented in C++ as part of the CPE112 Data Structures course. This system allows for efficient management of patient records, doctor schedules, appointments, and emergency cases using various data structures.
 
-A hospital management system implemented in C++ as part of the CPE112 Data Structures course.
+## Features
 
-### Features
+- User authentication and role-based access (Admin, Doctor, Nurse, Patient)
+- Patient registration and management (OPD and IPD)
+- Medical history tracking and retrieval
+- Queue management for patients with priority-based emergency handling
+- Undo functionality for administrative actions
 
-- Patient registration and management
-- Doctor scheduling and appointments
-- Medical record storage and retrieval
-- Queue management for patients
-- Priority-based emergency handling
+## Data Structures Used
 
-### Data Structures Used
+- **Map**: For user data storage and retrieval
+- **Queue**: For standard patient waiting lists
+- **Priority Queue**: For emergency patient handling based on ESI levels
+- **Stack**: For undo functionality
+- **Binary Search Trees**: For patient history storage
+- **Linked Lists**: For underlying implementation of various structures
+- **Set**: For tracking unique patient IDs
 
-- Linked Lists
-- Queues
-- Priority Queues
-- Hash Tables
-- Binary Search Trees
-- Hash Set
-- Stack
+## Requirements
 
-### Requirements
+- GCC version 13 or higher
+- Make utility
+- Operating System:
+  - Windows 11 (primary support)
+  - Linux (supported)
+  - macOS (future support planned)
 
-- gcc version 13 or higher
-- Makefile
-- windows 11 (We have not tested for windows 10 or lower.)
-- linux
-- macOS (Will be supported later)
+## How to Run
 
-### How to Run
+1. Clone the repository
+2. Navigate to the project directory
+3. Compile and run:
 
 ```bash
 make
-./main.exe
+
+# Run the program
+./main.exe  # on Windows
+./main      # on Linux
 ```
 
-### Contributors
+### Project Structure
 
-- [Team Member Names]
+- **Features**: Functionality modules
+- **Libs**: Data structure modules
+- **Database**: Storage
