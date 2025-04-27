@@ -11,6 +11,7 @@ u_int8 Program::Init() {
     u_int8 isFileExist = fileManager.checkAllFilesAndCreate();
     this->userManager.loadUsersFromFile("Database/Users/users.csv");
     this->userManager.loadPatientQueue("Database/Temp/_PaQ.csv");
+    this->userManager.loadPatientPriorityQueue("Database/Temp/PaPQ.csv");
 
     this->panel.loginPanel(3, isFileExist);
 

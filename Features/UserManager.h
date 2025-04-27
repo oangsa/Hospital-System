@@ -3,8 +3,9 @@
 
 #include "../Libs/Map.h"
 #include "../Libs/Set.h"
-#include "../Libs/PriorityQueue.h"
-#include "../Libs/Queue.h"
+#include "../Libs/UserPriorityQueue.h"
+#include "../Libs/UserQueue.h"
+#include "Patient.h"
 #include "User.h"
 #include <vector>
 
@@ -26,8 +27,8 @@ private:
 public:
     // Variables
     Set uniqueIds;
-    Queue<u_int64> userIdQueue;
-    PriorityQueue<u_int64> UserIdPQ;
+    UserQueue userIdQueue;
+    UserPriorityQueue UserIdPQ;
 
     UserManager(Map<User> &userMap);
 
@@ -42,6 +43,7 @@ public:
     void saveToFile(const string &filename);
     void loadHistoryFromFile();
     void loadPatientQueue(const string &filename);
+    void loadPatientPriorityQueue(const string &filename);
     User* loadLoggedUser();
 
     u_int64 generateID(UserType type);
@@ -54,10 +56,9 @@ public:
     u_int8 registerUser(User &user);
 
     u_int16 userEnqueue(user_t user);
+    u_int16 nurseEnqueuePatient(Patient user);
 
-    void editRecord(int id, const string &field, const string &value);
-    void displayUserInfo(u_int64 id);
-    void addRecord(int id);
+    void writeHistory(Patient p);
 };
 
 #endif

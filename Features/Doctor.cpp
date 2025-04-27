@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <iomanip> 
+#include <iomanip>
 #include "../Libs/Logger.h"
 using namespace std;
 
@@ -108,17 +108,17 @@ private:
     void dequeuePatient(const string& filename, int id) {
         vector<int> queue = loadQueue(filename); // load queue PaPQ
         vector<int> updatedQueue; // new queue
-    
+
         // copy id to new queue except the id that is dequeued
         for (int patientID : queue) {
             if (patientID != id) {
                 updatedQueue.push_back(patientID);
             }
         }
-    
+
         // save q to PaPQ
         saveQueue(filename, updatedQueue);
-    
+
         cout << "Patient ID " << id << " has been dequeued from the queue.\n";
     }
 
@@ -192,7 +192,7 @@ public:
     }
 };
 
-int main() {
+int TTT() {
     DoctorSystem system;
     string queueFilename = "c:\\Hospital feature\\Hospital-System\\Database\\Temp\\PaPQ.csv";
 

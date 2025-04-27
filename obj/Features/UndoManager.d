@@ -2,5 +2,7 @@ obj/Features/UndoManager.o: Features/UndoManager.cpp \
  Features/UndoManager.h Features/../Libs/Define.h \
  Features/../Libs/Stack.h Features/../Libs/Node.h \
  Features/../Libs/Define.h Features/UserManager.h Features/../Libs/Map.h \
- Features/../Libs/Set.h Features/../Libs/PriorityQueue.h \
- Features/../Libs/Queue.h Features/User.h Features/../Libs/Tree.h
+ Features/../Libs/Set.h Features/../Libs/UserPriorityQueue.h \
+ Features/../Libs/PriorityQueue.h Features/../Libs/Logger.h \
+ Features/../Libs/UserQueue.h Features/../Libs/Queue.h Features/Patient.h \
+ Features/User.h Features/../Libs/Tree.h

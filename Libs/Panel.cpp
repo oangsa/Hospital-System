@@ -123,11 +123,13 @@ void Panel::loginPanel(u_int16 attempt, u_int8 isFileExist) {
             break;
 
         case UserType::DOCTOR:
-            cout << "Welcome to the Doctor panel" << "\n";
+            this->clearScreen();
+            this->doctorMenu();
             break;
 
         case UserType::NURSE:
-            cout << "Welcome to the Nurse panel" << "\n";
+            this->clearScreen();
+            this->nurseMenu();
             break;
 
         case UserType::ADMIN:
@@ -252,29 +254,34 @@ void Panel::showRemaining() {
 
 void Panel::doctorMenu() {
     char choice;
-    cout << "========< Doctor Panel >========" << "\n\n";
-    if (!this->userManager.UserIdPQ.empty()) cout << "  1. Process Next Patient in queue " << "(" << this->userManager.UserIdPQ.size() << " Remaining)\n";
-    cout << " E. Exit\n\n";
-    cout << "================================" << "\n";
-    cout << "Enter your choice: ";
-    cin >> choice;
+    while (1) {
+        cout << "========< Doctor Panel >========" << "\n\n";
+        if (!this->userManager.UserIdPQ.empty()) cout << "   1. Process Next Patient in queue " << "(" << this->userManager.UserIdPQ.size() << " Remaining)\n";
+        cout << "   E. Exit\n\n";
+        cout << "================================" << "\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    switch (choice) {
-        case 'e':
-        case 'E':
-            this->clearScreen();
-            this->delay(1);
-            return;
-
-        case '1':
-            if (this->userManager.UserIdPQ.empty()) {
+        switch (choice) {
+            case 'e':
+            case 'E':
                 this->clearScreen();
-                this->doctorMenu();
+                this->delay(1);
+                return;
+
+            case '1':
+                if (this->userManager.UserIdPQ.empty()) {
+                    this->clearScreen();
+                    this->doctorMenu();
+                    break;
+                }
+
+                this->clearScreen();
+                this->doctorProcessPatientPanel();
                 break;
             }
-
-
     }
+
 }
 
 void Panel::doctorProcessPatientPanel() {
@@ -307,10 +314,24 @@ void Panel::doctorProcessPatientPanel() {
             this->clearScreen();
             this->delay(1);
             this->addRecordPanel(&p, &history);
+            goto process;
             break;
 
         case '2':
+            if (history._diagnosis.empty()) {
+                this->clearScreen();
+                goto process;
+                break;
+            }
 
+            this->clearScreen();
+            this->userManager.UserIdPQ.dequeue();
+            this->userManager.UserIdPQ.saveToFile();
+            this->userManager.writeHistory(p);
+            cout << "Done!\n";
+            this->delay(2);
+            this->clearScreen();
+            return;
 
         default:
             this->clearScreen();
@@ -321,6 +342,7 @@ void Panel::doctorProcessPatientPanel() {
 }
 
 void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
+    cin.ignore();
     cout << " Enter diagnosis: ";
     getline(cin, history->_diagnosis);
     cout << " Enter treatment: ";
@@ -329,9 +351,109 @@ void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
     getline(cin, history->_prescription);
 
     user->setHistory(*history);
+    this->clearScreen();
 }
 
-void Panel::nurseMenu() { cout << "========< Nurse Panel >========" << "\n"; }
+void Panel::nurseMenu() {
+    char choice;
+    while (1) {
+        cout << "========< Nurse Panel >=========" << "\n\n";
+        if (!this->userManager.userIdQueue.isEmpty()) cout << "  1. Process Next Patient in queue " << "(" << this->userManager.userIdQueue.size() << " Remaining)\n";
+        cout << "  E. Exit (without logout)\n";
+        cout << "  L. Logout\n\n";
+        cout << "================================" << "\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 'e':
+            case 'E':
+                this->clearScreen();
+                this->delay(1);
+                return;
+
+            case 'l':
+            case 'L':
+                this->clearScreen();
+
+                cout << "Logging out..." << "\n";
+
+                this->userManager.logout();
+                this->delay(2);
+                this->clearScreen();
+                this->loginPanel(3, 0);
+                break;
+
+            case '1':
+                if (this->userManager.userIdQueue.isEmpty()) {
+                    this->clearScreen();
+                    this->nurseMenu();
+                    break;
+                }
+
+                this->clearScreen();
+                this->nurseProcessPatientPanel();
+                break;
+        }
+    }
+
+}
+
+u_int8 Panel::askYesNo(string question) {
+    char ans;
+    ask:
+    cout << question << " (y/n): ";
+    cin >> ans;
+
+    switch (ans) {
+        case 'y':
+        case 'Y':
+            return 1;
+
+        case 'n':
+        case 'N':
+            return 0;
+
+        default:
+            this->clearScreen();
+            cout << "Invalid input.\n";
+            this->delay(2);
+            this->clearScreen();
+            goto ask;
+    }
+
+}
+
+ESI_LEVEL Panel::determine() {
+    cout << "\n=========================================\n";
+    cout << "        Patient Triage Questionnaire      \n";
+    cout << "=========================================\n";
+
+    if (this->askYesNo("Is the patient unconscious or not breathing?")) return ESI_LEVEL::ESI_1;
+    if (this->askYesNo("Does the patient have severe pain or bleeding?")) return ESI_LEVEL::ESI_2;
+    if (this->askYesNo("Does the patient need multiple resources (e.g., labs, x-ray, IV)?")) return ESI_LEVEL::ESI_3;
+    if (this->askYesNo("Does the patient have moderate complaints (e.g., fever, headache)?")) return ESI_LEVEL::ESI_4;
+
+    return ESI_LEVEL::ESI_5;
+}
+
+void Panel::nurseProcessPatientPanel() {
+    User* user = this->userManager.find(*this->userManager.userIdQueue.peek());
+    user_t u = user->getUser_t();
+    Patient p(u);
+    p.displayInfo();
+    ESI_LEVEL lvl = this->determine();
+    p.setESI(lvl);
+    cout << "\n-----------------------------------------\n";
+    cout << " ESI level assigned: " << p.getESI() << "\n";
+    cout << "-----------------------------------------\n";
+    this->userManager.nurseEnqueuePatient(p);
+    this->userManager.userIdQueue.dequeue();
+    this->userManager.userIdQueue.saveToFile();
+    this->delay(2);
+    this->clearScreen();
+    return;
+}
 
 void Panel::adminMenu() {
     char choice;

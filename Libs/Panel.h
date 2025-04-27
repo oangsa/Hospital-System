@@ -40,7 +40,9 @@ class Panel {
         void showRemaining();
 
         // Nurse Section
-        u_int16 determine();
+        ESI_LEVEL determine();
+        u_int8 askYesNo(string question);
+        void nurseProcessPatientPanel();
 
         // Doctor Section
         void doctorProcessPatientPanel();

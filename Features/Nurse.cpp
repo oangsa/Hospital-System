@@ -11,7 +11,7 @@ using namespace std;
 struct PatientTriage {
     int id;
     int ESI; // ESI 1 (critical) -> 5 (least)
-    
+
     // Priority Queue
     bool operator<(const PatientTriage& other) const {
         return ESI > other.ESI; // Higher ESI means lower priority
@@ -40,26 +40,6 @@ int determineESI() {
     return 5; // Minor complaints or routine
 }
 
-// Load patient IDs from _PaQ.csv
-vector<int> loadPatientIDs(const string& filename) {
-    vector<int> patientIDs;
-    ifstream file(filename);
-    if (!file.is_open()) {
-        cerr << "Error: Unable to open file " << filename << endl;
-        return patientIDs;
-    }
-
-    string line;
-    while (getline(file, line)) {
-        stringstream ss(line);
-        int id;
-        ss >> id;
-        patientIDs.push_back(id);
-    }
-
-    return patientIDs;
-}
-
 // Save patient data to PaPQ.csv using priority queue
 void saveToPaPQ(const string& filename, priority_queue<PatientTriage> patientQueue) {
     ofstream outputFile(filename);
@@ -77,7 +57,7 @@ void saveToPaPQ(const string& filename, priority_queue<PatientTriage> patientQue
 
 // Remove used ID from _PaQ.csv
 void removeUsedIDFromPaQ(const string& filename, int usedID) {
-    vector<int> patientIDs = loadPatientIDs(filename);
+    vector<int> patientIDs ;
     ofstream file(filename);
     if (!file.is_open()) {
         cerr << "Error: Unable to open file " << filename << " for writing." << endl;
@@ -133,45 +113,22 @@ void displayQueue(priority_queue<PatientTriage> triageQueue) {
         return;
     }
 
-    cout << left << setw(10) << "ID" 
+    cout << left << setw(10) << "ID"
          << setw(10) << "ESI" << "\n";
     cout << "-----------------------------------------\n";
 
     while (!triageQueue.empty()) {
         PatientTriage p = triageQueue.top();
         triageQueue.pop();
-        cout << left << setw(10) << p.id 
+        cout << left << setw(10) << p.id
              << setw(10) << p.ESI << "\n";
     }
 }
 
-int main() {
+int TT() {
     priority_queue<PatientTriage> triageQueue;
     string inputFilename = "c:\\Hospital feature\\Hospital-System\\Database\\Temp\\_PaQ.csv";
     string outputFilename = "c:\\Hospital feature\\Hospital-System\\Database\\Temp\\PaPQ.csv";
-
-    // Load patient IDs from _PaQ.csv
-    vector<int> patientIDs = loadPatientIDs(inputFilename);
-    if (patientIDs.empty()) {
-        cerr << "No patient IDs found in " << inputFilename << endl;
-        return 1;
-    }
-
-    size_t currentIndex = 0;
-    char more;
-    do {
-        addPatient(triageQueue, inputFilename, outputFilename, currentIndex, patientIDs);
-
-        cout << "\n-----------------------------------------\n";
-        cout << " Add another patient? (y/n): ";
-        cin >> more;
-    } while (more == 'y' || more == 'Y');
-
-    displayQueue(triageQueue);
-
-    cout << "\n=========================================\n";
-    cout << "       Thank you for using the system!   \n";
-    cout << "=========================================\n";
 
     return 0;
 }

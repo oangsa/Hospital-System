@@ -6,13 +6,15 @@
 
 class Patient: public User {
     private:
-        NurseDiagnosis diagnosis;
+        ESI_LEVEL levelESI;
         PatientHistory history;
 
     public:
         Patient(user_t user);
-        void setDiagnosis(NurseDiagnosis diagnosis);
+        void setESI(ESI_LEVEL esi);
         void setHistory(PatientHistory history);
+        u_int32 getESI();
+        PatientHistory getHistory();
         void displayInfo();
         void showHistory();
 

@@ -432,9 +432,9 @@ User* UserManager::loadLoggedUser() {
 }
 
 void UserManager::logout() {
-    fstream file;
-    file.open("Database/Cache/user.csv", ios::out | ios::trunc);
-    file.close();
+    FILE* f;
+    f = fopen("Database/Cache/user.csv", "w");
+    fclose(f);
 }
 
 void UserManager::loadPatientQueue(const string &filename) {
@@ -448,14 +448,42 @@ void UserManager::loadPatientQueue(const string &filename) {
     ifstream infile(fName);
     string line;
 
-    getline(infile, line);
-        while (getline(infile, line)) {
+    while (getline(infile, line)) {
         u_int64 userId = stoull(line);
 
         if (!this->uniqueIds.contains(userId, UserType::OPD)) {
             this->uniqueIds.add(userId, UserType::OPD);
             this->userIdQueue.enqueue(userId);
         }
+    }
+    infile.close();
+}
+
+void UserManager::loadPatientPriorityQueue(const string &filename) {
+    FileManager fileManager;
+    string fName = filename;
+
+    if (!fileManager.isFileExists(fName)) {
+        return;
+    }
+
+    ifstream infile(fName);
+    string line;
+
+    while (getline(infile, line)) {
+        vector<string> vs;
+        stringstream ss(line);
+
+        while (ss.good()) {
+            string substr;
+            getline(ss, substr, ',');
+            vs.push_back(substr);
+        }
+
+        u_int64 userId = stoull(vs[0]);
+        u_int32 priority = stoul(vs[1]);
+
+        this->UserIdPQ.enqueue(userId, priority);
     }
     infile.close();
 }
@@ -475,4 +503,38 @@ u_int16 UserManager::userEnqueue(user_t user) {
     this->uniqueIds.add(user.id, user.userType);
 
     return 1;
+}
+
+u_int16 UserManager::nurseEnqueuePatient(Patient user) {
+    ofstream file ("Database/Temp/PaPQ.csv", std::ios::app | std::ios::out | std::ios::in);
+
+    if (!file.is_open()) {
+        return -1;
+    }
+
+    file << user.getID() << "," << user.getESI() << "\n";
+    file.close();
+    this->UserIdPQ.enqueue(user.getID(), user.getESI());
+
+    return 1;
+}
+
+void UserManager::writeHistory(Patient p) {
+    FileManager fileManager;
+    string base = "Database/History/";
+    base += to_string(p.getID()) + ".csv";
+
+    if (!fileManager.isFileExists(base)) {
+        ofstream file;
+        file.open(base, std::ios::out);
+        file << "time,diagnosis,treatment,prescription\n";
+        file.close();
+    }
+    ofstream file;
+    file.open(base, std::ios::app);
+
+    PatientHistory h = p.getHistory();
+
+    file << h._timestamp << "," << h._diagnosis << "," << h._treatment << "," << h._prescription << "\n";
+    file.close();
 }

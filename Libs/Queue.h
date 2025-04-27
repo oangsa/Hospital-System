@@ -10,7 +10,7 @@ using namespace std;
 
 template<typename T>
 class Queue {
-    private:
+    protected:
         Node<T>* head;
         Node<T>* tail;
         u_int32 _size;
