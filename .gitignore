@@ -2,3 +2,10 @@ test
 test.cpp
 
 Features/*.csv
+
+obj
+*.o
+*.exe
+*.out
+
+main
