@@ -22,7 +22,7 @@ void Patient::showHistory() {
     time_t time = history._timestamp;
     struct tm *t = localtime(&time);
     cout << "Patient's History: \n\n";
-    cout << "> Time: " << (t->tm_year + 1900) << "-" << t->tm_mon << "-" << t->tm_mday << " " << t->tm_hour << ":" << t->tm_min << "\n";
+    cout << "> Time: " << (t->tm_year + 1900) << "-" << t->tm_mon + 1 << "-" << t->tm_mday << " " << (t->tm_hour < 10 ? "0" : "") << t->tm_hour << ":" << (t->tm_min < 10 ? "0" : "") << t->tm_min << "\n";
     cout << "> Diagnosis: " << history._diagnosis << "\n";
     cout << "> Treatment: " << history._treatment << "\n";
     cout << "> Prescription: " << history._prescription << "\n";

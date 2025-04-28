@@ -31,6 +31,13 @@ u_int16 Validator::getDayInMonth(u_int16 month) {
     }
 }
 
+u_int16 Validator::isLeapYear(u_int16 year) {
+    if (year % 4 != 0) return 0;
+    if (year % 100 != 0) return 1;
+    if (year % 400 != 0) return 0;
+    return 1;
+}
+
 u_int16 Validator::isUpper(const string& str) {
     return std::regex_search(str, std::regex("[A-Z]"));
 }
@@ -58,6 +65,8 @@ VALIDATOR_ERROR_TYPE Validator::isBirthDateValid(BirthDate b) {
     struct tm* now = localtime(&curTime);
     u_int16 curYear = now->tm_year + 1900;
     u_int16 day = this->getDayInMonth(b._month);
+
+    day += (b._month == 2 && this->isLeapYear(b._year));
 
     // No way there's people born before 1900 and still alive.
     if (b._year > curYear || b._year < 1900) return VALIDATOR_ERROR_TYPE::YEAR_ERROR;
@@ -90,7 +99,7 @@ VALIDATOR_ERROR_TYPE Validator::isNegative(T number) {
         otherwise, return NO_ERROR
 */
 VALIDATOR_ERROR_TYPE Validator::isPasswordValid(string password) {
-    if (password.empty() || password.size() < 8) return VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR;
+    if (password.empty() || password.size() < MIN_PASSWORD_LEN) return VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR;
 
     if (!isLower(password)) return VALIDATOR_ERROR_TYPE::NO_LOWER_ERROR;
     if (!isUpper(password)) return VALIDATOR_ERROR_TYPE::NO_UPPER_ERROR;

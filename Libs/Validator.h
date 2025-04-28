@@ -7,6 +7,7 @@
 class Validator {
     private:
         u_int16 getDayInMonth(u_int16 month);
+        u_int16 isLeapYear(u_int16 year);
         u_int16 isUpper(const string& str);
         u_int16 isLower(const string& str);
         u_int16 isNumber(const string& str);

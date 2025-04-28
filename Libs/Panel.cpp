@@ -21,7 +21,11 @@ Panel::Panel(UserManager &userManager, Map<User> &userMap): userManager(userMana
     Handler function for clearing the screen
 */
 void Panel::clearScreen() {
-    system("clear");
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
 }
 
 /*
