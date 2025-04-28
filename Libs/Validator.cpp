@@ -109,6 +109,7 @@ VALIDATOR_ERROR_TYPE Validator::isPasswordValid(string password) {
     if (!isUpper(password)) return VALIDATOR_ERROR_TYPE::NO_UPPER_ERROR;
     if (!isNumber(password)) return VALIDATOR_ERROR_TYPE::NO_NUMBER_ERROR;
     if (!isSpecial(password)) return VALIDATOR_ERROR_TYPE::NO_SPECIAL_ERROR;
+    if (isComma(password)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
 
     return VALIDATOR_ERROR_TYPE::NO_ERROR;
 }

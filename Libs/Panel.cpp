@@ -211,11 +211,13 @@ void Panel::patientMenu() {
             this->showRemaining();
             this->delay(1);
             this->clearScreen();
+            goto PatientPanel;
             break;
 
         case '3':
             this->clearScreen();
             this->showHistories();
+            goto PatientPanel;
             break;
 
         default:
@@ -378,12 +380,38 @@ void Panel::doctorProcessPatientPanel() {
 
 void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
     cin.ignore();
+    GetDiagnosis:
     cout << " Enter diagnosis: ";
     getline(cin, history->_diagnosis);
+    if (this->validator.isStringValid(history->_diagnosis) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+        this->clearScreen();
+        cout << "Invalid input.\n";
+        this->delay(2);
+        this->clearScreen();
+        goto GetDiagnosis;
+    }
+
+    GetTreatment:
     cout << " Enter treatment: ";
     getline(cin, history->_treatment);
+    if (this->validator.isStringValid(history->_treatment) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+        this->clearScreen();
+        cout << "Invalid input.\n";
+        this->delay(2);
+        this->clearScreen();
+        goto GetTreatment;
+    }
+
+    GetPrescription:
     cout << " Enter prescription: ";
     getline(cin, history->_prescription);
+    if (this->validator.isStringValid(history->_prescription) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+        this->clearScreen();
+        cout << "Invalid input.\n";
+        this->delay(2);
+        this->clearScreen();
+        goto GetPrescription;
+    }
 
     user->setHistory(*history);
     this->clearScreen();
@@ -518,10 +546,15 @@ void Panel::adminMenu() {
         case 'r':
         case 'R':
             this->clearScreen();
+            if (this->undoManager.peekAction().actionType == ACTION_TYPE::EMPTY_ACTION) {
+                goto AdminPanel;
+                break;
+            }
             cout << "Reverting last change..." << "\n";
             this->undoManager.undoAction();
             this->delay(2);
             this->clearScreen();
+            goto AdminPanel;
             break;
 
         case 'e':
@@ -613,21 +646,25 @@ void Panel::adminMenu() {
             this->undoManager.clear();
             this->delay(1);
             this->clearScreen();
+            goto AdminPanel;
             break;
 
         case '1':
             this->clearScreen();
             this->addUserPanel();
+            goto AdminPanel;
             break;
 
         case '2':
             this->clearScreen();
             this->removeUserPanel();
+            goto AdminPanel;
             break;
 
         case '3':
             this->clearScreen();
             this->updateUserPanel();
+            goto AdminPanel;
             break;
 
         default:
@@ -704,8 +741,16 @@ void Panel::updateUserPanel() {
             break;
 
         case '2':
+            getBirthDate:
             cout << "Enter the new birthdate (dd mm yyyy): ";
             getline(cin, data);
+            if (this->validator.isStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+                this->clearScreen();
+                cout << "Invalid input.\n";
+                this->delay(2);
+                this->clearScreen();
+                goto getBirthDate;
+            }
 
             vs.clear();
             for (char charc : data) {
@@ -719,6 +764,14 @@ void Panel::updateUserPanel() {
 
             vs.push_back(word);
 
+            if (vs.size() != 3) {
+                this->clearScreen();
+                cout << "Invalid input.\n";
+                this->delay(2);
+                this->clearScreen();
+                goto getBirthDate;
+            }
+
             newUser.birthDate._day = atoi(vs[0].c_str());
             newUser.birthDate._month = atoi(vs[1].c_str());
             newUser.birthDate._year = atoi(vs[2].c_str());
@@ -730,9 +783,18 @@ void Panel::updateUserPanel() {
 
 
         case '1':
+            GetName:
             cout << "Name: " << user->getName() << "\n";
             cout << "Enter the new name: ";
             getline(cin, newUser.name);
+
+            if (this->validator.isStringValid(newUser.name) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+                this->clearScreen();
+                cout << "Name cannot contain comma and cannot be an empty string.\n";
+                this->delay(2);
+                this->clearScreen();
+                goto GetName;
+            }
 
             this->clearScreen();
             goto updateUser;
@@ -756,9 +818,18 @@ void Panel::addUserPanel() {
     cout << "========< Add User >========" << "\n";
 
     cin.ignore();
-
+    
+    GetName:
     cout << "Name (title - name - surname): ";
     getline(cin, data);
+
+    if (this->validator.isStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+        this->clearScreen();
+        cout << "Name cannot contain comma or be an empty string.\n";
+        this->delay(1);
+        this->clearScreen();
+        goto GetName;
+    }
 
     newUser.name = data;
 
@@ -766,6 +837,15 @@ void Panel::addUserPanel() {
     if (error != VALIDATOR_ERROR_TYPE::NO_ERROR) cout << "Latest: " << newUser.birthDate._day << " " << newUser.birthDate._month << " " << newUser.birthDate._year << "\n";
     cout << "Birthdate (dd mm yyy) ex: 05 07 2015: ";
     getline(cin, data);
+
+    if (this->validator.isStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+        this->clearScreen();
+        cout << "Bro try to broke the system.\n";
+        this->delay(1);
+        this->clearScreen();
+        goto getBirthDate;
+    }
+
     logger.log("%s", data.c_str());
 
     // NOTE: SPLIT USER INPUT BY 'SPACE';
@@ -784,6 +864,14 @@ void Panel::addUserPanel() {
     }
 
     if (!word.empty()) vs.push_back(word);
+
+    if (vs.size() != 3) {
+        this->clearScreen();
+        cout << "Invalid input.\n";
+        this->delay(2);
+        this->clearScreen();
+        goto getBirthDate;
+    }
 
     newUser.birthDate._day = atoi(vs[0].c_str());
     newUser.birthDate._month = atoi(vs[1].c_str());
@@ -835,6 +923,8 @@ void Panel::addUserPanel() {
         if (!(data != "1" && data != "2")) break;
 
         cout << "Invalid Input.\n";
+        this->delay(1);
+        this->clearScreen();
     }
 
     newUser.gender = (data == "1") ? Gender::MALE : Gender::FEMALE;
@@ -847,6 +937,10 @@ void Panel::addUserPanel() {
         cin >> data;
 
         if (!(data != "1" && data != "2" && data != "3" && data != "4" && data != "5")) break;
+
+        cout << "Invalid Input.\n";
+        this->delay(1);
+        this->clearScreen();
     }
 
     newUser.userType = (data == "1") ? UserType::IPD : (data == "2") ? UserType::OPD : (data == "3") ? UserType::NURSE : (data == "4") ? UserType::DOCTOR : UserType::ADMIN;
@@ -856,6 +950,14 @@ void Panel::addUserPanel() {
     GetUsername:
     cout << "Username: ";
     cin >> newUser.username;
+
+    if (this->validator.isStringValid(newUser.username) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+        this->clearScreen();
+        cout << "Username must not contain comma and Username cannot be an empty string.\n";
+        this->delay(2);
+        this->clearScreen();
+        goto GetUsername;
+    }
 
     if (validator.isPasswordValid(newUser.password) == VALIDATOR_ERROR_TYPE::NO_ERROR) goto regis;
 
@@ -891,6 +993,11 @@ void Panel::addUserPanel() {
 
         case VALIDATOR_ERROR_TYPE::NO_NUMBER_ERROR:
             cout << "Password must have at least 1 number.\n";
+            this->delay(1);
+            goto GetPassword;
+
+        case VALIDATOR_ERROR_TYPE::NOT_VALID_STRING:
+            cout << "Bro tryna broke the system.\n";
             this->delay(1);
             goto GetPassword;
 
@@ -930,7 +1037,6 @@ void Panel::addUserPanel() {
 
     this->clearScreen();
     this->delay(1);
-
     return;
 }
 
