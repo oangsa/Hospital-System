@@ -12,10 +12,12 @@ class Validator {
         u_int16 isLower(const string& str);
         u_int16 isNumber(const string& str);
         u_int16 isSpecial(const string& str);
+        u_int16 isComma(const string& str);
 
     public:
         Validator();
         VALIDATOR_ERROR_TYPE isBirthDateValid(BirthDate b);
+        VALIDATOR_ERROR_TYPE isStringValid(string line);
 
         template<typename T>
         VALIDATOR_ERROR_TYPE isNegative(T number);

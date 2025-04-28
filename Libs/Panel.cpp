@@ -2,6 +2,7 @@
 #include "../Features/FileManager.h"
 #include "Define.h"
 #include "../Features/Patient.h"
+#include "../Features/Program.h"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -123,15 +124,19 @@ void Panel::loginPanel(u_int16 attempt, u_int8 isFileExist) {
     switch (this->LoggedUser->getType()) {
         case UserType::OPD:
         case UserType::IPD:
+            this->clearScreen();
+            this->delay(1);
             this->patientMenu();
             break;
 
         case UserType::DOCTOR:
             this->clearScreen();
+            this->delay(1);
             this->doctorMenu();
             break;
 
         case UserType::NURSE:
+            this->delay(1);
             this->clearScreen();
             this->nurseMenu();
             break;
@@ -141,73 +146,83 @@ void Panel::loginPanel(u_int16 attempt, u_int8 isFileExist) {
             this->clearScreen();
             this->adminMenu();
             break;
+        default:
+            this->clearScreen();
+            this->delay(2);
+            cout << "Unexpected Error occour." << "\n";
+            return;
         }
 }
 
 void Panel::patientMenu() {
     char choice;
-    while (1) {
-        cout << "========< Patient Panel >========" << "\n\n";
-        if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   1. Enqueue" << "\n";
-        if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   2. Check Remaining"<< "\n";
-        cout << "   3. View History" << "\n";
-        cout << "   E. Exit (without Logout)" << "\n";
-        cout << "   L. Logout" << "\n\n";
-        cout << "================================" << "\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
+    Program program(20);
+    PatientPanel:
+    cout << "========< Patient Panel >========" << "\n\n";
+    if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   1. Enqueue" << "\n";
+    if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   2. Check Remaining"<< "\n";
+    cout << "   3. View History" << "\n";
+    cout << "   E. Exit (without Logout)" << "\n";
+    cout << "   L. Logout" << "\n\n";
+    cout << "================================" << "\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
 
-        switch (choice) {
-            case 'E':
-            case 'e':
-                this->clearScreen();
-                this->delay(1);
-                this->clearScreen();
-                return;
+    switch (choice) {
+        case 'E':
+        case 'e':
+            this->clearScreen();
+            this->delay(1);
+            this->clearScreen();
+            return;
 
-            case 'L':
-            case 'l':
-                this->clearScreen();
-                this->delay(1);
-                this->clearScreen();
-                return this->loginPanel(3, 0);
+        case 'L':
+        case 'l':
+            this->clearScreen();
+            this->delay(1);
+            this->userManager.logout(); 
+            this->clearScreen();
+            program.Init();
+            break;
 
-            case '1':
-                if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) {
-                    this->clearScreen();
-                    break;
-                }
-
+        case '1':
+            if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) {
                 this->clearScreen();
-                cout << "Adding...\n";
-                this->userManager.userEnqueue(this->LoggedUser->getUser_t());
-                this->delay(1);
-                this->clearScreen();
+                goto PatientPanel;
                 break;
+            }
 
-            case '2':
-                if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) {
-                    this->clearScreen();
-                    break;
-                }
+            this->clearScreen();
+            cout << "Adding...\n";
+            this->userManager.userEnqueue(this->LoggedUser->getUser_t());
+            this->delay(1);
+            this->clearScreen();
+            goto PatientPanel;
+            break;
 
+        case '2':
+            if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) {
                 this->clearScreen();
-                this->showRemaining();
-                this->delay(1);
-                this->clearScreen();
+                goto PatientPanel;
                 break;
+            }
 
-            case '3':
-                this->clearScreen();
-                this->showHistories();
-                break;
+            this->clearScreen();
+            this->showRemaining();
+            this->delay(1);
+            this->clearScreen();
+            break;
 
-            default:
-                cout << "Invalid choice: \n";
-                this->delay(1);
-                this->clearScreen();
-                break;
-        }
+        case '3':
+            this->clearScreen();
+            this->showHistories();
+            break;
+
+        default:
+            cout << "Invalid choice: \n";
+            this->delay(1);
+            this->clearScreen();
+            break;
     }
 }
 
@@ -257,34 +272,51 @@ void Panel::showRemaining() {
 
 void Panel::doctorMenu() {
     char choice;
-    while (1) {
-        cout << "========< Doctor Panel >========" << "\n\n";
-        if (!this->userManager.UserIdPQ.empty()) cout << "   1. Process Next Patient in queue " << "(" << this->userManager.UserIdPQ.size() << " Remaining)\n";
-        cout << "   E. Exit\n\n";
-        cout << "================================" << "\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
+    Program program(20);
+    DoctorPanel:
+    cout << "========< Doctor Panel >========" << "\n\n";
+    if (!this->userManager.UserIdPQ.empty()) cout << "   1. Process Next Patient in queue " << "(" << this->userManager.UserIdPQ.size() << " Remaining)\n";
+    cout << "   E. Exit (Without logout)\n";
+    cout << "   L. Logout\n\n";
+    cout << "================================" << "\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
 
-        switch (choice) {
-            case 'e':
-            case 'E':
+    switch (choice) {
+        case 'e':
+        case 'E':
+            this->clearScreen();
+            this->delay(1);
+            return;
+
+        case 'L':
+        case 'l':
+            this->clearScreen();
+            this->delay(1);
+            this->userManager.logout(); 
+            this->clearScreen();
+            program.Init();
+            break;
+
+        case '1':
+            if (this->userManager.UserIdPQ.empty()) {
                 this->clearScreen();
-                this->delay(1);
-                return;
-
-            case '1':
-                if (this->userManager.UserIdPQ.empty()) {
-                    this->clearScreen();
-                    this->doctorMenu();
-                    break;
-                }
-
-                this->clearScreen();
-                this->doctorProcessPatientPanel();
+                goto DoctorPanel;
                 break;
             }
-    }
 
+            this->clearScreen();
+            this->doctorProcessPatientPanel();
+            goto DoctorPanel;
+            break;
+
+        default:
+            this->clearScreen();
+            cout << "Invalid choice: \n";
+            this->delay(1);
+            goto DoctorPanel;
+            break;
+    }
 }
 
 void Panel::doctorProcessPatientPanel() {
@@ -359,45 +391,53 @@ void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
 
 void Panel::nurseMenu() {
     char choice;
-    while (1) {
-        cout << "========< Nurse Panel >=========" << "\n\n";
-        if (!this->userManager.userIdQueue.isEmpty()) cout << "  1. Process Next Patient in queue " << "(" << this->userManager.userIdQueue.size() << " Remaining)\n";
-        cout << "  E. Exit (without logout)\n";
-        cout << "  L. Logout\n\n";
-        cout << "================================" << "\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
+    Program program(20);
+    NursePanel:
+    cout << "========< Nurse Panel >=========" << "\n\n";
+    if (!this->userManager.userIdQueue.isEmpty()) cout << "  1. Process Next Patient in queue " << "(" << this->userManager.userIdQueue.size() << " Remaining)\n";
+    cout << "  E. Exit (without logout)\n";
+    cout << "  L. Logout\n\n";
+    cout << "================================" << "\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
 
-        switch (choice) {
-            case 'e':
-            case 'E':
+    switch (choice) {
+        case 'e':
+        case 'E':
+            this->clearScreen();
+            this->delay(1);
+            return;
+
+        case 'l':
+        case 'L':
+            this->clearScreen();
+
+            cout << "Logging out..." << "\n";
+
+            this->userManager.logout();
+            this->delay(2);
+            this->clearScreen();
+            program.Init();
+            break;
+
+        case '1':
+            if (this->userManager.userIdQueue.isEmpty()) {
                 this->clearScreen();
-                this->delay(1);
-                return;
-
-            case 'l':
-            case 'L':
-                this->clearScreen();
-
-                cout << "Logging out..." << "\n";
-
-                this->userManager.logout();
-                this->delay(2);
-                this->clearScreen();
-                this->loginPanel(3, 0);
+                goto NursePanel;
                 break;
+            }
 
-            case '1':
-                if (this->userManager.userIdQueue.isEmpty()) {
-                    this->clearScreen();
-                    this->nurseMenu();
-                    break;
-                }
+            this->clearScreen();
+            this->nurseProcessPatientPanel();
+            goto NursePanel;
+            break;
 
-                this->clearScreen();
-                this->nurseProcessPatientPanel();
-                break;
-        }
+        default:
+            this->clearScreen();
+            cout << "Invalid choice: \n";
+            this->delay(1);
+            goto NursePanel;
+            break;
     }
 
 }
@@ -448,7 +488,7 @@ void Panel::nurseProcessPatientPanel() {
     ESI_LEVEL lvl = this->determine();
     p.setESI(lvl);
     cout << "\n-----------------------------------------\n";
-    cout << " ESI level assigned: " << p.getESI() << "\n";
+    cout << " ESI level assigned: " << p.getESI() + 1 << "\n";
     cout << "-----------------------------------------\n";
     this->userManager.nurseEnqueuePatient(p);
     this->userManager.userIdQueue.dequeue();
@@ -460,139 +500,143 @@ void Panel::nurseProcessPatientPanel() {
 
 void Panel::adminMenu() {
     char choice;
+    Program program(20);
+    AdminPanel:
+    cout << "========< Admin Panel >========" << "\n\n";
+    cout << "   1. Add user" << "\n";
+    cout << "   2. Remove user" << "\n";
+    cout << "   3. Edit User" << "\n";
+    cout << "   L. Logout" << "\n";
+    if (this->undoManager.peekAction().actionType != ACTION_TYPE::EMPTY_ACTION) cout << "   R. Revert Last Change \n";
+    if (this->undoManager.peekAction().actionType != ACTION_TYPE::EMPTY_ACTION) cout << "   S. Save \n";
+    cout << "   E. Exit (without Logout)" << "\n\n";
+    cout << "================================" << "\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
 
-    while (1) {
-        cout << "========< Admin Panel >========" << "\n\n";
-        cout << "   1. Add user" << "\n";
-        cout << "   2. Remove user" << "\n";
-        cout << "   3. Edit User" << "\n";
-        cout << "   L. Logout" << "\n";
-        if (this->undoManager.peekAction().actionType != ACTION_TYPE::EMPTY_ACTION) cout << "   R. Revert Last Change \n";
-        if (this->undoManager.peekAction().actionType != ACTION_TYPE::EMPTY_ACTION) cout << "   S. Save \n";
-        cout << "   E. Exit (without Logout)" << "\n\n";
-        cout << "================================" << "\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
+    switch (choice) {
+        case 'r':
+        case 'R':
+            this->clearScreen();
+            cout << "Reverting last change..." << "\n";
+            this->undoManager.undoAction();
+            this->delay(2);
+            this->clearScreen();
+            break;
 
-        switch (choice) {
-                case 'r':
-                case 'R':
-                    this->clearScreen();
-                    cout << "Reverting last change..." << "\n";
-                    this->undoManager.undoAction();
-                    this->delay(2);
-                    this->clearScreen();
-                    break;
+        case 'e':
+        case 'E':
+            this->clearScreen();
+            if (this->undoManager.peekAction().actionType != ACTION_TYPE::EMPTY_ACTION) {
+            askSave2:
+                cout << "The file is not saved yet.\n";
+                cout << "Do you want to save the file? (y/n): ";
+                cin >> choice;
+                switch (choice) {
+                    case 'y':
+                    case 'Y':
+                        this->clearScreen();
+                        cout << "Saved" << "\n";
+                        this->userManager.saveToFile("Database/Users/users.csv");
+                        this->undoManager.clear();
+                        this->delay(2);
+                        this->clearScreen();
+                        break;
+                    case 'n':
+                    case 'N':
+                        this->clearScreen();
+                        goto AdminPanel;
+                        break;
+                    default:
+                        cout << "Invalid choice" << "\n";
+                        this->delay(2);
+                        this->clearScreen();
+                        goto askSave2;
+                        break;
 
-                case 'e':
-                case 'E':
-                    this->clearScreen();
-                    if (this->undoManager.peekAction().actionType != ACTION_TYPE::EMPTY_ACTION) {
-                        askSave2:
-                        cout << "The file is not saved yet.\n";
-                        cout << "Do you want to save the file? (y/n): ";
-                        cin >> choice;
-                        switch (choice) {
-                            case 'y':
-                            case 'Y':
-                                this->clearScreen();
-                                cout << "Saved" << "\n";
-                                this->userManager.saveToFile("Database/Users/users.csv");
-                                this->undoManager.clear();
-                                this->delay(2);
-                                this->clearScreen();
-                                break;
-                            case 'n':
-                            case 'N':
-                                break;
-                            default:
-                                cout << "Invalid choice" << "\n";
-                                this->delay(2);
-                                this->clearScreen();
-                                goto askSave2;
-                                break;
+                }
+            }
+            cout << "Exiting..." << "\n";
+            this->userManager.saveToFile("Database/Users/users.csv");
+            this->delay(2);
+            this->clearScreen();
+            return;
 
-                        }
-                    }
-                    cout << "Exiting..." << "\n";
-                    this->userManager.saveToFile("Database/Users/users.csv");
-                    this->delay(2);
-                    this->clearScreen();
-                    return;
+        case 'l':
+        case 'L':
+            this->clearScreen();
 
-                case 'l':
-                case 'L':
-                    this->clearScreen();
+            if (this->undoManager.peekAction().actionType != ACTION_TYPE::EMPTY_ACTION) {
+            askSave:
+                cout << "The file is not saved yet.\n";
+                cout << "Do you want to save the file? (y/n): ";
+                cin >> choice;
+                switch (choice) {
+                    case 'y':
+                    case 'Y':
+                        this->clearScreen();
+                        cout << "Saved" << "\n";
+                        this->userManager.saveToFile("Database/Users/users.csv");
+                        this->undoManager.clear();
+                        this->delay(2);
+                        this->clearScreen();
+                        break;
+                    case 'n':
+                    case 'N':
+                        this->clearScreen();
+                        goto AdminPanel;
+                        break;
+                    default:
+                        cout << "Invalid choice" << "\n";
+                        this->delay(2);
+                        this->clearScreen();
+                        goto askSave;
+                        break;
 
-                    if (this->undoManager.peekAction().actionType != ACTION_TYPE::EMPTY_ACTION) {
-                        askSave:
-                        cout << "The file is not saved yet.\n";
-                        cout << "Do you want to save the file? (y/n): ";
-                        cin >> choice;
-                        switch (choice) {
-                            case 'y':
-                            case 'Y':
-                                this->clearScreen();
-                                cout << "Saved" << "\n";
-                                this->userManager.saveToFile("Database/Users/users.csv");
-                                this->undoManager.clear();
-                                this->delay(2);
-                                this->clearScreen();
-                                break;
-                            case 'n':
-                            case 'N':
-                                break;
-                            default:
-                                cout << "Invalid choice" << "\n";
-                                this->delay(2);
-                                this->clearScreen();
-                                goto askSave;
-                                break;
+                }
 
-                        }
+            }
 
-                    }
+            cout << "Logging out..." << "\n";
 
-                    cout << "Logging out..." << "\n";
+            this->userManager.logout();
+            this->delay(2);
+            this->clearScreen();
+            program.Init(); // Init the program to prevent data loss during the program
+            break;
 
-                    this->userManager.logout();
-                    this->delay(2);
-                    this->clearScreen();
-                    this->loginPanel(3, 0);
-                    break;
+        case 's':
+        case 'S':
+            this->clearScreen();
+            cout << "Saved" << "\n";
+            this->userManager.saveToFile("Database/Users/users.csv");
+            this->undoManager.clear();
+            this->delay(1);
+            this->clearScreen();
+            break;
 
-                case 's':
-                case 'S':
-                    this->clearScreen();
-                    cout << "Saved" << "\n";
-                    this->userManager.saveToFile("Database/Users/users.csv");
-                    this->undoManager.clear();
-                    this->delay(1);
-                    this->clearScreen();
-                    break;
+        case '1':
+            this->clearScreen();
+            this->addUserPanel();
+            break;
 
-                case '1':
-                    this->clearScreen();
-                    this->addUserPanel();
-                    break;
+        case '2':
+            this->clearScreen();
+            this->removeUserPanel();
+            break;
 
-                case '2':
-                    this->clearScreen();
-                    this->removeUserPanel();
-                    break;
+        case '3':
+            this->clearScreen();
+            this->updateUserPanel();
+            break;
 
-                case '3':
-                    this->clearScreen();
-                    this->updateUserPanel();
-                    break;
-
-                default:
-                    this->clearScreen();
-                    cout << "Invalid choice" << "\n";
-                    this->delay(1);
-                    this->clearScreen();
-                    break;
-        }
+        default:
+            this->clearScreen();
+            cout << "Invalid choice" << "\n";
+            this->delay(1);
+            this->clearScreen();
+            goto AdminPanel;
+            break;
     }
 }
 

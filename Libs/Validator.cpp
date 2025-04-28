@@ -51,7 +51,11 @@ u_int16 Validator::isNumber(const string& str) {
 }
 
 u_int16 Validator::isSpecial(const string& str) {
-    return std::regex_search(str, std::regex("[!.@$%,&]"));
+    return std::regex_search(str, std::regex("[!.@$%&]"));
+}
+
+u_int16 Validator::isComma(const string& str) {
+    return std::regex_search(str, std::regex("[,]"));
 }
 
 // Public
@@ -107,4 +111,10 @@ VALIDATOR_ERROR_TYPE Validator::isPasswordValid(string password) {
     if (!isSpecial(password)) return VALIDATOR_ERROR_TYPE::NO_SPECIAL_ERROR;
 
     return VALIDATOR_ERROR_TYPE::NO_ERROR;
+}
+
+VALIDATOR_ERROR_TYPE Validator::isStringValid(string line) {
+    if (line.empty() || this->isComma(line)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
+    return VALIDATOR_ERROR_TYPE::NO_ERROR;
+
 }

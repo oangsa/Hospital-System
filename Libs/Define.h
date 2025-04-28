@@ -80,6 +80,9 @@ typedef enum {
     NO_LOWER_ERROR,
     NO_NUMBER_ERROR,
 
+    // String
+    NOT_VALID_STRING,
+
     NO_ERROR,
 } VALIDATOR_ERROR_TYPE;
 
