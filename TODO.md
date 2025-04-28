@@ -5,8 +5,7 @@
 These are our plan.
 
 ### DONE
-- [X] Nothing...
+- [X] Add Validator for every user input included birth day, number ....
 
 ### UNDONE
-- [ ] Add Validator for every user input included birth day, number, ....
 - [ ] Add Colour to the output as a feedback
