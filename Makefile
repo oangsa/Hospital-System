@@ -30,13 +30,9 @@ CXXFLAGS := -Wall -Wextra
 SRC_DIRS := . Features Libs
 OBJ_DIR := obj
 
-# Gather sources
 SRCS := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.cpp))
-
-# Sanitize sources: remove leading './' if present
 SRCS := $(subst ./,,$(SRCS))
 
-# Object files: obj/main.o, obj/Features/foo.o
 OBJS := $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 

@@ -32,10 +32,21 @@ A comprehensive hospital management system implemented in C++ as part of the CPE
 ## How to Run
 
 1. Clone the repository
+
+```bash
+git clone https://github.com/oangsa/Hospital-System.git
+```
+
 2. Navigate to the project directory
+
+```bash
+cd Hospital-System
+```
+
 3. Compile and run:
 
 ```bash
+# Build from Makefile
 make
 
 # Run the program
@@ -48,3 +59,5 @@ make
 - **Features**: Functionality modules
 - **Libs**: Data structure modules
 - **Database**: Storage
+
+### Members
