@@ -119,3 +119,18 @@ VALIDATOR_ERROR_TYPE Validator::isStringValid(string line) {
     return VALIDATOR_ERROR_TYPE::NO_ERROR;
 
 }
+
+VALIDATOR_ERROR_TYPE Validator::isStringContainChar(string line) {
+    if (!this->isLower(line) && !this->isUpper(line)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
+    return VALIDATOR_ERROR_TYPE::NO_ERROR;
+}
+
+VALIDATOR_ERROR_TYPE Validator::isStringContainSpecialChar(string line) {
+    if (!std::regex_search(line.c_str(), std::regex("[^a-zA-Z0-9\s]"))) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
+    return VALIDATOR_ERROR_TYPE::NO_ERROR;
+}
+
+VALIDATOR_ERROR_TYPE Validator::isStringContainNumber(string line) {
+    if (!this->isNumber(line)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
+    return VALIDATOR_ERROR_TYPE::NO_ERROR;
+}

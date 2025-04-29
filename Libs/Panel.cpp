@@ -3,6 +3,8 @@
 #include "Define.h"
 #include "../Features/Patient.h"
 #include "../Features/Program.h"
+#include <cstdio>
+#include <regex>
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -166,7 +168,7 @@ void Panel::patientMenu() {
     cout << "   L. Logout" << "\n\n";
     cout << "================================" << "\n";
     cout << "Enter your choice: ";
-    cin >> choice;
+    choice = getchar();
 
     switch (choice) {
         case 'E':
@@ -180,7 +182,7 @@ void Panel::patientMenu() {
         case 'l':
             this->clearScreen();
             this->delay(1);
-            this->userManager.logout(); 
+            this->userManager.logout();
             this->clearScreen();
             program.Init();
             break;
@@ -283,6 +285,7 @@ void Panel::doctorMenu() {
     cout << "================================" << "\n";
     cout << "Enter your choice: ";
     cin >> choice;
+    cin.ignore(1000, '\n');
 
     switch (choice) {
         case 'e':
@@ -295,7 +298,7 @@ void Panel::doctorMenu() {
         case 'l':
             this->clearScreen();
             this->delay(1);
-            this->userManager.logout(); 
+            this->userManager.logout();
             this->clearScreen();
             program.Init();
             break;
@@ -339,6 +342,7 @@ void Panel::doctorProcessPatientPanel() {
     cout << "=============================\n";
     cout << "Enter your choice: ";
     cin >> choice;
+    cin.ignore(1000, '\n');
 
     switch (choice) {
         case '1':
@@ -428,6 +432,7 @@ void Panel::nurseMenu() {
     cout << "================================" << "\n";
     cout << "Enter your choice: ";
     cin >> choice;
+    cin.ignore(1000, '\n');
 
     switch (choice) {
         case 'e':
@@ -541,6 +546,7 @@ void Panel::adminMenu() {
     cout << "================================" << "\n";
     cout << "Enter your choice: ";
     cin >> choice;
+    cin.ignore(1000, '\n');
 
     switch (choice) {
         case 'r':
@@ -565,6 +571,7 @@ void Panel::adminMenu() {
                 cout << "The file is not saved yet.\n";
                 cout << "Do you want to save the file? (y/n): ";
                 cin >> choice;
+                cin.ignore(1000, '\n');
                 switch (choice) {
                     case 'y':
                     case 'Y':
@@ -604,6 +611,7 @@ void Panel::adminMenu() {
                 cout << "The file is not saved yet.\n";
                 cout << "Do you want to save the file? (y/n): ";
                 cin >> choice;
+                cin.ignore(1000, '\n');
                 switch (choice) {
                     case 'y':
                     case 'Y':
@@ -685,7 +693,9 @@ void Panel::updateUserPanel() {
     vector<string> vs;
     string word = "";
     user_t newUser;
+    std::regex digitsOnly("^[0-9]+$");
 
+    GetID:
     this->showUserInfo();
     cout << "========< Update User >========" << "\n";
     cout << "Enter the user ID (press e to exit): ";
@@ -697,6 +707,15 @@ void Panel::updateUserPanel() {
         return;
 
     }
+
+    if (std::regex_match(id, digitsOnly)) {
+        this->clearScreen();
+        cout << "Invalid Id.\n";
+        this->delay(1);
+        this->clearScreen();
+        goto GetID;
+    }
+
     User *user = this->userManager.find(stoull(id));
 
     if (user == NULL) {
@@ -720,6 +739,7 @@ void Panel::updateUserPanel() {
     cout << "================================" << "\n";
     cout << "Enter the field number to update (press e to exit): ";
     cin >> choice;
+    cin.ignore(1000, '\n');
 
     cin.ignore();
 
@@ -817,10 +837,9 @@ void Panel::addUserPanel() {
     VALIDATOR_ERROR_TYPE error = VALIDATOR_ERROR_TYPE::NO_ERROR;
     cout << "========< Add User >========" << "\n";
 
-    cin.ignore();
-    
     GetName:
     cout << "Name (title - name - surname): ";
+    cin.ignore();
     getline(cin, data);
 
     if (this->validator.isStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
@@ -864,12 +883,16 @@ void Panel::addUserPanel() {
     }
 
     if (!word.empty()) vs.push_back(word);
+    logger.log("size_t %llu", vs.size());
 
     if (vs.size() != 3) {
         this->clearScreen();
         cout << "Invalid input.\n";
         this->delay(2);
         this->clearScreen();
+        vs.clear();
+        word.clear();
+        word = "";
         goto getBirthDate;
     }
 
@@ -1043,6 +1066,9 @@ void Panel::addUserPanel() {
 void Panel::removeUserPanel() {
     string id;
     undo_t change;
+    std::regex digitOnly("^[0-9]+$");
+
+    GetID:
     this->showUserInfo();
     cout << "========< Remove User >========" << "\n";
     cout << "Enter the user ID (press e to exit): ";
@@ -1051,6 +1077,14 @@ void Panel::removeUserPanel() {
     if (id == "e" || id == "E") {
         this->clearScreen();
         return;
+    }
+
+    if (!std::regex_match(id, digitOnly)) {
+        this->clearScreen();
+        cout << "Invalid Id.\n";
+        this->delay(1);
+        this->clearScreen();
+        goto GetID;
     }
 
     User *user = this->userManager.find(stoull(id));
