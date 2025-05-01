@@ -139,7 +139,14 @@ VALIDATOR_ERROR_TYPE Validator::isPasswordValid(string password) {
 }
 
 VALIDATOR_ERROR_TYPE Validator::isStringValid(string line) {
-    if (line.empty() || this->isComma(line)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
+    std::regex onlyNumberAndEnglish("^[a-zA-Z0-9]+$");
+    if (line.empty() || this->isComma(line) || !std::regex_match(line.c_str(), onlyNumberAndEnglish)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
     return VALIDATOR_ERROR_TYPE::NO_ERROR;
 
+}
+
+VALIDATOR_ERROR_TYPE Validator::isBirthDateStringValid(string line) {
+    std::regex onlyNumberAndSpace("^[0-9 ]+$");
+    if (line.empty() || this->isComma(line) || !std::regex_match(line.c_str(), onlyNumberAndSpace)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
+    return VALIDATOR_ERROR_TYPE::NO_ERROR;
 }

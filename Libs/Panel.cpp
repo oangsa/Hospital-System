@@ -855,11 +855,12 @@ void Panel::addUserPanel() {
     cout << "Birthdate (dd mm yyyy) ex: 05 07 2015: ";
     getline(cin, data);
 
-    if (this->validator.isStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+    if (this->validator.isBirthDateStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
         this->clearScreen();
         cout << "Bro try to broke the system.\n";
         this->delay(1);
         this->clearScreen();
+        data.clear();
         goto getBirthDate;
     }
 
@@ -983,6 +984,7 @@ void Panel::addUserPanel() {
         cout << "Username must not contain comma and Username cannot be an empty string.\n";
         this->delay(2);
         this->clearScreen();
+        newUser.username.clear();
         goto GetUsername;
     }
 
@@ -996,6 +998,7 @@ void Panel::addUserPanel() {
 
     error = validator.isPasswordValid(newUser.password);
     this->clearScreen();
+    newUser.password.clear();
 
     switch (error) {
         case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:

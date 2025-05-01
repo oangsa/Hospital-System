@@ -19,6 +19,7 @@ class Validator {
         Validator();
         VALIDATOR_ERROR_TYPE isBirthDateValid(BirthDate b);
         VALIDATOR_ERROR_TYPE isStringValid(string line);
+        VALIDATOR_ERROR_TYPE isBirthDateStringValid(string line);
 
         template<typename T>
         VALIDATOR_ERROR_TYPE isNegative(T number);
