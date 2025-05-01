@@ -13,7 +13,7 @@ func main() {
 	features := "Features"
 	libs := "Libs"
 	mainSrc := "main.cpp"
-	buildDir := "build"
+	buildDir := "builds"
 	objFiles := []string{}
 
 	_ = os.MkdirAll(buildDir, 0755)
