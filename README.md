@@ -43,7 +43,13 @@ git clone https://github.com/oangsa/Hospital-System.git
 cd Hospital-System
 ```
 
-3. Compile and run:
+3. Compile and run (Build Using C++):
+
+- Build Using C++
+
+```bash
+g++ compile/build.cpp -o build -std=c++17
+```
 
 - If you use Windows
 
@@ -63,6 +69,15 @@ cd Hospital-System
 
 # Run the program
 ./main
+```
+
+- Build Using Golang
+
+```bash
+go run compile/build.go
+
+./main.exe #On Windows
+./main #On Linux
 ```
 
 ### Project Structure
