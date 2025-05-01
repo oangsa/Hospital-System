@@ -20,7 +20,7 @@ int main() {
     string features = "Features";
     string libs = "Libs";
     string mainSrc = "main.cpp";
-    string buildDir = "build";
+    string buildDir = "builds";
     vector<string> objFiles;
 
     fs::create_directories(buildDir + "/Features");
