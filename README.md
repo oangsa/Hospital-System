@@ -43,7 +43,7 @@ git clone https://github.com/oangsa/Hospital-System.git
 cd Hospital-System
 ```
 
-3. Compile and run (Build Using C++):
+3. Compile and run:
 
 - Build Using C++
 
@@ -61,8 +61,6 @@ g++ compile/build.cpp -o build -std=c++17
 ```
 
 - If you use Linux or MacOS
-
-- Note: Make sure you have golang installed
 
 ```bash
 ./build
