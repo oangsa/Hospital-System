@@ -45,7 +45,7 @@ cd Hospital-System
 
 3. Compile and run:
 
-3.1. If you use Windows
+- If you use Windows
 
 ```bash
 # Build from Makefile
@@ -55,9 +55,9 @@ make
 ./main.exe
 ```
 
-3.2. If you use Linux or macos
+- If you use Linux or macos
 
-# Make sure you have golang installed
+- Note: Make sure you have golang installed
 
 ```bash
 # Give permission to .sh file

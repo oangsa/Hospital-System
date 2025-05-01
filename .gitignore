@@ -9,3 +9,5 @@ obj
 *.out
 
 main
+
+build
