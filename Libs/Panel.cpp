@@ -168,7 +168,9 @@ void Panel::patientMenu() {
     cout << "   L. Logout" << "\n\n";
     cout << "================================" << "\n";
     cout << "Enter your choice: ";
-    choice = getchar();
+    cin >> choice;
+    cin.ignore(1000, '\n');
+
 
     switch (choice) {
         case 'E':
@@ -383,7 +385,6 @@ void Panel::doctorProcessPatientPanel() {
 }
 
 void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
-    cin.ignore();
     GetDiagnosis:
     cout << " Enter diagnosis: ";
     getline(cin, history->_diagnosis);
@@ -708,7 +709,7 @@ void Panel::updateUserPanel() {
 
     }
 
-    if (std::regex_match(id, digitsOnly)) {
+    if (!std::regex_match(id, digitsOnly)) {
         this->clearScreen();
         cout << "Invalid Id.\n";
         this->delay(1);
@@ -740,8 +741,6 @@ void Panel::updateUserPanel() {
     cout << "Enter the field number to update (press e to exit): ";
     cin >> choice;
     cin.ignore(1000, '\n');
-
-    cin.ignore();
 
     this->clearScreen();
 
@@ -798,7 +797,6 @@ void Panel::updateUserPanel() {
 
             this->clearScreen();
             goto updateUser;
-
             break;
 
 
@@ -854,7 +852,7 @@ void Panel::addUserPanel() {
 
     getBirthDate:
     if (error != VALIDATOR_ERROR_TYPE::NO_ERROR) cout << "Latest: " << newUser.birthDate._day << " " << newUser.birthDate._month << " " << newUser.birthDate._year << "\n";
-    cout << "Birthdate (dd mm yyy) ex: 05 07 2015: ";
+    cout << "Birthdate (dd mm yyyy) ex: 05 07 2015: ";
     getline(cin, data);
 
     if (this->validator.isStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
@@ -868,7 +866,6 @@ void Panel::addUserPanel() {
     logger.log("%s", data.c_str());
 
     // NOTE: SPLIT USER INPUT BY 'SPACE';
-
     for (char charc : data) {
         if (charc == ' ') {
             if (!word.empty()) {
@@ -908,6 +905,12 @@ void Panel::addUserPanel() {
     this->clearScreen();
 
     switch (error) {
+        case VALIDATOR_ERROR_TYPE::FUTURE_DATE_ERROR:
+            cout << "Birthday cannot be in the future.\n";
+            this->delay(1);
+            this->clearScreen();
+            goto getBirthDate;
+
         case VALIDATOR_ERROR_TYPE::DAY_ERROR:
             cout << "Invalid day.\n";
             this->delay(1);
@@ -927,6 +930,7 @@ void Panel::addUserPanel() {
             goto getBirthDate;
 
         // PREVENT WARNING
+        case VALIDATOR_ERROR_TYPE::NOT_VALID_STRING:
         case VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR:
         case VALIDATOR_ERROR_TYPE::NO_ERROR:
         case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
@@ -972,7 +976,7 @@ void Panel::addUserPanel() {
 
     GetUsername:
     cout << "Username: ";
-    cin >> newUser.username;
+    getline(cin, newUser.username);
 
     if (this->validator.isStringValid(newUser.username) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
         this->clearScreen();
@@ -1030,6 +1034,7 @@ void Panel::addUserPanel() {
         case VALIDATOR_ERROR_TYPE::MONTH_ERROR:
         case VALIDATOR_ERROR_TYPE::YEAR_ERROR:
         case VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR:
+        case VALIDATOR_ERROR_TYPE::FUTURE_DATE_ERROR:
             break;
 
     }

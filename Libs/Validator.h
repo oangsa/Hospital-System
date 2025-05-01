@@ -13,6 +13,7 @@ class Validator {
         u_int16 isNumber(const string& str);
         u_int16 isSpecial(const string& str);
         u_int16 isComma(const string& str);
+        time_t parseStringToTime_t(const string& time);
 
     public:
         Validator();
@@ -23,9 +24,6 @@ class Validator {
         VALIDATOR_ERROR_TYPE isNegative(T number);
 
         VALIDATOR_ERROR_TYPE isPasswordValid(string password);
-        VALIDATOR_ERROR_TYPE isStringContainChar(string line);
-        VALIDATOR_ERROR_TYPE isStringContainSpecialChar(string line);
-        VALIDATOR_ERROR_TYPE isStringContainNumber(string line);
 };
 
 #endif
