@@ -48,23 +48,18 @@ cd Hospital-System
 - If you use Windows
 
 ```bash
-# Build from Makefile
-make
+./build.exe
 
 # Run the program
 ./main.exe
 ```
 
-- If you use Linux or macos
+- If you use Linux or MacOS
 
 - Note: Make sure you have golang installed
 
 ```bash
-# Give permission to .sh file
-chmod +x build.sh
-
-# Run the file
-./build.sh
+./build
 
 # Run the program
 ./main

@@ -65,7 +65,7 @@ func main() {
 	output := "main"
 	args := append(objFiles, "-o", output)
 	runCommand("g++", args...)
-	fmt.Println("Build completed successfully.")
+	fmt.Println("Done")
 }
 
 func runCommand(name string, args ...string) {
