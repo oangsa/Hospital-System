@@ -976,13 +976,14 @@ void Panel::addUserPanel() {
     this->clearScreen();
 
     GetUsername:
+    cin.ignore();
     cout << "Username: ";
     getline(cin, newUser.username);
 
     if (this->validator.isStringValid(newUser.username) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
         this->clearScreen();
-        cout << "Username must not contain comma and Username cannot be an empty string.\n";
-        this->delay(2);
+        cout << "Username can only contains English and number.\n";
+        this->delay(3);
         this->clearScreen();
         newUser.username.clear();
         goto GetUsername;
@@ -1003,32 +1004,32 @@ void Panel::addUserPanel() {
     switch (error) {
         case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
             cout << "Password must be at least 8 characters long.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NO_LOWER_ERROR:
             cout << "Password must have at least 1 lower character.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NO_UPPER_ERROR:
             cout << "Password must have at least 1 upper character.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NO_SPECIAL_ERROR:
             cout << "Password must have at least 1 special character.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NO_NUMBER_ERROR:
             cout << "Password must have at least 1 number.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NOT_VALID_STRING:
             cout << "Bro tryna broke the system.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         // TO PREVENT WARNING
