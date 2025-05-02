@@ -1,6 +1,7 @@
 #ifndef USER_PRIORITY_QUEUE_H
 #define USER_PRIORITY_QUEUE_H
 
+#include "Define.h"
 #include "PriorityQueue.h"
 #include "Logger.h"
 #include <fstream>
@@ -22,6 +23,30 @@ class UserPriorityQueue : public PriorityQueue<u_int64> {
                 cur = cur->next();
             }
             file.close();
+        }
+
+        u_int8 has(u_int64 id) {
+            Node<u_int64>* tmp = this->head;
+
+            while (tmp) {
+                if (*tmp->data() == id) return 1;
+                tmp = tmp->next();
+            }
+
+            return 0;
+        }
+
+        u_int32 getIndexOf(u_int64 id) {
+            Node<u_int64>* tmp = this->head;
+            u_int32 ctr = 0;
+
+            while (tmp) {
+                if (*tmp->data() == id) return ctr;
+                tmp = tmp->next();
+                ctr++;
+            }
+
+            return -1;
         }
 };
 

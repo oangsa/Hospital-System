@@ -9,3 +9,5 @@ These are our plan.
 
 ### UNDONE
 - [ ] Add Colour to the output as a feedback
+- [ ] Add General Information To Patient
+- [ ] Make Go compiler concurency

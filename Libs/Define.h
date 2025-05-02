@@ -3,6 +3,7 @@
 
 #include <ctime>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -29,6 +30,8 @@ typedef long long int int64;
 
 typedef float f32;
 typedef double f64;
+
+typedef std::vector<std::string> DrugsAllergy;
 
 typedef enum { MALE, FEMALE } Gender;
 

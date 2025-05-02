@@ -161,8 +161,8 @@ void Panel::patientMenu() {
     Program program(20);
     PatientPanel:
     cout << "========< Patient Panel >========" << "\n\n";
-    if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   1. Enqueue" << "\n";
-    if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) cout << "   2. Check Remaining"<< "\n";
+    if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType()) && !this->userManager.UserIdPQ.has(this->LoggedUser->getID())) cout << "   1. Enqueue" << "\n";
+    if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType()) || this->userManager.UserIdPQ.has(this->LoggedUser->getID())) cout << "   2. Check Remaining"<< "\n";
     cout << "   3. View History" << "\n";
     cout << "   E. Exit (without Logout)" << "\n";
     cout << "   L. Logout" << "\n\n";
@@ -190,7 +190,7 @@ void Panel::patientMenu() {
             break;
 
         case '1':
-            if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) {
+            if (this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType()) || this->userManager.UserIdPQ.has(this->LoggedUser->getID())) {
                 this->clearScreen();
                 goto PatientPanel;
                 break;
@@ -205,7 +205,7 @@ void Panel::patientMenu() {
             break;
 
         case '2':
-            if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType())) {
+            if (!this->userManager.uniqueIds.contains(this->LoggedUser->getID(), this->LoggedUser->getType()) && !this->userManager.UserIdPQ.has(this->LoggedUser->getID())) {
                 this->clearScreen();
                 goto PatientPanel;
                 break;
@@ -257,6 +257,7 @@ void Panel::showHistories() {
 void Panel::showRemaining() {
     char options;
     int16 idx = this->userManager.userIdQueue.getIndexOf(this->LoggedUser->getID());
+    if (idx == -1) idx = this->userManager.UserIdPQ.getIndexOf(this->LoggedUser->getID());
     cout << "There (are/is) " << idx << " queue(s) ahead you.\n";
     cout << "Press e or E to exit: ";
     cin >> options;
@@ -330,6 +331,7 @@ void Panel::doctorProcessPatientPanel() {
     char choice;
     User* user = this->userManager.find(*(this->userManager.UserIdPQ.peek()));
     Patient p(user->getUser_t());
+    p.loadDrugsAllergy();
     PatientHistory history;
     time_t t = time(NULL);
     history._timestamp = t;
@@ -385,8 +387,10 @@ void Panel::doctorProcessPatientPanel() {
 }
 
 void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
+    string word = "";
+    vector<string> vs;
     GetDiagnosis:
-    cout << " Enter diagnosis: ";
+    cout << "Enter diagnosis:\n>> ";
     getline(cin, history->_diagnosis);
     if (this->validator.isStringValid(history->_diagnosis) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
         this->clearScreen();
@@ -397,7 +401,7 @@ void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
     }
 
     GetTreatment:
-    cout << " Enter treatment: ";
+    cout << "Enter treatment:\n>> ";
     getline(cin, history->_treatment);
     if (this->validator.isStringValid(history->_treatment) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
         this->clearScreen();
@@ -408,7 +412,7 @@ void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
     }
 
     GetPrescription:
-    cout << " Enter prescription: ";
+    cout << "Enter prescription(Use | to separate medicine):\n>> ";
     getline(cin, history->_prescription);
     if (this->validator.isStringValid(history->_prescription) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
         this->clearScreen();
@@ -416,6 +420,46 @@ void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
         this->delay(2);
         this->clearScreen();
         goto GetPrescription;
+    }
+
+    // Manipulate String
+    for (char c : history->_prescription) {
+        if (c == '|') {
+            if (!word.empty()) {
+                vs.push_back(word);
+                word.clear();
+            }
+        }
+        else {
+            word += c;
+        }
+    }
+
+    if (!word.empty()) vs.push_back(word);
+
+    if (!vs.size()) {
+        logger.log("Drug %s", history->_prescription.c_str());
+        if (user->isAllergicTo(history->_prescription)) {
+            cout << "Patient has drug allergy to " << history->_prescription << "\n";
+            vs.clear();
+            word.clear();
+            this->delay(2);
+            this->clearScreen();
+            goto GetPrescription;
+        }
+    }
+
+    // Check if patient has any drug allergy
+    for (string drug : vs) {
+        logger.log("Drug %s", drug.c_str());
+        if (user->isAllergicTo(drug)) {
+            cout << "Patient has drug allergy to " << drug << "\n";
+            vs.clear();
+            word.clear();
+            this->delay(2);
+            this->clearScreen();
+            goto GetPrescription;
+        }
     }
 
     user->setHistory(*history);
@@ -518,7 +562,10 @@ void Panel::nurseProcessPatientPanel() {
     User* user = this->userManager.find(*this->userManager.userIdQueue.peek());
     user_t u = user->getUser_t();
     Patient p(u);
+    // Have to load it manually. Too Lazy to make it save automatically.
+    p.loadDrugsAllergy();
     p.displayInfo();
+    this->askAddAllergies(&p);
     ESI_LEVEL lvl = this->determine();
     p.setESI(lvl);
     cout << "\n-----------------------------------------\n";
@@ -530,6 +577,51 @@ void Panel::nurseProcessPatientPanel() {
     this->delay(2);
     this->clearScreen();
     return;
+}
+
+void Panel::askAddAllergies(Patient* patient) {
+    string drugName;
+    char choice;
+
+    AskAddDrug:
+    cout << "========< Add Drugs Allergy >========" << "\n\n";
+    cout << "   1. Add Drug" << "\n";
+    cout << "   E. Exit" << "\n\n";
+    cout << "================================" << "\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+    cin.ignore(1000, '\n');
+
+    switch (choice) {
+        case 'e':
+        case 'E':
+            this->clearScreen();
+            this->delay(1);
+            return;
+
+        case '1':
+            // ToLazyToAddAnotherMethod
+            this->clearScreen();
+            this->delay(1);
+            cout << "Total Drug(s) Allergy: " << patient->getDrugsAllergy().size() << '\n' << '\n';
+            cout << "Drug Name: ";
+            getline(cin, drugName);
+            patient->addDrugAllergy(drugName);
+            // Also have to save it manually.
+            patient->saveDrugsAllergy();
+            this->delay(1);
+            this->clearScreen();
+            goto AskAddDrug;
+
+        default:
+            this->clearScreen();
+            cout << "Invalid choice.\n";
+            this->delay(2);
+            this->clearScreen();
+            goto AskAddDrug;
+            break;
+    }
+
 }
 
 void Panel::adminMenu() {

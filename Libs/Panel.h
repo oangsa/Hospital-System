@@ -25,6 +25,7 @@ class Panel {
         void showUserInfo();
         void delay(u_int8 secs);
         void loginPanel(u_int16 attempt, u_int8 isFileExist);
+        void registerPanel();
         void adminMenu();
         void patientMenu();
         void doctorMenu();
@@ -43,6 +44,7 @@ class Panel {
         ESI_LEVEL determine();
         u_int8 askYesNo(string question);
         void nurseProcessPatientPanel();
+        void askAddAllergies(Patient* patient);
 
         // Doctor Section
         void doctorProcessPatientPanel();
