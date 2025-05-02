@@ -2,6 +2,8 @@
 #include "Define.h"
 #include <ctime>
 #include <regex>
+#include <sstream>
+#include <iomanip>
 
 Validator::Validator() {};
 
@@ -58,6 +60,23 @@ u_int16 Validator::isComma(const string& str) {
     return std::regex_search(str, std::regex("[,]"));
 }
 
+/*
+    Handling function to convert string to time_t
+    NOTE: string should be in "2024-03-14" this form
+
+    Params: const string& str
+    return time_t
+*/
+time_t Validator::parseStringToTime_t(const string& str) {
+    tm tm = {};
+    istringstream ss(str);
+
+    ss >> std::get_time(&tm, "%Y-%m-%d");
+    time_t date = mktime(&tm);
+
+    return date;
+}
+
 // Public
 /*
     This function use to validate birth day
@@ -69,10 +88,15 @@ VALIDATOR_ERROR_TYPE Validator::isBirthDateValid(BirthDate b) {
     struct tm* now = localtime(&curTime);
     u_int16 curYear = now->tm_year + 1900;
     u_int16 day = this->getDayInMonth(b._month);
+    stringstream ss;
+    ss << (b._year) << "-" << b._month << "-" << b._day;
+    time_t birTime = this->parseStringToTime_t(ss.str());
+
 
     day += (b._month == 2 && this->isLeapYear(b._year));
 
     // No way there's people born before 1900 and still alive.
+    if (birTime > curTime) return VALIDATOR_ERROR_TYPE::FUTURE_DATE_ERROR;
     if (b._year > curYear || b._year < 1900) return VALIDATOR_ERROR_TYPE::YEAR_ERROR;
     if (b._month > 12 || b._month < 1) return VALIDATOR_ERROR_TYPE::MONTH_ERROR;
     if (b._day < 1 || b._day > day) return VALIDATOR_ERROR_TYPE::DAY_ERROR;
@@ -99,7 +123,7 @@ VALIDATOR_ERROR_TYPE Validator::isNegative(T number) {
         if password does not have lowercase char, return NO_LOWER_ERROR
         if password does not have uppercase char, return NO_UPPER_ERROR
         if password does not have number, return NO_NUMBER_ERROR
-        if password does not have special character included "!.@$%,&", return NO_SPECIAL_ERROR
+        if password does not have special character included "!.@$%&", return NO_SPECIAL_ERROR
         otherwise, return NO_ERROR
 */
 VALIDATOR_ERROR_TYPE Validator::isPasswordValid(string password) {
@@ -115,22 +139,14 @@ VALIDATOR_ERROR_TYPE Validator::isPasswordValid(string password) {
 }
 
 VALIDATOR_ERROR_TYPE Validator::isStringValid(string line) {
-    if (line.empty() || this->isComma(line)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
+    std::regex onlyNumberAndEnglish("^[a-zA-Z0-9]+$");
+    if (line.empty() || this->isComma(line) || !std::regex_match(line.c_str(), onlyNumberAndEnglish)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
     return VALIDATOR_ERROR_TYPE::NO_ERROR;
 
 }
 
-VALIDATOR_ERROR_TYPE Validator::isStringContainChar(string line) {
-    if (!this->isLower(line) && !this->isUpper(line)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
-    return VALIDATOR_ERROR_TYPE::NO_ERROR;
-}
-
-VALIDATOR_ERROR_TYPE Validator::isStringContainSpecialChar(string line) {
-    if (!std::regex_search(line.c_str(), std::regex("[^a-zA-Z0-9\s]"))) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
-    return VALIDATOR_ERROR_TYPE::NO_ERROR;
-}
-
-VALIDATOR_ERROR_TYPE Validator::isStringContainNumber(string line) {
-    if (!this->isNumber(line)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
+VALIDATOR_ERROR_TYPE Validator::isBirthDateStringValid(string line) {
+    std::regex onlyNumberAndSpace("^[0-9 ]+$");
+    if (line.empty() || this->isComma(line) || !std::regex_match(line.c_str(), onlyNumberAndSpace)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
     return VALIDATOR_ERROR_TYPE::NO_ERROR;
 }

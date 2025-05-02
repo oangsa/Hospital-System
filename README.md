@@ -45,13 +45,37 @@ cd Hospital-System
 
 3. Compile and run:
 
+- Build Using C++
+
 ```bash
-# Build from Makefile
-make
+g++ compile/build.cpp -o build -std=c++17
+```
+
+- If you use Windows
+
+```bash
+./build.exe
 
 # Run the program
-./main.exe  # on Windows
-./main      # on Linux
+./main.exe
+```
+
+- If you use Linux or MacOS
+
+```bash
+./build
+
+# Run the program
+./main
+```
+
+- Build Using Golang
+
+```bash
+go run compile/build.go
+
+./main.exe #On Windows
+./main #On Linux
 ```
 
 ### Project Structure

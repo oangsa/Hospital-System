@@ -2,10 +2,8 @@ test
 test.cpp
 
 Features/*.csv
+compile
 
 obj
-*.o
-*.exe
-*.out
-
 main
+builds

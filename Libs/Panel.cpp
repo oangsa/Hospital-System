@@ -168,7 +168,9 @@ void Panel::patientMenu() {
     cout << "   L. Logout" << "\n\n";
     cout << "================================" << "\n";
     cout << "Enter your choice: ";
-    choice = getchar();
+    cin >> choice;
+    cin.ignore(1000, '\n');
+
 
     switch (choice) {
         case 'E':
@@ -383,7 +385,6 @@ void Panel::doctorProcessPatientPanel() {
 }
 
 void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
-    cin.ignore();
     GetDiagnosis:
     cout << " Enter diagnosis: ";
     getline(cin, history->_diagnosis);
@@ -708,7 +709,7 @@ void Panel::updateUserPanel() {
 
     }
 
-    if (std::regex_match(id, digitsOnly)) {
+    if (!std::regex_match(id, digitsOnly)) {
         this->clearScreen();
         cout << "Invalid Id.\n";
         this->delay(1);
@@ -740,8 +741,6 @@ void Panel::updateUserPanel() {
     cout << "Enter the field number to update (press e to exit): ";
     cin >> choice;
     cin.ignore(1000, '\n');
-
-    cin.ignore();
 
     this->clearScreen();
 
@@ -798,7 +797,6 @@ void Panel::updateUserPanel() {
 
             this->clearScreen();
             goto updateUser;
-
             break;
 
 
@@ -854,21 +852,21 @@ void Panel::addUserPanel() {
 
     getBirthDate:
     if (error != VALIDATOR_ERROR_TYPE::NO_ERROR) cout << "Latest: " << newUser.birthDate._day << " " << newUser.birthDate._month << " " << newUser.birthDate._year << "\n";
-    cout << "Birthdate (dd mm yyy) ex: 05 07 2015: ";
+    cout << "Birthdate (dd mm yyyy) ex: 05 07 2015: ";
     getline(cin, data);
 
-    if (this->validator.isStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+    if (this->validator.isBirthDateStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
         this->clearScreen();
         cout << "Bro try to broke the system.\n";
         this->delay(1);
         this->clearScreen();
+        data.clear();
         goto getBirthDate;
     }
 
     logger.log("%s", data.c_str());
 
     // NOTE: SPLIT USER INPUT BY 'SPACE';
-
     for (char charc : data) {
         if (charc == ' ') {
             if (!word.empty()) {
@@ -908,6 +906,12 @@ void Panel::addUserPanel() {
     this->clearScreen();
 
     switch (error) {
+        case VALIDATOR_ERROR_TYPE::FUTURE_DATE_ERROR:
+            cout << "Birthday cannot be in the future.\n";
+            this->delay(1);
+            this->clearScreen();
+            goto getBirthDate;
+
         case VALIDATOR_ERROR_TYPE::DAY_ERROR:
             cout << "Invalid day.\n";
             this->delay(1);
@@ -927,6 +931,7 @@ void Panel::addUserPanel() {
             goto getBirthDate;
 
         // PREVENT WARNING
+        case VALIDATOR_ERROR_TYPE::NOT_VALID_STRING:
         case VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR:
         case VALIDATOR_ERROR_TYPE::NO_ERROR:
         case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
@@ -971,14 +976,16 @@ void Panel::addUserPanel() {
     this->clearScreen();
 
     GetUsername:
+    cin.ignore();
     cout << "Username: ";
-    cin >> newUser.username;
+    getline(cin, newUser.username);
 
     if (this->validator.isStringValid(newUser.username) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
         this->clearScreen();
-        cout << "Username must not contain comma and Username cannot be an empty string.\n";
-        this->delay(2);
+        cout << "Username can only contains English and number.\n";
+        this->delay(3);
         this->clearScreen();
+        newUser.username.clear();
         goto GetUsername;
     }
 
@@ -992,36 +999,37 @@ void Panel::addUserPanel() {
 
     error = validator.isPasswordValid(newUser.password);
     this->clearScreen();
+    newUser.password.clear();
 
     switch (error) {
         case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
             cout << "Password must be at least 8 characters long.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NO_LOWER_ERROR:
             cout << "Password must have at least 1 lower character.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NO_UPPER_ERROR:
             cout << "Password must have at least 1 upper character.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NO_SPECIAL_ERROR:
             cout << "Password must have at least 1 special character.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NO_NUMBER_ERROR:
             cout << "Password must have at least 1 number.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         case VALIDATOR_ERROR_TYPE::NOT_VALID_STRING:
             cout << "Bro tryna broke the system.\n";
-            this->delay(1);
+            this->delay(3);
             goto GetPassword;
 
         // TO PREVENT WARNING
@@ -1030,6 +1038,7 @@ void Panel::addUserPanel() {
         case VALIDATOR_ERROR_TYPE::MONTH_ERROR:
         case VALIDATOR_ERROR_TYPE::YEAR_ERROR:
         case VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR:
+        case VALIDATOR_ERROR_TYPE::FUTURE_DATE_ERROR:
             break;
 
     }

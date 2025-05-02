@@ -72,6 +72,7 @@ typedef enum {
     MONTH_ERROR,
     YEAR_ERROR,
     NEGATIVE_NUMBER_ERROR,
+    FUTURE_DATE_ERROR,
 
     // Pasword
     NO_SPECIAL_ERROR,
