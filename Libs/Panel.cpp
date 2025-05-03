@@ -424,6 +424,7 @@ void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
 
     // Manipulate String
     for (char c : history->_prescription) {
+        // NOTE: SPLIT USER INPUT BY '|'
         if (c == '|') {
             if (!word.empty()) {
                 vs.push_back(word);
@@ -604,8 +605,21 @@ void Panel::askAddAllergies(Patient* patient) {
             this->clearScreen();
             this->delay(1);
             cout << "Total Drug(s) Allergy: " << patient->getDrugsAllergy().size() << '\n' << '\n';
-            cout << "Drug Name: ";
+            cout << "Drug Name (Type E or e to exit): ";
             getline(cin, drugName);
+
+            if (drugName == "E" || drugName == "e") {
+                this->clearScreen();
+                return;
+            }
+
+            if (this->validator.isStringValid(drugName) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+                cout << "Drug name cannot be only in English.\n";
+                drugName.clear();
+                this->clearScreen();
+                goto AskAddDrug;
+            }
+
             patient->addDrugAllergy(drugName);
             // Also have to save it manually.
             patient->saveDrugsAllergy();
