@@ -13,7 +13,7 @@ u_int8 Program::Init() {
     this->userManager.loadPatientQueue("Database/Temp/_PaQ.csv");
     this->userManager.loadPatientPriorityQueue("Database/Temp/PaPQ.csv");
 
-    this->panel.loginPanel(3, isFileExist);
+    this->panel.mainMenu(isFileExist);
 
     return 1;
 }

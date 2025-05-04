@@ -54,20 +54,45 @@ void Panel::showUserInfo() {
     }
 }
 
-/*
-    Login panel function propts the user for username and password
-    if username and password are valid, it shows welcome message
-    and show the panel base on the user role (UserType)
-    parameters:
-        u_int8 attempt: Number of attempts for login
-*/
-void Panel::loginPanel(u_int16 attempt, u_int8 isFileExist) {
-    string username;
-    string password;
-    u_int64 userId;
-    FileManager fileManager;
-    u_int16 i;
+void Panel::switchPanel() {
+    switch (this->LoggedUser->getType()) {
+        case UserType::OPD:
+        case UserType::IPD:
+            this->clearScreen();
+            this->delay(1);
+            this->patientMenu();
+            break;
 
+        case UserType::DOCTOR:
+            this->clearScreen();
+            this->delay(1);
+            this->doctorMenu();
+            break;
+
+        case UserType::NURSE:
+            this->delay(1);
+            this->clearScreen();
+            this->nurseMenu();
+            break;
+
+        case UserType::ADMIN:
+            this->delay(1);
+            this->clearScreen();
+            this->adminMenu();
+            break;
+
+        default:
+            this->clearScreen();
+            this->delay(2);
+            cout << "Unexpected Error occour." << "\n";
+            return;
+        }
+}
+
+void Panel::mainMenu(u_int8 isFileExist) {
+    char choice;
+
+    this->clearScreen();
     if (isFileExist) {
         this->LoggedUser = this->userManager.loadLoggedUser();
         if (this->LoggedUser != NULL) {
@@ -76,9 +101,52 @@ void Panel::loginPanel(u_int16 attempt, u_int8 isFileExist) {
             this->delay(2);
             this->clearScreen();
 
-            goto SwitchPanel; // Skipped Loop if user exits
+            return this->switchPanel(); // Skipped Loop if user exits
         }
     }
+
+    MainMenu:
+    cout << "========< Main Menu >========" << "\n\n";
+    cout << "   1. Login" << "\n";
+    cout << "   2. Register" << "\n\n";
+    cout << "=============================" << "\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+    cin.ignore(1000, '\n');
+
+    switch (choice) {
+        case '1':
+            this->delay(1);
+            this->clearScreen();
+            return this->loginPanel(3);
+
+        case '2':
+            this->delay(1);
+            this->clearScreen();
+            this->delay(1);
+            return this->registerPanel();
+
+        default:
+            this->clearScreen();
+            this->delay(1);
+            goto MainMenu;
+    }
+
+}
+
+/*
+    Login panel function propts the user for username and password
+    if username and password are valid, it shows welcome message
+    and show the panel base on the user role (UserType)
+    parameters:
+        u_int8 attempt: Number of attempts for login
+*/
+void Panel::loginPanel(u_int16 attempt) {
+    string username;
+    string password;
+    u_int64 userId;
+    FileManager fileManager;
+    u_int16 i;
 
     for (i = 0; i < attempt; i++) {
         this->clearScreen();
@@ -121,39 +189,236 @@ void Panel::loginPanel(u_int16 attempt, u_int8 isFileExist) {
     this->delay(2);
     this->clearScreen();
     fileManager.writeUserCache(userId);
+    return this->switchPanel();
+}
 
-    SwitchPanel:
-    switch (this->LoggedUser->getType()) {
-        case UserType::OPD:
-        case UserType::IPD:
-            this->clearScreen();
-            this->delay(1);
-            this->patientMenu();
-            break;
+void Panel::registerPanel() {
+    user_t newUser;
+    string data;
+    string word = "";
+    vector<string> vs;
+    undo_t undo;
+    VALIDATOR_ERROR_TYPE error = VALIDATOR_ERROR_TYPE::NO_ERROR;
+    cout << "========< Register >========" << "\n";
 
-        case UserType::DOCTOR:
-            this->clearScreen();
-            this->delay(1);
-            this->doctorMenu();
-            break;
+    GetName:
+    cout << "Name: ";
+    cin.ignore();
+    getline(cin, data);
 
-        case UserType::NURSE:
-            this->delay(1);
-            this->clearScreen();
-            this->nurseMenu();
-            break;
+    if (this->validator.isStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+        this->clearScreen();
+        cout << "Name cannot contain comma or be an empty string.\n";
+        this->delay(1);
+        this->clearScreen();
+        goto GetName;
+    }
 
-        case UserType::ADMIN:
-            this->delay(1);
-            this->clearScreen();
-            this->adminMenu();
-            break;
-        default:
-            this->clearScreen();
-            this->delay(2);
-            cout << "Unexpected Error occour." << "\n";
-            return;
+    newUser.name = data;
+
+    getBirthDate:
+    if (error != VALIDATOR_ERROR_TYPE::NO_ERROR) cout << "Latest: " << newUser.birthDate._day << " " << newUser.birthDate._month << " " << newUser.birthDate._year << "\n";
+    cout << "Birthdate (dd mm yyyy) ex: 05 07 2015: ";
+    getline(cin, data);
+
+    if (this->validator.isBirthDateStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+        this->clearScreen();
+        cout << "Bro try to broke the system.\n";
+        this->delay(1);
+        this->clearScreen();
+        data.clear();
+        goto getBirthDate;
+    }
+
+    logger.log("%s", data.c_str());
+
+    // NOTE: SPLIT USER INPUT BY 'SPACE';
+    for (char charc : data) {
+        if (charc == ' ') {
+            if (!word.empty()) {
+                vs.push_back(word);
+                logger.log("%s", word.c_str());
+                word.clear();
+            }
         }
+        else {
+            word += charc;
+        }
+    }
+
+    if (!word.empty()) vs.push_back(word);
+    logger.log("size_t %llu", vs.size());
+
+    if (vs.size() != 3) {
+        this->clearScreen();
+        cout << "Invalid input.\n";
+        this->delay(2);
+        this->clearScreen();
+        vs.clear();
+        word.clear();
+        word = "";
+        goto getBirthDate;
+    }
+
+    newUser.birthDate._day = atoi(vs[0].c_str());
+    newUser.birthDate._month = atoi(vs[1].c_str());
+    newUser.birthDate._year = atoi(vs[2].c_str());
+
+    vs.clear();
+    word.clear();
+    word = "";
+
+    error = validator.isBirthDateValid(newUser.birthDate);
+    this->clearScreen();
+
+    switch (error) {
+        case VALIDATOR_ERROR_TYPE::FUTURE_DATE_ERROR:
+            cout << "Birthday cannot be in the future.\n";
+            this->delay(1);
+            this->clearScreen();
+            goto getBirthDate;
+
+        case VALIDATOR_ERROR_TYPE::DAY_ERROR:
+            cout << "Invalid day.\n";
+            this->delay(1);
+            this->clearScreen();
+            goto getBirthDate;
+
+        case VALIDATOR_ERROR_TYPE::MONTH_ERROR:
+            cout << "Invalid month.\n";
+            this->delay(1);
+            this->clearScreen();
+            goto getBirthDate;
+
+        case VALIDATOR_ERROR_TYPE::YEAR_ERROR:
+            cout << "Invalid year.\n";
+            this->delay(1);
+            this->clearScreen();
+            goto getBirthDate;
+
+        // PREVENT WARNING
+        case VALIDATOR_ERROR_TYPE::NOT_VALID_STRING:
+        case VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_ERROR:
+        case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_LOWER_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_NUMBER_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_UPPER_ERROR:
+        case VALIDATOR_ERROR_TYPE::NO_SPECIAL_ERROR:
+            break;
+
+    }
+
+    while (1) {
+        cout << "Gender: \n";
+        cout << "1. Male\n2. Female\n";
+        cout << ">> ";
+        cin >> data;
+        if (!(data != "1" && data != "2")) break;
+
+        cout << "Invalid Input.\n";
+        this->delay(1);
+        this->clearScreen();
+    }
+
+    newUser.gender = (data == "1") ? Gender::MALE : Gender::FEMALE;
+    this->clearScreen();
+
+    newUser.userType = UserType::OPD;
+
+    this->clearScreen();
+
+    GetUsername:
+    cin.ignore();
+    cout << "Username: ";
+    getline(cin, newUser.username);
+
+    if (this->validator.isStringValid(newUser.username) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
+        this->clearScreen();
+        cout << "Username can only contains English and number.\n";
+        this->delay(3);
+        this->clearScreen();
+        newUser.username.clear();
+        goto GetUsername;
+    }
+
+    if (validator.isPasswordValid(newUser.password) == VALIDATOR_ERROR_TYPE::NO_ERROR) goto regis;
+
+    GetPassword:
+    this->clearScreen();
+    cout << "Username: " << newUser.username << "\n";
+    cout << "Password: ";
+    cin >> newUser.password;
+
+    error = validator.isPasswordValid(newUser.password);
+    this->clearScreen();
+    newUser.password.clear();
+
+    switch (error) {
+        case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
+            cout << "Password must be at least 8 characters long.\n";
+            this->delay(3);
+            goto GetPassword;
+
+        case VALIDATOR_ERROR_TYPE::NO_LOWER_ERROR:
+            cout << "Password must have at least 1 lower character.\n";
+            this->delay(3);
+            goto GetPassword;
+
+        case VALIDATOR_ERROR_TYPE::NO_UPPER_ERROR:
+            cout << "Password must have at least 1 upper character.\n";
+            this->delay(3);
+            goto GetPassword;
+
+        case VALIDATOR_ERROR_TYPE::NO_SPECIAL_ERROR:
+            cout << "Password must have at least 1 special character.\n";
+            this->delay(3);
+            goto GetPassword;
+
+        case VALIDATOR_ERROR_TYPE::NO_NUMBER_ERROR:
+            cout << "Password must have at least 1 number.\n";
+            this->delay(3);
+            goto GetPassword;
+
+        case VALIDATOR_ERROR_TYPE::NOT_VALID_STRING:
+            cout << "Bro tryna broke the system.\n";
+            this->delay(3);
+            goto GetPassword;
+
+        // TO PREVENT WARNING
+        case VALIDATOR_ERROR_TYPE::NO_ERROR:
+        case VALIDATOR_ERROR_TYPE::DAY_ERROR:
+        case VALIDATOR_ERROR_TYPE::MONTH_ERROR:
+        case VALIDATOR_ERROR_TYPE::YEAR_ERROR:
+        case VALIDATOR_ERROR_TYPE::NEGATIVE_NUMBER_ERROR:
+        case VALIDATOR_ERROR_TYPE::FUTURE_DATE_ERROR:
+            break;
+
+    }
+
+    regis:
+    User n(newUser);
+
+    n.setID(this->userManager.generateID(newUser.userType));
+    newUser.id = n.getID();
+    u_int8 isSuccess = this->userManager.registerUser(n);
+    this->clearScreen();
+    this->delay(1);
+
+    if (!isSuccess) {
+        cout << "Username is already in use\n";
+        this->delay(2);
+        this->clearScreen();
+        goto GetUsername;
+    }
+
+
+    this->userManager.saveToFile("Database/Users/users.csv");
+    cout << "Success!\nPlease login again!";
+    this->delay(2);
+    this->clearScreen();
+    this->delay(1);
+    return this->loginPanel(3);
 }
 
 void Panel::patientMenu() {
@@ -183,10 +448,10 @@ void Panel::patientMenu() {
         case 'L':
         case 'l':
             this->clearScreen();
-            this->delay(1);
             this->userManager.logout();
+            this->delay(2);
             this->clearScreen();
-            program.Init();
+            program.Init(); // Init the program to prevent data loss during the program
             break;
 
         case '1':
@@ -300,10 +565,10 @@ void Panel::doctorMenu() {
         case 'L':
         case 'l':
             this->clearScreen();
-            this->delay(1);
             this->userManager.logout();
+            this->delay(2);
             this->clearScreen();
-            program.Init();
+            program.Init(); // Init the program to prevent data loss during the program
             break;
 
         case '1':

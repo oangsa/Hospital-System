@@ -24,7 +24,9 @@ class Panel {
         void clearScreen();
         void showUserInfo();
         void delay(u_int8 secs);
-        void loginPanel(u_int16 attempt, u_int8 isFileExist);
+        void loginPanel(u_int16 attempt);
+        void mainMenu(u_int8 isFileExist);
+        void switchPanel();
         void registerPanel();
         void adminMenu();
         void patientMenu();
