@@ -96,3 +96,689 @@
 [19:16:16] 05
 [19:16:16] 08
 [19:16:16] size_t 3
+[19:35:48] checkAllFilesAndCreate pass//
+[19:40:11] checkAllFilesAndCreate pass//
+[19:40:11] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:40:11] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:40:11] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:40:11] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:40:11] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:40:11] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:40:11] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:40:11] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:40:11] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:40:11] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:40:11] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:40:11] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:40:11] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:40:11] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:40:11] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:44:26] checkAllFilesAndCreate pass//
+[19:44:26] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:44:26] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:44:26] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:44:26] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:44:26] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:44:26] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:44:26] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:44:26] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:44:26] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:44:26] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:44:26] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:44:26] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:44:26] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:44:26] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:44:26] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:45:15] checkAllFilesAndCreate pass//
+[19:45:15] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:45:15] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:45:15] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:45:15] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:45:15] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:45:15] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:45:15] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:45:15] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:45:15] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:45:15] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:45:15] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:45:15] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:45:15] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:45:15] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:45:15] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:48:19] checkAllFilesAndCreate pass//
+[19:48:19] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:48:19] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:48:19] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:48:19] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:48:19] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:48:19] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:48:19] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:48:19] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:48:19] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:48:19] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:48:19] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:48:19] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:48:19] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:48:19] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:48:19] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:49:09] checkAllFilesAndCreate pass//
+[19:49:09] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:49:09] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:49:09] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:49:09] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:49:09] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:49:09] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:49:09] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:49:09] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:49:09] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:49:09] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:49:09] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:49:09] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:49:09] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:49:09] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:49:09] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:50:37] checkAllFilesAndCreate pass//
+[19:50:37] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:50:37] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:50:37] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:50:37] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:50:37] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:50:37] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:50:37] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:50:37] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:50:37] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:50:37] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:50:37] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:50:37] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:50:37] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:50:37] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:50:37] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:52:12] checkAllFilesAndCreate pass//
+[19:52:12] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:52:12] pos: 9
+[19:52:12] pos: 13
+[19:52:12] pos: 1
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 6
+[19:52:12] pos: 13
+[19:52:12] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:52:12] pos: 9
+[19:52:12] pos: 13
+[19:52:12] pos: 1
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 6
+[19:52:12] pos: 5
+[19:52:12] pos: 13
+[19:52:12] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:52:12] pos: 9
+[19:52:12] pos: 11
+[19:52:12] pos: 2
+[19:52:12] pos: 2
+[19:52:12] pos: 4
+[19:52:12] pos: 6
+[19:52:12] pos: 5
+[19:52:12] pos: 11
+[19:52:12] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:52:12] pos: 9
+[19:52:12] pos: 9
+[19:52:12] pos: 2
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 3
+[19:52:12] pos: 9
+[19:52:12] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:52:12] pos: 9
+[19:52:12] pos: 7
+[19:52:12] pos: 1
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 5
+[19:52:12] pos: 4
+[19:52:12] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:52:12] pos: 9
+[19:52:12] pos: 11
+[19:52:12] pos: 2
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 6
+[19:52:12] pos: 3
+[19:52:12] pos: 11
+[19:52:12] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:52:12] pos: 9
+[19:52:12] pos: 11
+[19:52:12] pos: 1
+[19:52:12] pos: 2
+[19:52:12] pos: 4
+[19:52:12] pos: 6
+[19:52:12] pos: 5
+[19:52:12] pos: 11
+[19:52:12] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:52:12] pos: 9
+[19:52:12] pos: 3
+[19:52:12] pos: 1
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 3
+[19:52:12] pos: 3
+[19:52:12] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:52:12] pos: 9
+[19:52:12] pos: 10
+[19:52:12] pos: 2
+[19:52:12] pos: 2
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 3
+[19:52:12] pos: 10
+[19:52:12] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:52:12] pos: 9
+[19:52:12] pos: 7
+[19:52:12] pos: 1
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 5
+[19:52:12] pos: 6
+[19:52:12] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:52:12] pos: 9
+[19:52:12] pos: 9
+[19:52:12] pos: 2
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 5
+[19:52:12] pos: 8
+[19:52:12] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:52:12] pos: 9
+[19:52:12] pos: 9
+[19:52:12] pos: 1
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 3
+[19:52:12] pos: 9
+[19:52:12] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:52:12] pos: 9
+[19:52:12] pos: 12
+[19:52:12] pos: 2
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 6
+[19:52:12] pos: 6
+[19:52:12] pos: 12
+[19:52:12] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:52:12] pos: 9
+[19:52:12] pos: 4
+[19:52:12] pos: 1
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 5
+[19:52:12] pos: 3
+[19:52:12] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:52:12] pos: 9
+[19:52:12] pos: 3
+[19:52:12] pos: 1
+[19:52:12] pos: 1
+[19:52:12] pos: 4
+[19:52:12] pos: 4
+[19:52:12] pos: 3
+[19:52:12] pos: 4
+[19:54:17] checkAllFilesAndCreate pass//
+[19:54:17] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:54:17] pos: 9
+[19:54:17] pos: 13
+[19:54:17] pos: 1
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 6
+[19:54:17] pos: 13
+[19:54:17] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:54:17] pos: 9
+[19:54:17] pos: 13
+[19:54:17] pos: 1
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 6
+[19:54:17] pos: 5
+[19:54:17] pos: 13
+[19:54:17] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:54:17] pos: 9
+[19:54:17] pos: 11
+[19:54:17] pos: 2
+[19:54:17] pos: 2
+[19:54:17] pos: 4
+[19:54:17] pos: 6
+[19:54:17] pos: 5
+[19:54:17] pos: 11
+[19:54:17] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:54:17] pos: 9
+[19:54:17] pos: 9
+[19:54:17] pos: 2
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 3
+[19:54:17] pos: 9
+[19:54:17] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:54:17] pos: 9
+[19:54:17] pos: 7
+[19:54:17] pos: 1
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 5
+[19:54:17] pos: 4
+[19:54:17] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:54:17] pos: 9
+[19:54:17] pos: 11
+[19:54:17] pos: 2
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 6
+[19:54:17] pos: 3
+[19:54:17] pos: 11
+[19:54:17] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:54:17] pos: 9
+[19:54:17] pos: 11
+[19:54:17] pos: 1
+[19:54:17] pos: 2
+[19:54:17] pos: 4
+[19:54:17] pos: 6
+[19:54:17] pos: 5
+[19:54:17] pos: 11
+[19:54:17] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:54:17] pos: 9
+[19:54:17] pos: 3
+[19:54:17] pos: 1
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 3
+[19:54:17] pos: 3
+[19:54:17] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:54:17] pos: 9
+[19:54:17] pos: 10
+[19:54:17] pos: 2
+[19:54:17] pos: 2
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 3
+[19:54:17] pos: 10
+[19:54:17] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:54:17] pos: 9
+[19:54:17] pos: 7
+[19:54:17] pos: 1
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 5
+[19:54:17] pos: 6
+[19:54:17] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:54:17] pos: 9
+[19:54:17] pos: 9
+[19:54:17] pos: 2
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 5
+[19:54:17] pos: 8
+[19:54:17] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:54:17] pos: 9
+[19:54:17] pos: 9
+[19:54:17] pos: 1
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 3
+[19:54:17] pos: 9
+[19:54:17] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:54:17] pos: 9
+[19:54:17] pos: 12
+[19:54:17] pos: 2
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 6
+[19:54:17] pos: 6
+[19:54:17] pos: 12
+[19:54:17] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:54:17] pos: 9
+[19:54:17] pos: 4
+[19:54:17] pos: 1
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 5
+[19:54:17] pos: 3
+[19:54:17] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:54:17] pos: 9
+[19:54:17] pos: 3
+[19:54:17] pos: 1
+[19:54:17] pos: 1
+[19:54:17] pos: 4
+[19:54:17] pos: 4
+[19:54:17] pos: 3
+[19:54:17] pos: 4
+[19:54:45] checkAllFilesAndCreate pass//
+[19:54:45] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:54:45] pos: 9
+[19:54:45] pos: 13
+[19:54:45] pos: 1
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 6
+[19:54:45] pos: 13
+[19:54:45] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:54:45] pos: 9
+[19:54:45] pos: 13
+[19:54:45] pos: 1
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 6
+[19:54:45] pos: 5
+[19:54:45] pos: 13
+[19:54:45] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:54:45] pos: 9
+[19:54:45] pos: 11
+[19:54:45] pos: 2
+[19:54:45] pos: 2
+[19:54:45] pos: 4
+[19:54:45] pos: 6
+[19:54:45] pos: 5
+[19:54:45] pos: 11
+[19:54:45] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:54:45] pos: 9
+[19:54:45] pos: 9
+[19:54:45] pos: 2
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 3
+[19:54:45] pos: 9
+[19:54:45] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:54:45] pos: 9
+[19:54:45] pos: 7
+[19:54:45] pos: 1
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 5
+[19:54:45] pos: 4
+[19:54:45] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:54:45] pos: 9
+[19:54:45] pos: 11
+[19:54:45] pos: 2
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 6
+[19:54:45] pos: 3
+[19:54:45] pos: 11
+[19:54:45] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:54:45] pos: 9
+[19:54:45] pos: 11
+[19:54:45] pos: 1
+[19:54:45] pos: 2
+[19:54:45] pos: 4
+[19:54:45] pos: 6
+[19:54:45] pos: 5
+[19:54:45] pos: 11
+[19:54:45] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:54:45] pos: 9
+[19:54:45] pos: 3
+[19:54:45] pos: 1
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 3
+[19:54:45] pos: 3
+[19:54:45] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:54:45] pos: 9
+[19:54:45] pos: 10
+[19:54:45] pos: 2
+[19:54:45] pos: 2
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 3
+[19:54:45] pos: 10
+[19:54:45] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:54:45] pos: 9
+[19:54:45] pos: 7
+[19:54:45] pos: 1
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 5
+[19:54:45] pos: 6
+[19:54:45] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:54:45] pos: 9
+[19:54:45] pos: 9
+[19:54:45] pos: 2
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 5
+[19:54:45] pos: 8
+[19:54:45] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:54:45] pos: 9
+[19:54:45] pos: 9
+[19:54:45] pos: 1
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 3
+[19:54:45] pos: 9
+[19:54:45] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:54:45] pos: 9
+[19:54:45] pos: 12
+[19:54:45] pos: 2
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 6
+[19:54:45] pos: 6
+[19:54:45] pos: 12
+[19:54:45] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:54:45] pos: 9
+[19:54:45] pos: 4
+[19:54:45] pos: 1
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 5
+[19:54:45] pos: 3
+[19:54:45] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:54:45] pos: 9
+[19:54:45] pos: 3
+[19:54:45] pos: 1
+[19:54:45] pos: 1
+[19:54:45] pos: 4
+[19:54:45] pos: 4
+[19:54:45] pos: 3
+[19:54:45] pos: 4
+[19:56:22] checkAllFilesAndCreate pass//
+[19:56:22] 250300000,Taylor Miller,6,1,1995,Male,DOCTOR,taylormiller0,pass8374
+[19:56:22] pos: 9
+[19:56:22] pos: 13
+[19:56:22] pos: 1
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 6
+[19:56:22] pos: 13
+[19:56:22] 250400001,Casey Johnson,8,8,1970,Female,NURSE,caseyjohnson1,pass2275
+[19:56:22] pos: 9
+[19:56:22] pos: 13
+[19:56:22] pos: 1
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 6
+[19:56:22] pos: 5
+[19:56:22] pos: 13
+[19:56:22] 250400003,Alex Wilson,23,12,1987,Female,NURSE,alexwilson3,pass1669
+[19:56:22] pos: 9
+[19:56:22] pos: 11
+[19:56:22] pos: 2
+[19:56:22] pos: 2
+[19:56:22] pos: 4
+[19:56:22] pos: 6
+[19:56:22] pos: 5
+[19:56:22] pos: 11
+[19:56:22] 250100004,Jamie Lee,16,2,1985,Male,OPD,jamielee4,pass4458
+[19:56:22] pos: 9
+[19:56:22] pos: 9
+[19:56:22] pos: 2
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 3
+[19:56:22] pos: 9
+[19:56:22] 250400004,Suthang,5,8,2005,Male,NURSE,Test,test
+[19:56:22] pos: 9
+[19:56:22] pos: 7
+[19:56:22] pos: 1
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 5
+[19:56:22] pos: 4
+[19:56:22] 250100005,Alex Miller,27,9,1987,Female,OPD,alexmiller5,pass5614
+[19:56:22] pos: 9
+[19:56:22] pos: 11
+[19:56:22] pos: 2
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 6
+[19:56:22] pos: 3
+[19:56:22] pos: 11
+[19:56:22] 250990006,Quinn Davis,1,11,1983,Female,ADMIN,quinndavis6,pass8222
+[19:56:22] pos: 9
+[19:56:22] pos: 11
+[19:56:22] pos: 1
+[19:56:22] pos: 2
+[19:56:22] pos: 4
+[19:56:22] pos: 6
+[19:56:22] pos: 5
+[19:56:22] pos: 11
+[19:56:22] 250100006,Tee,5,8,2005,Male,OPD,Tee,Teeza12345!
+[19:56:22] pos: 9
+[19:56:22] pos: 3
+[19:56:22] pos: 1
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 3
+[19:56:22] pos: 3
+[19:56:22] 250200007,Alex Brown,21,11,1997,Male,IPD,alexbrown7,pass7252
+[19:56:22] pos: 9
+[19:56:22] pos: 10
+[19:56:22] pos: 2
+[19:56:22] pos: 2
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 3
+[19:56:22] pos: 10
+[19:56:22] 250990007,Suthang,5,8,2005,Male,ADMIN,Oangsa,Test
+[19:56:22] pos: 9
+[19:56:22] pos: 7
+[19:56:22] pos: 1
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 5
+[19:56:22] pos: 6
+[19:56:22] 250400007,Test User,25,4,2000,Male,NURSE,testuser,testpass
+[19:56:22] pos: 9
+[19:56:22] pos: 9
+[19:56:22] pos: 2
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 5
+[19:56:22] pos: 8
+[19:56:22] 250100007,Patient01,5,7,2005,Male,OPD,PatientO1,PatientO1.
+[19:56:22] pos: 9
+[19:56:22] pos: 9
+[19:56:22] pos: 1
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 3
+[19:56:22] pos: 9
+[19:56:22] 250300008,Jordan Moore,22,2,1998,Female,DOCTOR,jordanmoore8,pass6259
+[19:56:22] pos: 9
+[19:56:22] pos: 12
+[19:56:22] pos: 2
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 6
+[19:56:22] pos: 6
+[19:56:22] pos: 12
+[19:56:22] 250400008,Test,5,8,2005,Male,NURSE,Tae,TaeZa123!
+[19:56:22] pos: 9
+[19:56:22] pos: 4
+[19:56:22] pos: 1
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 5
+[19:56:22] pos: 3
+[19:56:22] 250100008,est,5,8,2005,Male,OPD,Mike,
+[19:56:22] pos: 9
+[19:56:22] pos: 3
+[19:56:22] pos: 1
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 3
+[19:56:22] pos: 4
+[19:56:22] Empty line: 
+[19:56:22] 250200009,Morgan Miller,19,12,1992,Male,IPD,morganmiller9,pass4774
+[19:56:22] pos: 9
+[19:56:22] pos: 13
+[19:56:22] pos: 2
+[19:56:22] pos: 2
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 3
+[19:56:22] pos: 13
+[19:56:22] 250300009,DoctorSudLor,5,8,2005,Male,DOCTOR,DoctorUser,DoctorUser123.
+[19:56:22] pos: 9
+[19:56:22] pos: 12
+[19:56:22] pos: 1
+[19:56:22] pos: 1
+[19:56:22] pos: 4
+[19:56:22] pos: 4
+[19:56:22] pos: 6
+[19:56:22] pos: 10
+[19:56:22] 
+[19:56:22] loadUsersFromFile pass//
+[19:56:22] loadPatientQueue pass//
+[19:56:22] loadPatientPriorityQueue pass//
+[19:56:22] WW
+[19:56:22] What?
+[20:03:13] Check All Files and Create
+[20:03:13] Empty line: 
+[20:03:13] Users Loaded
+[20:03:13] PatientQueue Loaded
+[20:03:13] PatientPriorityQueue Loaded
+[20:03:13] What?
+[20:03:23] 05 08 2005
+[20:03:23] 05
+[20:03:23] 08
+[20:03:23] size_t 3
+[20:04:02] Check All Files and Create
+[20:04:02] Users Loaded
+[20:04:02] PatientQueue Loaded
+[20:04:02] PatientPriorityQueue Loaded
+[20:04:02] What?
+[20:04:03] Check All Files and Create
+[20:04:03] Users Loaded
+[20:04:03] PatientQueue Loaded
+[20:04:03] PatientPriorityQueue Loaded
+[20:04:03] What?

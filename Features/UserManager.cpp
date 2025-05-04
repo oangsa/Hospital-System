@@ -41,6 +41,7 @@ UserManager::UserManager(Map<User> &userMap) : userMap(userMap) {
     Params: string& filename
 */
 void UserManager::loadUsersFromFile(const string &filename) {
+    Logger logger;
     ifstream file;
     string line;
     string word;
@@ -56,11 +57,22 @@ void UserManager::loadUsersFromFile(const string &filename) {
         // id,name,day,month,year,gender,userType,username,password
         getline(file, line);
 
-
         i = 0;
 
         while (!line.empty()) {
-            u_int16 pos = line.find(",");
+            u_int16 pos;
+            try {
+                pos = line.find(",");
+            }
+            catch(const std::exception& e) {
+                logger.log("Error: %s", e.what());
+                break;
+            }
+
+            if (pos == string::npos && i < 7) {
+                logger.log("Invalid line: %s", line.c_str());
+                break;
+            }
 
             word = line.substr(0, pos);
 
@@ -96,6 +108,11 @@ void UserManager::loadUsersFromFile(const string &filename) {
             }
 
             line = line.substr(pos + 1);
+
+            if (line.empty()) {
+                logger.log("Empty line: %s", line.c_str());
+                break;
+            }
 
             if (line.find(",") == string::npos) {
                 line = trim(line);

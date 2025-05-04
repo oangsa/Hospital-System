@@ -8,10 +8,15 @@ Program::Program(u_int32 size): userMap(size), userManager(userMap), panel(userM
 
 u_int8 Program::Init() {
     FileManager fileManager;
+    Logger logger;
     u_int8 isFileExist = fileManager.checkAllFilesAndCreate();
+    logger.log("Check All Files and Create");
     this->userManager.loadUsersFromFile("Database/Users/users.csv");
+    logger.log("Users Loaded");
     this->userManager.loadPatientQueue("Database/Temp/_PaQ.csv");
+    logger.log("PatientQueue Loaded");
     this->userManager.loadPatientPriorityQueue("Database/Temp/PaPQ.csv");
+    logger.log("PatientPriorityQueue Loaded");
 
     this->panel.mainMenu(isFileExist);
 

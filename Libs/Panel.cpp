@@ -92,7 +92,8 @@ void Panel::switchPanel() {
 void Panel::mainMenu(u_int8 isFileExist) {
     char choice;
 
-    this->clearScreen();
+    this->logger.log("What?");
+
     if (isFileExist) {
         this->LoggedUser = this->userManager.loadLoggedUser();
         if (this->LoggedUser != NULL) {
@@ -106,6 +107,7 @@ void Panel::mainMenu(u_int8 isFileExist) {
     }
 
     MainMenu:
+    this->clearScreen();
     cout << "========< Main Menu >========" << "\n\n";
     cout << "   1. Login" << "\n";
     cout << "   2. Register" << "\n\n";
@@ -203,7 +205,6 @@ void Panel::registerPanel() {
 
     GetName:
     cout << "Name: ";
-    cin.ignore();
     getline(cin, data);
 
     if (this->validator.isStringValid(data) == VALIDATOR_ERROR_TYPE::NOT_VALID_STRING) {
@@ -352,7 +353,8 @@ void Panel::registerPanel() {
 
     error = validator.isPasswordValid(newUser.password);
     this->clearScreen();
-    newUser.password.clear();
+
+    if (error != VALIDATOR_ERROR_TYPE::NO_ERROR) newUser.password.clear();
 
     switch (error) {
         case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
@@ -1370,7 +1372,8 @@ void Panel::addUserPanel() {
 
     error = validator.isPasswordValid(newUser.password);
     this->clearScreen();
-    newUser.password.clear();
+
+    if (error != VALIDATOR_ERROR_TYPE::NO_ERROR) newUser.password.clear();
 
     switch (error) {
         case VALIDATOR_ERROR_TYPE::NOT_ENOUGH_LEN_ERROR:
