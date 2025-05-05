@@ -5,13 +5,21 @@
 #include "Logger.h"
 #include <fstream>
 
+// UserQueue class derived from Queue class
+// It is used to manage a queue of user IDs
 class UserQueue : public Queue<u_int64> {
     private:
         Logger logger;
 
     public:
+        /* Constructor: Initialize the head, tail, and size of the queue */
         UserQueue() {};
 
+        /*
+            Save the queue to a file
+            The file is saved in the format of "Database/Temp/_PaQ.csv"
+            Each line contains a user ID
+        */
         void saveToFile() {
             Node<u_int64>* cur = this->head;
             std::ofstream file;

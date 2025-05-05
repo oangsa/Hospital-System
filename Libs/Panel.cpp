@@ -1,6 +1,14 @@
+/**************************************************
+ *                                                *
+ *       Panel Class Implementation File          *
+ *       Latest Update: May 5, 2025               *
+ *                                                *
+ **************************************************/
+
+
 #include "Panel.h"
-#include "../Features/FileManager.h"
 #include "Define.h"
+#include "../Features/FileManager.h"
 #include "../Features/Patient.h"
 #include "../Features/Program.h"
 #include <cstdio>
@@ -42,6 +50,10 @@ void Panel::delay(u_int8 secs) {
     }
 }
 
+/*
+    Function to show all users in the system
+    It will show all users except the current logged in user
+*/
 void Panel::showUserInfo() {
     for (u_int32 i = 0; i < this->userMap.size(); i++) {
         Node<User> *current = this->userMap.getList(i);
@@ -54,6 +66,10 @@ void Panel::showUserInfo() {
     }
 }
 
+/*
+    Function to switch the panel based on the user type
+    It will show the menu for the logged in user
+*/
 void Panel::switchPanel() {
     switch (this->LoggedUser->getType()) {
         case UserType::OPD:
@@ -89,6 +105,12 @@ void Panel::switchPanel() {
         }
 }
 
+/*
+    Function to show the main menu
+    It will show the menu for the user to login or register
+    Parameters:
+        u_int8 isFileExist: Check if the cache file exists or not
+*/
 void Panel::mainMenu(u_int8 isFileExist) {
     char choice;
 
@@ -193,6 +215,12 @@ void Panel::loginPanel(u_int16 attempt) {
     fileManager.writeUserCache(userId);
     return this->switchPanel();
 }
+
+/*
+    Function to register a new user
+    It will prompt the user for name, birthday and user's gender
+    It will also prompt the user for username and password
+*/
 
 void Panel::registerPanel() {
     user_t newUser;
@@ -423,6 +451,16 @@ void Panel::registerPanel() {
     return this->loginPanel(3);
 }
 
+/**************************************************
+ *                                                *
+ *                  Patient Section               *
+ *                                                *
+ **************************************************/
+
+/*
+    Function to show the patient menu
+    It will show the menu for the patient to enqueue, check remaining patients and view history
+*/
 void Panel::patientMenu() {
     char choice;
     Program program(20);
@@ -499,6 +537,10 @@ void Panel::patientMenu() {
     }
 }
 
+/*
+    Function to show the history of the patient
+    It will show the history of the patient in a list format
+*/
 void Panel::showHistories() {
     char options;
     this->LoggedUser->displayHistory();
@@ -521,6 +563,10 @@ void Panel::showHistories() {
 
 }
 
+/*
+    Function to show the remaining patients in the queue
+    It will show the number of patients in the queue ahead of the current patient
+*/
 void Panel::showRemaining() {
     char options;
     int16 idx = this->userManager.userIdQueue.getIndexOf(this->LoggedUser->getID());
@@ -544,6 +590,18 @@ void Panel::showRemaining() {
     }
 }
 
+
+/**************************************************
+ *                                                *
+ *                  Doctor Section                *
+ *                                                *
+ **************************************************/
+
+
+/*
+    Function to show the doctor menu
+    It will show the menu for the doctor to process the next patient in queue
+*/
 void Panel::doctorMenu() {
     char choice;
     Program program(20);
@@ -594,6 +652,10 @@ void Panel::doctorMenu() {
     }
 }
 
+/*
+    Function to process the first patient in queue
+    It will show the patient information and allow the doctor to add a record
+*/
 void Panel::doctorProcessPatientPanel() {
     char choice;
     User* user = this->userManager.find(*(this->userManager.UserIdPQ.peek()));
@@ -653,6 +715,14 @@ void Panel::doctorProcessPatientPanel() {
     }
 }
 
+/*
+    Function to add a record for the patient
+    It will prompt the doctor for diagnosis, treatment and prescription
+    It will also check if the patient has any drug allergy
+    Params:
+        Patient* user: Pointer to the patient object
+        PatientHistory* history: Pointer to the patient history object
+*/
 void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
     string word = "";
     vector<string> vs;
@@ -705,6 +775,7 @@ void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
 
     if (!word.empty()) vs.push_back(word);
 
+    // Check if doctor entered only one drug
     if (!vs.size()) {
         logger.log("Drug %s", history->_prescription.c_str());
         if (user->isAllergicTo(history->_prescription)) {
@@ -734,6 +805,16 @@ void Panel::addRecordPanel(Patient* user, PatientHistory* history) {
     this->clearScreen();
 }
 
+/**************************************************
+ *                                                *
+ *                  Nurse Section                 *
+ *                                                *
+ **************************************************/
+
+/*
+    Function to show the nurse menu
+    It will show the menu for the nurse to process the next patient in queue
+*/
 void Panel::nurseMenu() {
     char choice;
     Program program(20);
@@ -788,6 +869,13 @@ void Panel::nurseMenu() {
 
 }
 
+/*
+    Function to ask the user a yes or no question
+    Params:
+        string question: The question to ask
+    returns:
+        u_int8: 1 for yes, 0 for no
+*/
 u_int8 Panel::askYesNo(string question) {
     char ans;
     ask:
@@ -813,6 +901,12 @@ u_int8 Panel::askYesNo(string question) {
 
 }
 
+/*
+    Function to determine the ESI level of the patient
+    It will ask the user a series of questions and return the ESI level based on the answers
+    Returns:
+        ESI_LEVEL: The ESI level of the patient
+*/
 ESI_LEVEL Panel::determine() {
     cout << "\n=========================================\n";
     cout << "        Patient Triage Questionnaire      \n";
@@ -826,6 +920,10 @@ ESI_LEVEL Panel::determine() {
     return ESI_LEVEL::ESI_5;
 }
 
+/*
+    Function to process the first patient in queue
+    It will show the patient information and allow the nurse to add patient's drug allergies
+*/
 void Panel::nurseProcessPatientPanel() {
     User* user = this->userManager.find(*this->userManager.userIdQueue.peek());
     user_t u = user->getUser_t();
@@ -847,6 +945,12 @@ void Panel::nurseProcessPatientPanel() {
     return;
 }
 
+/*
+    Function to ask the user to add drug allergies for the patient
+    It will prompt the user for drug name and add it to the patient's drug allergy list
+    Params:
+        Patient* patient: Pointer to the patient
+*/
 void Panel::askAddAllergies(Patient* patient) {
     string drugName;
     char choice;
@@ -905,6 +1009,16 @@ void Panel::askAddAllergies(Patient* patient) {
 
 }
 
+/**************************************************
+ *                                                *
+ *                  Admin Section                 *
+ *                                                *
+ **************************************************/
+
+/*
+    Function to show the admin menu
+    It will show the menu for the admin to add, remove and edit users
+*/
 void Panel::adminMenu() {
     char choice;
     Program program(20);
@@ -1059,6 +1173,10 @@ void Panel::adminMenu() {
     }
 }
 
+/*
+    Function to remove a user from the system
+    It will prompt the user for the user ID and remove the user from the system
+*/
 void Panel::updateUserPanel() {
     string id;
     char choice;
@@ -1199,6 +1317,10 @@ void Panel::updateUserPanel() {
     this->undoManager.pushAction(&change);
 }
 
+/*
+    Function to add a new user to the system
+    It will prompt the user for the user information and add the user to the system
+*/
 void Panel::addUserPanel() {
     user_t newUser;
     string data;
@@ -1446,6 +1568,10 @@ void Panel::addUserPanel() {
     return;
 }
 
+/*
+    Function to remove a user from the system
+    It will prompt the user for the user ID and remove the user from the system
+*/
 void Panel::removeUserPanel() {
     string id;
     undo_t change;

@@ -1,8 +1,16 @@
+/**************************************************
+ *                                                *
+ *     UserManager Class Implementation File      *
+ *     Latest Update: May 5, 2025                 *
+ *                                                *
+ **************************************************/
+
+
 #include "UserManager.h"
 #include "FileManager.h"
+#include "User.h"
 #include "../Libs/Define.h"
 #include "../Libs/Map.h"
-#include "User.h"
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
@@ -449,12 +457,20 @@ User* UserManager::loadLoggedUser() {
     return user;
 }
 
+/*
+    Logout the user and clear the cache file
+    Params: None
+*/
 void UserManager::logout() {
     FILE* f;
     f = fopen("Database/Cache/user.csv", "w");
     fclose(f);
 }
 
+/*
+    Load the patient queue from the file
+    Params: const string& filename
+*/
 void UserManager::loadPatientQueue(const string &filename) {
     FileManager fileManager;
     string fName = filename;
@@ -477,6 +493,10 @@ void UserManager::loadPatientQueue(const string &filename) {
     infile.close();
 }
 
+/*
+    Load the patient priority queue from the file
+    Params: const string& filename
+*/
 void UserManager::loadPatientPriorityQueue(const string &filename) {
     FileManager fileManager;
     string fName = filename;
@@ -506,6 +526,10 @@ void UserManager::loadPatientPriorityQueue(const string &filename) {
     infile.close();
 }
 
+/*
+    Enqueue the user to the queue
+    Params: User user
+*/
 u_int16 UserManager::userEnqueue(user_t user) {
     if (this->uniqueIds.contains(user.id, user.userType)) return 0;
 
@@ -523,6 +547,10 @@ u_int16 UserManager::userEnqueue(user_t user) {
     return 1;
 }
 
+/*
+    Enqueue the patient to the priority queue
+    Params: Patient user
+*/
 u_int16 UserManager::nurseEnqueuePatient(Patient user) {
     ofstream file ("Database/Temp/PaPQ.csv", std::ios::app | std::ios::out | std::ios::in);
 
@@ -537,6 +565,10 @@ u_int16 UserManager::nurseEnqueuePatient(Patient user) {
     return 1;
 }
 
+/*
+    Write the patient's history to the file
+    Params: Patient p
+*/
 void UserManager::writeHistory(Patient p) {
     FileManager fileManager;
     string base = "Database/History/";

@@ -1,3 +1,10 @@
+/**************************************************
+ *                                                *
+ *       Validator Class Implementation File      *
+ *       Latest Update: May 5, 2025               *
+ *                                                *
+ **************************************************/
+
 #include "Validator.h"
 #include "Define.h"
 #include <ctime>
@@ -8,6 +15,11 @@
 Validator::Validator() {};
 
 // Private
+/*
+    Handling function to get the number of days in a month
+    Params: u_int16 month
+    return u_int16 count of days in the month
+*/
 u_int16 Validator::getDayInMonth(u_int16 month) {
     switch (month) {
         case 1:
@@ -33,6 +45,11 @@ u_int16 Validator::getDayInMonth(u_int16 month) {
     }
 }
 
+/*
+    Handling function to check if the year is leap year
+    Params: u_int16 year
+    return u_int16 1 if leap year, else 0
+*/
 u_int16 Validator::isLeapYear(u_int16 year) {
     if (year % 4 != 0) return 0;
     if (year % 100 != 0) return 1;
@@ -40,22 +57,47 @@ u_int16 Validator::isLeapYear(u_int16 year) {
     return 1;
 }
 
+/*
+    Handling function to check if the string has upper case char
+    Params: const string& str
+    return u_int16 1 if has upper case char, else 0
+*/
 u_int16 Validator::isUpper(const string& str) {
     return std::regex_search(str, std::regex("[A-Z]"));
 }
 
+/*
+    Handling function to check if the string has lower case char
+    Params: const string& str
+    return u_int16 1 if has lower case char, else 0
+*/
 u_int16 Validator::isLower(const string& str) {
     return std::regex_search(str, std::regex("[a-z]"));
 }
 
+/*
+    Handling function to check if the string has number
+    Params: const string& str
+    return u_int16 1 if has number, else 0
+*/
 u_int16 Validator::isNumber(const string& str) {
     return std::regex_search(str, std::regex("[0-9]"));
 }
 
+/*
+    Handling function to check if the string has special char
+    Params: const string& str
+    return u_int16 1 if has special char, else 0
+*/
 u_int16 Validator::isSpecial(const string& str) {
     return std::regex_search(str, std::regex("[!.@$%&]"));
 }
 
+/*
+    Handling function to check if the string has comma
+    Params: const string& str
+    return u_int16 1 if has comma, else 0
+*/
 u_int16 Validator::isComma(const string& str) {
     return std::regex_search(str, std::regex("[,]"));
 }
@@ -138,6 +180,15 @@ VALIDATOR_ERROR_TYPE Validator::isPasswordValid(string password) {
     return VALIDATOR_ERROR_TYPE::NO_ERROR;
 }
 
+/*
+    Check if string is valid
+    Params: string line
+    return:
+        if line is empty, return NOT_VALID_STRING
+        if line has comma, return NOT_VALID_STRING
+        if line has special character included "!.@$%&", return NOT_VALID_STRING
+        otherwise, return NO_ERROR
+*/
 VALIDATOR_ERROR_TYPE Validator::isStringValid(string line) {
     std::regex onlyNumberAndEnglish("^[a-zA-Z0-9]+$");
     if (line.empty() || this->isComma(line) || !std::regex_match(line.c_str(), onlyNumberAndEnglish)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;
@@ -145,6 +196,15 @@ VALIDATOR_ERROR_TYPE Validator::isStringValid(string line) {
 
 }
 
+/*
+    Check if birth date string is valid
+    Params: string line
+    return:
+        if line is empty, return NOT_VALID_STRING
+        if line has comma, return NOT_VALID_STRING
+        if line has special character included "!.@$%&", return NOT_VALID_STRING
+        otherwise, return NO_ERROR
+*/
 VALIDATOR_ERROR_TYPE Validator::isBirthDateStringValid(string line) {
     std::regex onlyNumberAndSpace("^[0-9 ]+$");
     if (line.empty() || this->isComma(line) || !std::regex_match(line.c_str(), onlyNumberAndSpace)) return VALIDATOR_ERROR_TYPE::NOT_VALID_STRING;

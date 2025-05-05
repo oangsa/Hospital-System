@@ -75,11 +75,16 @@ class Stack {
             return this->_top == NULL;
         }
 
+        /*
+            Clear the stack
+            Delete all the nodes in the stack
+        */
         void clearStack() {
             while(this->_top) {
                 Node<T>* t = this->_top;
                 this->_top = this->_top->next();
-                // If this thing broke, just switch del t to free(t)
+
+                // If this thing broke, just switch delete t to free(t)
                 delete t;
             }
 

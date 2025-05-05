@@ -1,6 +1,14 @@
+/**************************************************
+ *                                                *
+ *       User Class Implementation File           *
+ *       Latest Update: May 5, 2025               *
+ *                                                *
+ **************************************************/
+
+
 #include "User.h"
-#include "../Libs/Tree.h"
 #include "FileManager.h"
+#include "../Libs/Tree.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -162,6 +170,12 @@ string User::getPassword() {
     return this->_password;
 }
 
+/*
+    Get user data
+    Params: none
+    return: user_t user
+    NOTE: This function is used to get the user data in a struct form
+*/
 user_t User::getUser_t() {
     user_t user = {
         .id = this->_id,
@@ -213,6 +227,10 @@ BirthDate User::getBirthDate() {
     return this->_birthdate;
 }
 
+/*
+    Load user history from file
+    The file is in the format of "Database/History/<user_id>.csv"
+*/
 void User::loadHistory() {
     FileManager fileManager;
     string base = "Database/History/";

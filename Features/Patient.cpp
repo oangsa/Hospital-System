@@ -1,3 +1,11 @@
+/**************************************************
+ *                                                *
+ *       Patient Class Implementation File        *
+ *       Latest Update: May 5, 2025               *
+ *                                                *
+ **************************************************/
+
+
 #include "Patient.h"
 #include "FileManager.h"
 #include "../Libs/Logger.h"
@@ -7,16 +15,32 @@
 
 using namespace std;
 
+/*
+    Constructor: Initialize the Patient object with user information
+    Params: user_t user
+*/
 Patient::Patient(user_t user): User(user) {}
 
+/*
+    Set the ESI level for the patient
+    Params: ESI_LEVEL esi
+*/
 void Patient::setESI(ESI_LEVEL esi) {
     this->levelESI = esi;
 }
 
+/*
+    Set the history for the patient
+    Params: PatientHistory history
+*/
 void Patient::setHistory(PatientHistory history) {
     this->history = history;
 }
 
+/*
+    Display the patient information
+    It will show the name, age and drug allergies of the patient
+*/
 void Patient::displayInfo() {
     cout << "Name: " << this->getName() << "\n";
     cout << "Age: " << this->getAge() << "\n";
@@ -25,6 +49,10 @@ void Patient::displayInfo() {
     cout << "\n";
 }
 
+/*
+    Show the patient's history
+    It will show the time, diagnosis, treatment and prescription of the patient
+*/
 void Patient::showHistory() {
     time_t time = history._timestamp;
     struct tm *t = localtime(&time);
@@ -35,18 +63,35 @@ void Patient::showHistory() {
     cout << "> Prescription: " << history._prescription << "\n";
 }
 
+/*
+    Get the ESI level of the patient
+    Return: u_int32 ESI level
+*/
 u_int32 Patient::getESI() {
     return this->levelESI;
 }
 
+/*
+    Get the patient's history
+    Return: PatientHistory history
+*/
 PatientHistory Patient::getHistory() {
     return this->history;
 }
 
+/*
+    Get the patient's drug allergies
+    Return: vector<string> drugsAllergy
+    NOTE: I use vector<string> because I got fever when I was implementing it.
+*/
 vector<string> Patient::getDrugsAllergy() {
     return this->drugsAllergy;
 }
 
+/*
+    Load the patient's drug allergies from the file
+    The file is in the format of "Database/Informations/<user_id>.csv"
+*/
 void Patient::loadDrugsAllergy() {
     FileManager fileManager;
     string base = "Database/Informations/";
@@ -64,6 +109,10 @@ void Patient::loadDrugsAllergy() {
     }
 }
 
+/*
+    Show the patient's drug allergies
+    It will print all the drug allergies of the patient
+*/
 void Patient::showDrugsAllergy() {
     for (string drug : this->drugsAllergy) {
         cout << drug << " ";
@@ -71,11 +120,20 @@ void Patient::showDrugsAllergy() {
     cout << '\n';
 }
 
+/*
+    Add a drug allergy to the patient's list
+    Params: string drug
+*/
 void Patient::addDrugAllergy(string drug) {
     if (this->isAllergicTo(drug)) return;
     this->drugsAllergy.push_back(drug);
 }
 
+/*
+    Check if the patient is allergic to the given drug
+    Params: string drug
+    Return: 1 if allergic, 0 if not
+*/
 u_int8 Patient::isAllergicTo(string drug) {
     Logger logger;
     string lowerDrug = "";
@@ -91,10 +149,14 @@ u_int8 Patient::isAllergicTo(string drug) {
         if (lowerDrug.find(lowerAll) != string::npos) return 1;
         if (lowerAll == lowerDrug) return 1;
     }
-    
+
     return 0;
 }
 
+/*
+    Save the patient's drug allergies to the file
+    The file is in the format of "Database/Informations/<user_id>.csv"
+*/
 void Patient::saveDrugsAllergy() {
     Logger logger;
     std::string base = "Database/Informations/";

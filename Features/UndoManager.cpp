@@ -1,3 +1,11 @@
+/**************************************************
+ *                                                *
+ *     UndoManager Class Implementation File      *
+ *     Latest Update: Unknown                     *
+ *                                                *
+ **************************************************/
+
+
 #include "UndoManager.h"
 #include "UserManager.h"
 #include <iostream>

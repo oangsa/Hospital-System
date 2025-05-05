@@ -100,6 +100,7 @@ typedef struct _PatientHistory {
     string _prescription;
 } PatientHistory;
 
+// Not use
 typedef struct _NurseDiagnosis {
     u_int16 _bloodPressure; // mmHg
     u_int16 _oxygenSaturation; // %

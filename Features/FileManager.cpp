@@ -1,3 +1,11 @@
+/**************************************************
+ *                                                *
+ *     FileManager Class Implementation File      *
+ *     Latest Update: May 5, 2025                 *
+ *                                                *
+ **************************************************/
+
+
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -7,6 +15,7 @@
 #include <vector>
 #include <sys/types.h>
 
+// For Windows compatibility
 #ifdef _WIN32
     #include <direct.h>
     #define mkdir(path, mode) _mkdir(path)  // Windows doesn't use mode
@@ -21,13 +30,21 @@ using namespace std;
 FileManager::FileManager(){}
 FileManager::~FileManager(){}
 
-// Don't ask me, go ask GPT
+/*
+    Check if the file exists
+    Params: string& filename
+    return: 1 if file exists, 0 if not
+*/
 bool FileManager::isFileExists(string& filename) {
     stat_t st;
     return stat(filename.c_str(), &st) == 0;
 }
 
-// Don't ask me, go ask GPT
+/*
+    Check if the directory exists
+    Params: string& dirname
+    return: 1 if directory exists, 0 if not
+*/
 bool FileManager::isDirExists(string& dirname) {
     stat_t st;
     return stat(dirname.c_str(), &st) == 0 && S_ISDIR(st.st_mode);
@@ -90,6 +107,11 @@ u_int8 FileManager::isEmpty(string& filename) {
     return std::filesystem::is_empty(filename);
 }
 
+/*
+    Write the user ID to the cache file
+    Params: u_int64 id
+    return: None
+*/
 void FileManager::writeUserCache(u_int64 id) {
     fstream file;
     file.open("Database/Cache/user.csv", ios::out | ios::trunc);

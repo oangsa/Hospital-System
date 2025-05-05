@@ -6,13 +6,22 @@
 #include "Logger.h"
 #include <fstream>
 
+// UserPriorityQueue class derived from PriorityQueue class
+// It is used to manage a priority queue of user IDs
 class UserPriorityQueue : public PriorityQueue<u_int64> {
     private:
         Logger logger;
 
     public:
+        /*
+            Constructor: Initialize the head, tail, and size of the queue
+        */
         UserPriorityQueue() {};
 
+        /*
+            Save the queue to a file
+            The file is saved in the format of "Database/Temp/PaPQ.csv"
+        */
         void saveToFile() {
             Node<u_int64>* cur = this->head;
             std::ofstream file;
@@ -25,6 +34,10 @@ class UserPriorityQueue : public PriorityQueue<u_int64> {
             file.close();
         }
 
+        /*
+            Check if the queue has the given ID
+            Return 1 if the ID is found, else return 0
+        */
         u_int8 has(u_int64 id) {
             Node<u_int64>* tmp = this->head;
 
@@ -36,6 +49,11 @@ class UserPriorityQueue : public PriorityQueue<u_int64> {
             return 0;
         }
 
+        /*
+            Get the index of the given ID in the queue
+            Return the index if found, else return -1
+            NOTE: The index is 0-based
+        */
         u_int32 getIndexOf(u_int64 id) {
             Node<u_int64>* tmp = this->head;
             u_int32 ctr = 0;

@@ -45,7 +45,15 @@ cd Hospital-System
 
 3. Compile and run:
 
-- Build Using C++
+- Compile Using Golang
+
+```bash
+go run compile/build.go
+
+./main.exe #On Windows
+./main #On Linux
+```
+- Compile Using C++
 
 ```bash
 g++ compile/build.cpp -o build -std=c++17
@@ -69,15 +77,6 @@ g++ compile/build.cpp -o build -std=c++17
 ./main
 ```
 
-- Build Using Golang
-
-```bash
-go run compile/build.go
-
-./main.exe #On Windows
-./main #On Linux
-```
-
 ### Project Structure
 
 - **Features**: Functionality modules
@@ -85,3 +84,6 @@ go run compile/build.go
 - **Database**: Storage
 
 ### Members
+1. Mr. Suthang Sukrueangkun 67070503477
+2. Mr. Sorawit Chaithong 67070503442
+3. Mr. Wathit Tritsananawakit 67070503495
