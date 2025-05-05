@@ -87,6 +87,9 @@ void UndoManager::undoAction() {
             break;
 
         case ACTION_TYPE::USER_UPDATE:
+            this->userManager.updateUser(user.getUser_t());
+            this->userManager.saveToFile("Database/Users/users.csv");
+            break;
         case ACTION_TYPE::HISTORY_DELETE:
         case ACTION_TYPE::EMPTY_ACTION:
             std::cout << "This cannot revert.\n";

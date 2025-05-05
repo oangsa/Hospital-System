@@ -1209,6 +1209,7 @@ void Panel::updateUserPanel() {
     }
 
     User *user = this->userManager.find(stoull(id));
+    user_t oldData = user->getUser_t();
 
     if (user == NULL) {
         cout << "User not found" << "\n";
@@ -1312,7 +1313,7 @@ void Panel::updateUserPanel() {
 
 
     change.actionType = ACTION_TYPE::USER_UPDATE;
-    change.user = user->getUser_t();
+    change.user = oldData;
 
     this->undoManager.pushAction(&change);
 }
