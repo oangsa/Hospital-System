@@ -84,6 +84,9 @@ u_int8 FileManager::checkAllFilesAndCreate() {
     for (string filename : filenames) {
         if (!this->isFileExists(filename)) {
             FILE* file = fopen(filename.c_str(), "w+");
+            // Hard code the header of the file
+            fprintf(file, "id,name,day,month,year,gender,userType,username,password\n");
+            fprintf(file, "250990000,Admin Sudlor,1,1,1990,Male,ADMIN,admin,password\n");
             fclose(file);
         }
     }
