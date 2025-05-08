@@ -170,10 +170,6 @@ void UserManager::addUser(User &user) {
     if (user.getID() == 0) {
         user.setID(UserManager::generateID(user.getType()));
     }
-    // Generate ID if the user doesn't have one
-    if (user.getID() == 0) {
-        user.setID(UserManager::generateID(user.getType()));
-    }
 
     userMap.put(user.getID(), user);
 }
