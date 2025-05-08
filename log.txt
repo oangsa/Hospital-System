@@ -782,3 +782,13 @@
 [20:04:03] PatientQueue Loaded
 [20:04:03] PatientPriorityQueue Loaded
 [20:04:03] What?
+[11:25:03] Check All Files and Create
+[11:25:03] Users Loaded
+[11:25:03] PatientQueue Loaded
+[11:25:03] PatientPriorityQueue Loaded
+[11:25:03] What?
+[11:25:38] Check All Files and Create
+[11:25:38] Users Loaded
+[11:25:38] PatientQueue Loaded
+[11:25:38] PatientPriorityQueue Loaded
+[11:25:38] What?
