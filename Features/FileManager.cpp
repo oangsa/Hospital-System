@@ -62,7 +62,7 @@ u_int8 FileManager::checkAllFilesAndCreate() {
         "Database/History",
         "Database/Cache",
         "Database/Informations",
-        "Database/Temps"
+        "Database/Temp"
     };
 
     vector<string> filenames = {
